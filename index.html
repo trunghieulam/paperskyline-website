@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper Skyline — throw a paper plane across the world</title>
+<meta name="description" content="A drag-and-release paper plane glide game. Draw back, let go, skim the rooftops for a bigger multiplier, and fold in upgrades between flights. Every city hands you a blank sheet.">
+<link rel="canonical" href="https://paperskyline.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Paper Skyline">
+<meta property="og:title" content="Paper Skyline — throw a paper plane across the world">
+<meta property="og:description" content="A drag-and-release paper plane glide game. Draw back, let go, skim the rooftops for a bigger multiplier, and fold in upgrades between flights. Every city hands you a blank sheet.">
+<meta property="og:url" content="https://paperskyline.org/">
+<meta property="og:image" content="https://paperskyline.org/brand/og-image-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f6efd9">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "VideoGame",
+      "name": "Paper Skyline",
+      "applicationCategory": "GameApplication",
+      "genre": "Arcade",
+      "gamePlatform": ["iOS", "Android"],
+      "playMode": "SinglePlayer",
+      "description": "A drag-and-release paper plane glide game. Draw back, let go, skim the rooftops for a bigger multiplier, and fold in upgrades between flights. Every city hands you a blank sheet.",
+      "image": "https://paperskyline.org/brand/app-icon-1024.png",
+      "author": {"@id": "https://paperskyline.org/#org"}
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://paperskyline.org/#org",
+      "name": "LLOG",
+      "url": "https://paperskyline.org/",
+      "logo": "https://paperskyline.org/brand/app-icon-1024.png"
+    },
+    {
+      "@type": "WebSite",
+      "name": "Paper Skyline",
+      "url": "https://paperskyline.org/",
+      "inLanguage": "en",
+      "publisher": {"@id": "https://paperskyline.org/#org"}
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g stroke="#2a2622" stroke-width="2.5" stroke-linejoin="round"><path d="M3 7 L61 30 L16 31 Z" fill="#ffffff"/><path d="M16 31 L61 30 L4 54 Z" fill="#cbd4de"/></g></svg>
+      Paper Skyline
+    </a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="/" aria-current="page">Home</a>
+      <a href="support.html">Support</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">Paper Skyline · iPhone and Android</span>
+        <h1 id="hero-title">Throw a paper plane across the world.</h1>
+        <p class="lede">Draw back, let go, and glide. Skim the rooftops for a bigger multiplier, catch a thermal, fold in upgrades between flights — then move on to a city that hands you a blank sheet and starts you over.</p>
+        <span class="pill">Drag to aim · release to throw</span>
+        <ul class="badges">
+          <li><span class="badge" aria-disabled="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="#2a2622" stroke-width="1.8" stroke-linejoin="round"><path d="M16.5 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.3.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.8.8-3.6 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.2 1.1 0 1.5-.7 2.8-.7s1.6.7 2.8.7c1.1 0 1.9-1 2.6-2.1.8-1.2 1.2-2.4 1.2-2.4s-2.2-.9-2.2-3.3z"/><path d="M14.4 5.9c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.6-1.2z"/></svg>
+            <span class="badge-text"><span>Coming to</span><b>App Store</b></span>
+          </span></li>
+          <li><span class="badge" aria-disabled="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="#2a2622" stroke-width="1.8" stroke-linejoin="round"><path d="M4 3.2v17.6c0 .6.6 1 1.1.7l13.4-8.1c.5-.3.5-1 0-1.3L5.1 2.5c-.5-.3-1.1.1-1.1.7z"/><path d="M4.6 2.7l10 10.1-10 10"/></svg>
+            <span class="badge-text"><span>Coming to</span><b>Google Play</b></span>
+          </span></li>
+        </ul>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 460 330" width="460" height="330" role="img" aria-label="A folded paper dart climbing away from a dashed flight line, with coins strung along its path">
+          <title>A folded paper dart climbing away from a dashed flight line, with coins strung along its path</title>
+          <path d="M14 300 Q140 250 210 160 T430 54" fill="none" stroke="#2a2622" stroke-width="3" stroke-dasharray="10 12" stroke-linecap="round" opacity=".5"/>
+          <g stroke="#2a2622" stroke-width="2.5">
+            <circle cx="122" cy="252" r="13" fill="#f4d47c"/>
+            <circle cx="196" cy="196" r="13" fill="#f4d47c"/>
+            <circle cx="268" cy="140" r="13" fill="#f4d47c"/>
+            <circle cx="344" cy="100" r="13" fill="#f4d47c"/>
+          </g>
+          <g stroke="#2a2622" stroke-width="3" stroke-linejoin="round" transform="translate(352 18) rotate(-18)">
+            <path d="M4 10 L106 50 L30 54 Z" fill="#ffffff"/>
+            <path d="M30 54 L106 50 L8 88 Z" fill="#cbd4de"/>
+            <path d="M30 54 L46 78" fill="none" stroke="#b3bec9"/>
+          </g>
+          <g fill="none" stroke="#c9463d" stroke-width="3" stroke-linecap="round">
+            <path d="M330 42 l-22 -10 M336 62 l-26 2"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+<svg class="skyline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250" width="1440" height="250" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+<g fill="#a8b6c4" opacity=".55">
+<rect x="-20" y="167" width="66" height="65"/>
+<rect x="64" y="180" width="87" height="52"/>
+<rect x="159" y="118" width="98" height="114"/>
+<rect x="266" y="112" width="69" height="120"/>
+<rect x="342" y="122" width="104" height="110"/>
+<rect x="458" y="175" width="48" height="57"/>
+<rect x="525" y="178" width="72" height="54"/>
+<rect x="610" y="116" width="51" height="116"/>
+<rect x="680" y="114" width="49" height="118"/>
+<rect x="738" y="106" width="60" height="126"/>
+<rect x="824" y="179" width="83" height="53"/>
+<rect x="931" y="136" width="83" height="96"/>
+<rect x="1021" y="181" width="60" height="51"/>
+<rect x="1104" y="169" width="100" height="63"/>
+<rect x="1219" y="168" width="72" height="64"/>
+<rect x="1314" y="113" width="53" height="119"/>
+<rect x="1382" y="163" width="81" height="69"/>
+<rect x="1472" y="113" width="83" height="119"/>
+</g>
+<g stroke="#2a2622" stroke-width="2" stroke-linejoin="round">
+<rect x="-30" y="115" width="66" height="117" fill="#e8cfa6"/>
+<rect x="-25" y="120" width="26" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="-25" y="148" width="26" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="-25" y="176" width="26" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="-25" y="204" width="26" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="6" y="120" width="26" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="6" y="148" width="26" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="6" y="176" width="26" height="23" fill="#f4d47c" opacity=".95"/>
+<rect x="6" y="204" width="26" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="53" y="71" width="89" height="161" fill="#e8cfa6"/>
+<rect x="58" y="76" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="58" y="102" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="58" y="128" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="58" y="154" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="58" y="180" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="58" y="206" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="86" y="76" width="23" height="21" fill="#f4d47c" opacity=".95"/>
+<rect x="86" y="102" width="23" height="21" fill="#f4d47c" opacity=".95"/>
+<rect x="86" y="128" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="86" y="154" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="86" y="180" width="23" height="21" fill="#f4d47c" opacity=".95"/>
+<rect x="86" y="206" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="114" y="76" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="114" y="102" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="114" y="128" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="114" y="154" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="114" y="180" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="114" y="206" width="23" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="158" y="155" width="90" height="77" fill="#e8cfa6"/>
+<rect x="163" y="160" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="163" y="184" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="163" y="208" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="191" y="160" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="191" y="184" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="191" y="208" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="220" y="160" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="220" y="184" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="220" y="208" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="281" y="99" width="67" height="133" fill="#e8cfa6"/>
+<rect x="286" y="104" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="286" y="130" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="286" y="155" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="286" y="181" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="286" y="206" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="317" y="104" width="26" height="21" fill="#f4d47c" opacity=".95"/>
+<rect x="317" y="130" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="317" y="155" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="317" y="181" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="317" y="206" width="26" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="383" y="108" width="88" height="124" fill="#e8cfa6"/>
+<rect x="388" y="113" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="388" y="137" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="388" y="161" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="388" y="184" width="23" height="19" fill="#f4d47c" opacity=".95"/>
+<rect x="388" y="208" width="23" height="19" fill="#f4d47c" opacity=".95"/>
+<rect x="416" y="113" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="416" y="137" width="23" height="19" fill="#f4d47c" opacity=".95"/>
+<rect x="416" y="161" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="416" y="184" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="416" y="208" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="443" y="113" width="23" height="19" fill="#f4d47c" opacity=".95"/>
+<rect x="443" y="137" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="443" y="161" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="443" y="184" width="23" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="443" y="208" width="23" height="19" fill="#f4d47c" opacity=".95"/>
+<rect x="509" y="103" width="74" height="129" fill="#e8cfa6"/>
+<rect x="514" y="108" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="514" y="133" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="514" y="158" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="514" y="182" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="514" y="207" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="548" y="108" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="548" y="133" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="548" y="158" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="548" y="182" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="548" y="207" width="30" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="615" y="104" width="113" height="128" fill="#e8cfa6"/>
+<rect x="620" y="109" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="620" y="134" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="620" y="158" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="620" y="183" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="620" y="207" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="647" y="109" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="647" y="134" width="22" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="647" y="158" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="647" y="183" width="22" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="647" y="207" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="674" y="109" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="674" y="134" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="674" y="158" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="674" y="183" width="22" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="674" y="207" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="701" y="109" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="701" y="134" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="701" y="158" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="701" y="183" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="701" y="207" width="22" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="753" y="131" width="73" height="101" fill="#e8cfa6"/>
+<rect x="758" y="136" width="29" height="19" fill="#f4d47c" opacity=".95"/>
+<rect x="758" y="160" width="29" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="758" y="184" width="29" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="758" y="208" width="29" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="792" y="136" width="29" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="792" y="160" width="29" height="19" fill="#f4d47c" opacity=".95"/>
+<rect x="792" y="184" width="29" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="792" y="208" width="29" height="19" fill="#2a2622" opacity=".22"/>
+<rect x="865" y="73" width="65" height="159" fill="#e8cfa6"/>
+<rect x="870" y="78" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="870" y="104" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="870" y="129" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="870" y="155" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="870" y="181" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="870" y="206" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="900" y="78" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="900" y="104" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="900" y="129" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="900" y="155" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="900" y="181" width="25" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="900" y="206" width="25" height="21" fill="#f4d47c" opacity=".95"/>
+<rect x="968" y="152" width="69" height="80" fill="#e8cfa6"/>
+<rect x="973" y="157" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="973" y="182" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="973" y="207" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1005" y="157" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1005" y="182" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1005" y="207" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1069" y="95" width="73" height="137" fill="#e8cfa6"/>
+<rect x="1074" y="100" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1074" y="126" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1074" y="153" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1074" y="179" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1074" y="206" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1108" y="100" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1108" y="126" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1108" y="153" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1108" y="179" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1108" y="206" width="29" height="21" fill="#2a2622" opacity=".22"/>
+<rect x="1171" y="119" width="110" height="113" fill="#e8cfa6"/>
+<rect x="1176" y="124" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1176" y="151" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1176" y="178" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1176" y="205" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1202" y="124" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1202" y="151" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1202" y="178" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1202" y="205" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1228" y="124" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1228" y="151" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1228" y="178" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1228" y="205" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1255" y="124" width="21" height="22" fill="#f4d47c" opacity=".95"/>
+<rect x="1255" y="151" width="21" height="22" fill="#f4d47c" opacity=".95"/>
+<rect x="1255" y="178" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1255" y="205" width="21" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1318" y="126" width="82" height="106" fill="#e8cfa6"/>
+<rect x="1323" y="131" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1323" y="156" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1323" y="182" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1323" y="207" width="21" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1349" y="131" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1349" y="156" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1349" y="182" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1349" y="207" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1374" y="131" width="21" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1374" y="156" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1374" y="182" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1374" y="207" width="21" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1433" y="153" width="116" height="79" fill="#e8cfa6"/>
+<rect x="1438" y="158" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1438" y="183" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1438" y="207" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1466" y="158" width="23" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1466" y="183" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1466" y="207" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1494" y="158" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1494" y="183" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1494" y="207" width="23" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1521" y="158" width="23" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1521" y="183" width="23" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1521" y="207" width="23" height="20" fill="#f4d47c" opacity=".95"/>
+</g>
+<g stroke="#2a2622" stroke-width="2.5" stroke-linejoin="round" fill="none">
+<path d="M1046 232 L1078 74 L1110 232 Z" fill="#e8cfa6"/>
+<path d="M1078 74 V52" stroke-width="3"/>
+<rect x="700" y="120" width="46" height="112" fill="#e8cfa6"/>
+<path d="M700 120 h46 l-8 -22 h-30 z" fill="#d9a9a2"/>
+<path d="M723 98 V78" stroke-width="3"/>
+</g>
+<g stroke="#2a2622" stroke-width="2.5" stroke-linejoin="round">
+<rect x="-40" y="174" width="139" height="58" fill="#d9a9a2"/>
+<rect x="-34" y="180" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="-34" y="206" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="-1" y="180" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="-1" y="206" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="32" y="180" width="27" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="32" y="206" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="66" y="180" width="27" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="66" y="206" width="27" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="112" y="175" width="147" height="57" fill="#d9a9a2"/>
+<rect x="118" y="181" width="29" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="118" y="206" width="29" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="153" y="181" width="29" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="153" y="206" width="29" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="188" y="181" width="29" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="188" y="206" width="29" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="224" y="181" width="29" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="224" y="206" width="29" height="20" fill="#2a2622" opacity=".22"/>
+<path d="M156 175 v-16 M145 159 h22" fill="none"/>
+<rect x="282" y="185" width="96" height="47" fill="#d9a9a2"/>
+<rect x="288" y="191" width="24" height="35" fill="#2a2622" opacity=".22"/>
+<rect x="318" y="191" width="24" height="35" fill="#2a2622" opacity=".22"/>
+<rect x="348" y="191" width="24" height="35" fill="#2a2622" opacity=".22"/>
+<rect x="317" y="161" width="26" height="20" fill="#e8cfa6"/>
+<path d="M317 161 l13 -9 l13 9 z" fill="#77685c"/>
+<rect x="404" y="128" width="133" height="104" fill="#d9a9a2"/>
+<rect x="410" y="134" width="26" height="18" fill="#f4d47c" opacity=".95"/>
+<rect x="410" y="158" width="26" height="18" fill="#f4d47c" opacity=".95"/>
+<rect x="410" y="183" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="410" y="208" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="442" y="134" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="442" y="158" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="442" y="183" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="442" y="208" width="26" height="18" fill="#f4d47c" opacity=".95"/>
+<rect x="474" y="134" width="26" height="18" fill="#f4d47c" opacity=".95"/>
+<rect x="474" y="158" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="474" y="183" width="26" height="18" fill="#f4d47c" opacity=".95"/>
+<rect x="474" y="208" width="26" height="18" fill="#f4d47c" opacity=".95"/>
+<rect x="505" y="134" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="505" y="158" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="505" y="183" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="505" y="208" width="26" height="18" fill="#2a2622" opacity=".22"/>
+<rect x="548" y="168" width="111" height="64" fill="#d9a9a2"/>
+<rect x="554" y="174" width="29" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="554" y="203" width="29" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="589" y="174" width="29" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="589" y="203" width="29" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="624" y="174" width="29" height="23" fill="#2a2622" opacity=".22"/>
+<rect x="624" y="203" width="29" height="23" fill="#2a2622" opacity=".22"/>
+<path d="M626 168 v-22 M619 154 h14 M621 148 h10" fill="none"/>
+<rect x="688" y="167" width="144" height="65" fill="#d9a9a2"/>
+<rect x="694" y="173" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="694" y="202" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="728" y="173" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="728" y="202" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="763" y="173" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="763" y="202" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="798" y="173" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="798" y="202" width="28" height="24" fill="#2a2622" opacity=".22"/>
+<path d="M731 167 v-16 M720 151 h22" fill="none"/>
+<rect x="859" y="135" width="105" height="97" fill="#d9a9a2"/>
+<rect x="865" y="141" width="27" height="24" fill="#f4d47c" opacity=".95"/>
+<rect x="865" y="171" width="27" height="24" fill="#f4d47c" opacity=".95"/>
+<rect x="865" y="202" width="27" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="898" y="141" width="27" height="24" fill="#f4d47c" opacity=".95"/>
+<rect x="898" y="171" width="27" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="898" y="202" width="27" height="24" fill="#f4d47c" opacity=".95"/>
+<rect x="931" y="141" width="27" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="931" y="171" width="27" height="24" fill="#2a2622" opacity=".22"/>
+<rect x="931" y="202" width="27" height="24" fill="#2a2622" opacity=".22"/>
+<path d="M890 135 v-16 M880 119 h22" fill="none"/>
+<rect x="994" y="174" width="126" height="58" fill="#d9a9a2"/>
+<rect x="1000" y="180" width="24" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1000" y="206" width="24" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1030" y="180" width="24" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1030" y="206" width="24" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1060" y="180" width="24" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1060" y="206" width="24" height="20" fill="#2a2622" opacity=".22"/>
+<rect x="1090" y="180" width="24" height="20" fill="#f4d47c" opacity=".95"/>
+<rect x="1090" y="206" width="24" height="20" fill="#2a2622" opacity=".22"/>
+<path d="M1032 174 v-16 M1021 158 h22" fill="none"/>
+<rect x="1143" y="141" width="145" height="91" fill="#d9a9a2"/>
+<rect x="1149" y="147" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1149" y="175" width="29" height="22" fill="#f4d47c" opacity=".95"/>
+<rect x="1149" y="204" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1184" y="147" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1184" y="175" width="29" height="22" fill="#f4d47c" opacity=".95"/>
+<rect x="1184" y="204" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1218" y="147" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1218" y="175" width="29" height="22" fill="#f4d47c" opacity=".95"/>
+<rect x="1218" y="204" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1253" y="147" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1253" y="175" width="29" height="22" fill="#2a2622" opacity=".22"/>
+<rect x="1253" y="204" width="29" height="22" fill="#f4d47c" opacity=".95"/>
+<rect x="1305" y="182" width="93" height="50" fill="#d9a9a2"/>
+<rect x="1311" y="188" width="23" height="38" fill="#2a2622" opacity=".22"/>
+<rect x="1340" y="188" width="23" height="38" fill="#f4d47c" opacity=".95"/>
+<rect x="1369" y="188" width="23" height="38" fill="#2a2622" opacity=".22"/>
+<path d="M1333 182 v-16 M1322 166 h22" fill="none"/>
+<rect x="1412" y="159" width="134" height="73" fill="#d9a9a2"/>
+<rect x="1418" y="165" width="26" height="28" fill="#2a2622" opacity=".22"/>
+<rect x="1418" y="198" width="26" height="28" fill="#2a2622" opacity=".22"/>
+<rect x="1450" y="165" width="26" height="28" fill="#2a2622" opacity=".22"/>
+<rect x="1450" y="198" width="26" height="28" fill="#2a2622" opacity=".22"/>
+<rect x="1482" y="165" width="26" height="28" fill="#2a2622" opacity=".22"/>
+<rect x="1482" y="198" width="26" height="28" fill="#2a2622" opacity=".22"/>
+<rect x="1514" y="165" width="26" height="28" fill="#2a2622" opacity=".22"/>
+<rect x="1514" y="198" width="26" height="28" fill="#f4d47c" opacity=".95"/>
+</g>
+<g stroke="#c9463d" stroke-width="3" stroke-linejoin="round" fill="none">
+<rect x="14" y="202" width="348" height="7" fill="#c9463d"/>
+<path d="M14 170 Q69 150 124 58"/>
+<path d="M28 164 V202" stroke-width="1.6"/>
+<path d="M42 156 V202" stroke-width="1.6"/>
+<path d="M55 145 V202" stroke-width="1.6"/>
+<path d="M69 132 V202" stroke-width="1.6"/>
+<path d="M83 117 V202" stroke-width="1.6"/>
+<path d="M96 100 V202" stroke-width="1.6"/>
+<path d="M110 80 V202" stroke-width="1.6"/>
+<path d="M124 58 Q188 206 252 58"/>
+<path d="M140 90 V202" stroke-width="1.6"/>
+<path d="M156 114 V202" stroke-width="1.6"/>
+<path d="M172 127 V202" stroke-width="1.6"/>
+<path d="M188 132 V202" stroke-width="1.6"/>
+<path d="M204 127 V202" stroke-width="1.6"/>
+<path d="M220 114 V202" stroke-width="1.6"/>
+<path d="M236 90 V202" stroke-width="1.6"/>
+<path d="M252 58 Q307 150 362 170"/>
+<path d="M266 80 V202" stroke-width="1.6"/>
+<path d="M280 100 V202" stroke-width="1.6"/>
+<path d="M293 117 V202" stroke-width="1.6"/>
+<path d="M307 132 V202" stroke-width="1.6"/>
+<path d="M321 145 V202" stroke-width="1.6"/>
+<path d="M334 156 V202" stroke-width="1.6"/>
+<path d="M348 164 V202" stroke-width="1.6"/>
+<path d="M117 209 V52 M131 209 V52 M117 52 h14"/>
+<path d="M117 96 h14" stroke-width="2"/>
+<path d="M117 136 h14" stroke-width="2"/>
+<path d="M117 174 h14" stroke-width="2"/>
+<path d="M245 209 V52 M259 209 V52 M245 52 h14"/>
+<path d="M245 96 h14" stroke-width="2"/>
+<path d="M245 136 h14" stroke-width="2"/>
+<path d="M245 174 h14" stroke-width="2"/>
+</g>
+<rect x="0" y="232" width="1440" height="18" fill="#77685c"/>
+<path d="M0 232 H1440" stroke="#2a2622" stroke-width="3"/>
+</svg>
+  </section>
+
+  <section class="section" aria-labelledby="flight-title">
+    <div class="wrap">
+      <span class="eyebrow">How a flight goes</span>
+      <h2 id="flight-title">Aim, glide, land, fold.</h2>
+      <p class="lede">Three things happen every throw, and the third is the one that compounds.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="glyph tilt">
+            <svg viewBox="0 0 200 130" width="200" height="130" role="img" aria-label="A finger dragging back from the plane, with the aim arc showing where the throw will go">
+              <title>A finger dragging back from the plane, with the aim arc showing where the throw will go</title>
+              <path d="M28 104 Q92 34 180 22" fill="none" stroke="#2a2622" stroke-width="2.5" stroke-dasharray="7 9" opacity=".5"/>
+              <g stroke="#2a2622" stroke-width="2.5" stroke-linejoin="round"><path d="M22 88 L66 106 L36 108 Z" fill="#ffffff"/><path d="M36 108 L66 106 L24 122 Z" fill="#cbd4de"/></g>
+              <circle cx="96" cy="86" r="15" fill="none" stroke="#c9463d" stroke-width="3"/>
+              <path d="M96 86 L42 102" stroke="#c9463d" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="num">1.</span>
+          <h3>Draw back and let go</h3>
+          <p>Drag anywhere to set the angle and the power. A drag that is too short, or one that points forward, isn't a throw — the plane leaves your hand only when you mean it.</p>
+        </div>
+        <div class="step">
+          <div class="glyph">
+            <svg viewBox="0 0 200 130" width="200" height="130" role="img" aria-label="The plane skimming a rooftop with a five-times multiplier callout above it">
+              <title>The plane skimming a rooftop with a five-times multiplier callout above it</title>
+              <rect x="12" y="96" width="176" height="30" fill="#d9a9a2" stroke="#2a2622" stroke-width="2.5"/>
+              <path d="M40 96 v-12 M34 84 h12" fill="none" stroke="#2a2622" stroke-width="2.5"/>
+              <g stroke="#2a2622" stroke-width="2.5" stroke-linejoin="round"><path d="M72 62 L134 80 L98 82 Z" fill="#ffffff"/><path d="M98 82 L134 80 L76 96 Z" fill="#cbd4de"/></g>
+              <path d="M12 90 h176" fill="none" stroke="#c9463d" stroke-width="2" stroke-dasharray="6 7"/>
+              <text x="150" y="44" font-family="Caveat, cursive" font-size="34" font-weight="700" fill="#c9463d">×5</text>
+              <circle cx="52" cy="40" r="11" fill="#f4d47c" stroke="#2a2622" stroke-width="2.5"/>
+              <circle cx="92" cy="28" r="11" fill="#f4d47c" stroke="#2a2622" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <span class="num">2.</span>
+          <h3>Stay up longer than you should</h3>
+          <p>Flap for height, ride an updraft, hit a firecracker for speed. Skim within four metres of a roof and every coin you take is worth up to five times as much — right up until you climb and lose it.</p>
+        </div>
+        <div class="step">
+          <div class="glyph tilt-r">
+            <svg viewBox="0 0 200 130" width="200" height="130" role="img" aria-label="A blueprint tile grid with one tile selected and a coin price beneath it">
+              <title>A blueprint tile grid with one tile selected and a coin price beneath it</title>
+              <rect x="8" y="8" width="184" height="114" fill="#1f3a5f"/>
+              <g fill="none" stroke="#e8eef7" stroke-width="2" opacity=".75">
+                <rect x="22" y="22" width="30" height="30"/><rect x="62" y="22" width="30" height="30"/>
+                <rect x="102" y="22" width="30" height="30"/><rect x="142" y="22" width="30" height="30"/>
+                <rect x="62" y="66" width="30" height="30"/><rect x="102" y="66" width="30" height="30"/>
+                <rect x="142" y="66" width="30" height="30"/>
+              </g>
+              <rect x="22" y="66" width="30" height="30" fill="none" stroke="#f4d47c" stroke-width="3.5"/>
+              <path d="M30 88 l7 -14 l7 14" fill="none" stroke="#f4d47c" stroke-width="2.5"/>
+              <text x="74" y="118" font-family="Caveat, cursive" font-size="26" font-weight="700" fill="#f4d47c">$95</text>
+            </svg>
+          </div>
+          <span class="num">3.</span>
+          <h3>Land, then fold something in</h3>
+          <p>Between throws the game turns into a blueprint. Spend what you caught on any of fifteen tracks, walk back out to the rooftop, and throw the same sheet of paper again — a little better folded.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section blueprint" aria-labelledby="shop-title">
+    <div class="wrap">
+      <div class="blueprint-fig">
+        <figure>
+          <svg viewBox="0 0 420 210" width="420" height="210" role="img" aria-label="A side elevation of the paper dart drawn as a blueprint, with its fold lines and dimensions marked">
+            <title>A side elevation of the paper dart drawn as a blueprint, with its fold lines and dimensions marked</title>
+            <g fill="none" stroke="#e8eef7" stroke-width="2.5" stroke-linejoin="round">
+              <path d="M24 46 L392 118 L124 128 Z"/>
+              <path d="M124 128 L392 118 L38 182 Z"/>
+              <path d="M124 128 L168 168" stroke-dasharray="6 6"/>
+              <path d="M24 46 L38 182" stroke-dasharray="6 6"/>
+            </g>
+            <g fill="none" stroke="#f4d47c" stroke-width="2">
+              <path d="M24 30 H392 M24 24 v12 M392 24 v12"/>
+            </g>
+            <text x="186" y="20" font-family="Caveat, cursive" font-size="26" font-weight="700" fill="#f4d47c">span</text>
+            <circle cx="392" cy="118" r="7" fill="none" stroke="#f4d47c" stroke-width="2.5"/>
+            <text x="330" y="156" font-family="Caveat, cursive" font-size="24" font-weight="700" fill="#8fa8c4">nose</text>
+          </svg>
+          <figcaption>Fig. 1 — side elevation</figcaption>
+        </figure>
+      </div>
+      <div>
+        <span class="eyebrow">The workshop</span>
+        <h2 id="shop-title">Fifteen things to fold in.</h2>
+        <p>Thrust and hull are the obvious ones. The rest are stranger: a magnet that widens what counts as catching a coin, a storm coat that stops a cloud from eating your speed, wax that keeps you sliding after you land.</p>
+        <p>Coins and levels reset in every new city. A visit is a build you commit to, not a checklist you tick off — and the plane you fold in Tokyo is not the one you'll want in Cairo.</p>
+        <ul class="tracks">
+          <li>Thrust <span class="lv">5</span></li>
+          <li>Aerodynamics <span class="lv">5</span></li>
+          <li>Hull <span class="lv">5</span></li>
+          <li>Flaps <span class="lv">3</span></li>
+          <li>Dive <span class="lv">3</span></li>
+          <li>Magnet <span class="lv">3</span></li>
+          <li>Lucky coin <span class="lv">3</span></li>
+          <li>Skim <span class="lv">3</span></li>
+          <li>Firecracker <span class="lv">3</span></li>
+          <li>Paperclip <span class="lv">3</span></li>
+          <li>Gust <span class="lv">3</span></li>
+          <li>Thermal <span class="lv">3</span></li>
+          <li>Storm coat <span class="lv">3</span></li>
+          <li>Stiff spine <span class="lv">3</span></li>
+          <li>Wax <span class="lv">3</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tour-title">
+    <div class="wrap">
+      <div class="tour">
+        <div>
+          <span class="eyebrow">The tour</span>
+          <h2 id="tour-title">It starts famous, then gets stranger.</h2>
+          <p>The first cities are the ones on everybody's postcard. Keep going and the names stop being ones you already know — and no two stops in a row sit on the same continent, so the map never settles into a straight line.</p>
+          <p>Each city hides its own artifacts: one high, one mid, one you only reach by skimming a roof. Those you keep. They outlive the reset, fill a page in the atlas, and are the only thing you carry from one city to the next.</p>
+          <ul class="cities">
+            <li>Paris</li><li>New York</li><li>Tokyo</li><li>Cairo</li><li>Rio de Janeiro</li>
+            <li>London</li><li>Sydney</li><li>Beijing</li><li>Rome</li><li>San Francisco</li>
+            <li>Bangkok</li><li>Istanbul</li><li>Barcelona</li><li>Hong Kong</li><li>Athens</li>
+            <li class="later">and on, into cities you'll have to look up</li>
+          </ul>
+        </div>
+        <div class="card tilt-r">
+          <h3>What a city costs you</h3>
+          <p>Every city takes the coins back and hands you a blank sheet. What it can't take is the distance you already flew, the artifacts you already found, or the fact that you now know what a thermal feels like.</p>
+          <p>A city ends when you cross its flag in a single flight. There is no way to lose one — only to throw again.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" aria-labelledby="drawn-title">
+    <div class="wrap narrow">
+      <span class="eyebrow">Drawn, not photographed</span>
+      <h2 id="drawn-title">Every building is a line, not a picture.</h2>
+      <p>There are no image files in Paper Skyline. The gulls, the shopfronts, the fog rolling in off the bay, the fold lines on the plane itself — all of it is drawing code, worked out in numbers and redrawn every frame.</p>
+      <p>Which means the game downloads in about the space of a photograph, stays sharp on any screen you put it on, and looks hand-drawn because, in the only sense that matters, it is.</p>
+      <div class="note">
+        <p>The art on this page is the same idea: every plane, coin and rooftop you have scrolled past is written into the page as shapes and numbers. No pictures were loaded to draw any of it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="plainly-title">
+    <div class="wrap">
+      <h2 id="plainly-title">Plainly</h2>
+      <div class="plainly">
+        <div class="card">
+          <h3>Your progress stays on your phone</h3>
+          <p>No account, no sign-in, nothing to create. The game writes your run, your charted cities and your artifacts to the device and reads them back. Deleting the app deletes all of it. <a href="privacy.html">The full policy</a> is short.</p>
+        </div>
+        <div class="card">
+          <h3>Landscape, one thumb</h3>
+          <p>Every control is a drag or a tap on the same screen you are already watching. No buttons to hunt for, no second hand needed.</p>
+        </div>
+        <div class="card">
+          <h3>Nothing to lose</h3>
+          <p>There is no fail state and no timer. A throw that goes badly costs you the throw. You pick the plane up and throw it again, as many times as a city takes.</p>
+        </div>
+        <div class="card">
+          <h3>Not out yet</h3>
+          <p>Paper Skyline is still being built. When it reaches the stores the badges above will start working — that is the whole announcement. Until then, <a href="support.html">the support page</a> is where questions go.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="/">
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g stroke="#2a2622" stroke-width="2.5" stroke-linejoin="round"><path d="M3 7 L61 30 L16 31 Z" fill="#ffffff"/><path d="M16 31 L61 30 L4 54 Z" fill="#cbd4de"/></g></svg>
+        Paper Skyline
+      </a>
+      <p>One sheet of paper, one city at a time.</p>
+      <p>&copy; 2026 LLOG &middot; paperskyline.org</p>
+      <p class="fine">App Store is a trademark of Apple Inc. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+    </div>
+    <nav class="site-nav" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="support.html">Support</a>
+      <a href="privacy.html">Privacy policy</a>
+      <a href="terms.html">Terms of use</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
