@@ -31,8 +31,8 @@ surface Paper Skyline already owns.
 
 There is not a single photograph or illustration file on this site. The skyline, the plane, the
 coins, the blueprint elevation and every step glyph are inline `<svg>`: shapes and numbers in the
-page. That is the same decision the game made — Paper Skyline draws its world in code — so the
-site's art has the same provenance as the game's, and nothing here can go stale against a build.
+page. The game no longer draws in code only (v1 uses painted city art), so real screenshots are
+due from the web-design branch.
 
 The hero skyline is the one piece too repetitive to place by hand — two hundred windows across
 three parallax layers. `tools/skyline.py` generates it from a fixed seed, so re-running it produces
@@ -76,25 +76,23 @@ GitHub Pages, from the default branch root:
 
 ## Before publishing — things that still need a decision
 
-1. **The contact addresses are placeholders.** The pages reference `privacy@`, `support@` and
-   `hello@paperskyline.org`. Set up forwarding at the registrar or change them to a real address.
-   A privacy policy with a dead contact address fails its purpose, and store reviewers do check.
+1. **Contact.** Every page's mailto is the owner's address (user, 2026-09-28); it must receive mail
+   before publishing, since store reviewers do check.
 2. **The store badges are deliberately unlinked.** They are `<span class="badge">`, dashed and
    dimmed, and `check.sh` **fails the build if one becomes a link** — invert that rule in
    `tools/check.sh` on launch day, add the two `href`s, and add `installUrl` plus `offers` to the
    JSON-LD in `index.html`.
 3. **Governing law is unnamed.** `terms.html` says "the country in which LLOG is established"
    rather than naming one. Name it before publishing.
-4. **Three claims are absent on purpose** — price, a city count, and a release date. The
-   player-services spec that would add rewarded ads is still a draft, levels 1–40 are authored of
-   an approved hundred, and there is no date. Add each one when it is real, not before.
+4. **Two claims are absent on purpose**: price and a release date. Add each one when it is real.
+   The city count (five, for v1) is now stated.
 
 ## Keeping the policy honest
 
-The policy makes concrete promises the game currently keeps: nothing is collected, no network call
-is made, no Unity cloud service is enabled, and the four save keys never leave the device. The
-moment rewarded ads, accounts or leaderboards ship, the policy goes to version 2 **first**, since
-it would otherwise be inaccurate in exactly the way regulators care about.
+Privacy policy version 2 describes Paper Skyline 1.0: progress and settings saved on the device, no
+ads, analytics or purchases, no Unity cloud service enabled, and one-time HTTPS downloads of New York,
+Tokyo, Cairo and Rio from Cloudflare R2 with no identifiers sent. It is the Play Console privacy URL,
+so keep `privacy.html` at that path. Any change to the game's data flow bumps the policy **first**.
 
 ## Brand exports
 
