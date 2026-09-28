@@ -47,7 +47,8 @@ for p in "${pages[@]}"; do
       *) target="$dir/$ref" ;;
     esac
     [ -e "$target" ] || err "$p" "broken link: $ref"
-  done < <(grep -oE '(href|src)="[^"#]+"' "$p" | sed -E 's/^(href|src)="//; s/"$//' \
+  done < <( { grep -oE '(href|src)="[^"#]+"' "$p" | sed -E 's/^(href|src)="//; s/"$//'
+               grep -oE 'srcset="[^"]+"' "$p" | sed -E 's/^srcset="//; s/"$//' | tr ',' '\n' | awk '{print $1}'; } \
            | grep -vE '^(https?:|mailto:|tel:|//)' | sort -u)
 done
 
@@ -56,8 +57,8 @@ for f in sitemap.xml robots.txt; do
 done
 grep -q 'paperskyline.org' CNAME || err CNAME "wrong domain"
 
-# Weight budget: the art is inline SVG, so no single asset should ever be large.
-for f in brand/*.png *.png; do
+# Weight budget: every image is exported sized for its slot, so none should ever be large.
+for f in brand/*.png brand/*.jpg *.png img/*; do
   [ -f "$f" ] || continue
   s=$(wc -c < "$f" | tr -d ' '); [ "$s" -le 300000 ] || err "$f" "over 300 KB ($s bytes)"
 done

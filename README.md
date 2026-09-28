@@ -17,8 +17,9 @@ both Apple and Google ask for the URL, and neither waits while you write one.
 ```
 index.html  privacy.html  terms.html  support.html  404.html
 styles.css            # tokens + every component, light/dark via prefers-color-scheme
-brand/                # the export wrappers that render every icon, and their output
-tools/                # check.sh, shots.sh, brand.sh — the verification harness
+img/                  # the game's paintings and keepers, exported by tools/art.py
+brand/                # the app icon, the social card, the mark and the favicon wrapper
+tools/                # art.py, check.sh, shots.sh, brand.sh
 docs/superpowers/specs/               # the design spec this was built from
 sitemap.xml  robots.txt  site.webmanifest  CNAME
 ```
@@ -27,17 +28,19 @@ Every colour and both typefaces come from the game's own design spec, not from a
 mode is the Garage blueprint — `#1f3a5f` with `#e8eef7` line work — because that is the one dark
 surface Paper Skyline already owns.
 
-## The art is written, not loaded
+## The art is the game's own
 
-There is not a single photograph or illustration file on this site. The skyline, the plane, the
-coins, the blueprint elevation and every step glyph are inline `<svg>`: shapes and numbers in the
-page. The game no longer draws in code only (v1 uses painted city art), so real screenshots are
-due from the web-design branch.
+The hero, the city strip and the social card are the game's shipped paintings: the Paris preflight
+card, the five city backgrounds and the porcelain keepers. `tools/art.py` reads them from the game
+repo and writes `img/` and `brand/`, so re-run it after the game's art changes rather than editing
+images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
+(paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 
-The hero skyline is the one piece too repetitive to place by hand — two hundred windows across
-three parallax layers. `tools/skyline.py` generates it from a fixed seed, so re-running it produces
-byte-identical output; paste the result back over the `<svg class="skyline">` block in
-`index.html`.
+The screenshot slots in "In the game" are placeholders until the store captures land in the game
+repo's `docs/store/google-play/screenshots/`. Each slot swaps its `.shot-pending` span for a
+`<picture>`; the frame is 16:9 and `object-fit` crops a wider capture to it.
+
+The step glyphs and the blueprint elevation are still inline `<svg>`.
 
 ## Checks
 
@@ -46,7 +49,8 @@ Run before every commit:
 ```bash
 tools/check.sh                        # every page: validity, links, zero-JS, unlinked badges, alt/width/height
 tools/shots.sh index.html privacy.html  # 500/768/1280 px, light + dark, for a visual read
-tools/brand.sh                        # re-render the icons and the social card
+tools/art.py                          # re-export the paintings, keepers, social card and app icons
+tools/brand.sh                        # re-render favicon-32.png from favicon.svg
 ```
 
 500 px is the narrowest width this machine's headless Chrome will lay out, so mobile breakpoints
@@ -96,11 +100,12 @@ so keep `privacy.html` at that path. Any change to the game's data flow bumps th
 
 ## Brand exports
 
-Every icon below is a headless-Chrome render of a wrapper page in `brand/export/`. `brand/mark.svg`
-and `favicon.svg` are the hand-written sources. Re-render with `tools/brand.sh` after any change.
+`tools/art.py` copies the shipping app icon from the game and composes the social card from the
+Paris preflight painting and the five Bosses. `favicon.svg` and `brand/mark.svg` are hand-drawn
+from the app icon's dart; `tools/brand.sh` renders `favicon-32.png` from them.
 
 | File | Feeds |
 | :--- | :--- |
 | `brand/app-icon-1024.png` | The app icon source, and the JSON-LD `image` |
-| `brand/og-image-1200x630.png` | `og:image` on every page |
+| `brand/og-image-1200x630.jpg` | `og:image` on every page |
 | `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` | Browser tab and iOS home screen |
