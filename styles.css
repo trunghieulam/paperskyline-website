@@ -267,6 +267,23 @@ strong { font-weight: 400; color: var(--red); }
 .shot-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: .35rem; }
 .shot figcaption { margin-top: .9rem; font: 700 1.5rem/1.1 var(--display); }
 
+/* the parents' feedback form: plain HTML controls in the site's ink and paper */
+.form { margin-bottom: 1.75rem; }
+.form p { margin: 0 0 1.1rem; }
+.form label { display: block; font-weight: 700; margin-bottom: .35rem; }
+.form .hint { font-weight: 400; color: var(--ink-faint); }
+.form input[type="text"], .form input[type="email"], .form select, .form textarea {
+  width: 100%; box-sizing: border-box; font: inherit; color: var(--ink); background: var(--paper);
+  border: 2px solid var(--ink); border-radius: .4rem; padding: .5rem .65rem;
+}
+.form .check { display: flex; gap: .6rem; align-items: baseline; }
+.form .check label { display: inline; }
+.form button {
+  font: 700 1.3rem/1 var(--display); color: #2a2622; background: var(--gold); border: 3px solid var(--ink);
+  border-radius: .5rem; padding: .6rem 1.2rem; box-shadow: var(--shadow); cursor: pointer;
+}
+.form :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
 /* a torn strip of note paper, used once per page for an aside */
 .note {
   border-left: 6px solid var(--red); background: var(--desk); padding: 1rem 1.25rem; margin: 2rem 0;
