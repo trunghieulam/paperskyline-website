@@ -152,30 +152,34 @@
 
       <h2 id="stats">Gameplay statistics</h2>
       <p>So that we can tune prices, upgrades and cities from real play, the game sends short, anonymous records
-        of what happens in it. For now only the Android version sends them.</p>
+        of what happens in it. For now only the Android version sends them, and only copies installed from the store.
+        Nothing is recorded before your first flight has landed or finished.</p>
       <ul>
-        <li><b>In every record.</b> The game version, Android or iOS, the date (UTC, with no time of day), the
-          city, the difficulty, how many flights you have flown in total, and your purchase history so far: each
+        <li><b>In every record.</b> The game version, the date (UTC, with no time of day), the city, the
+          difficulty, which flight of this city visit it was, how many flights you have flown in total, and your
+          purchase history so far: each
           upgrade with its level and the flight you bought it on, plus the cities you moved on to.</li>
         <li><b>After each flight.</b> Your upgrade levels, what the flight paid (for distance, height, time, speed,
-          things knocked over and coins), the coins you then held, whether it landed or finished, what it last hit
-          (a bird, a building or a keeper), how far and how high it went, your strikes on each keeper, seconds of
-          boost, and whether you used a spare-fuel can.</li>
+          things knocked over and coins, and in total), the coins you then held, whether it landed or finished, how
+          far and how high it went and how long it was in the air, seconds of engine, whether you used a spare-fuel
+          can, your strikes on each keeper, and glancing hits.</li>
         <li><b>Leaving the garage.</b> Your coins before and after, the upgrades you could afford, the garage's
           suggestion, and what you bought, in order.</li>
-        <li><b>Milestones.</b> An Elite or a Boss broken, a city cleared, the first ad watched.</li>
-        <li><b>Leaving the game.</b> Which screen was open, if the game was left for more than 10 seconds.</li>
-        <li><b>Never sent.</b> No account, install, device or advertising ID; no device model, operating-system
-          version or language; no time of day and no free text. The request identifies the game only by a fixed
-          name, not your device.</li>
+        <li><b>Milestones.</b> An Elite or a Boss broken, a city cleared, or spare fuel earned from an ad, with
+          which keeper it was.</li>
+        <li><b>Leaving the game.</b> Which screen was open, a flight or the garage, when the game was closed from
+          the background. It is sent the next time you open the game.</li>
+        <li><b>Never sent.</b> No account, install, device, advertising or app set ID; no device model,
+          operating-system version, language or region; no time of day and no free text. Each batch carries only
+          the game version and the records.</li>
       </ul>
       <p>The records are not linked to any person or device. Records from the same player share the same purchase
         history, which is how we see the order in which players upgrade.</p>
       <ul>
-        <li><b>Where they go.</b> Over HTTPS to stats.paperskyline.org, our own server running on Cloudflare,
-          which processes them for us. Cloudflare handles your IP address to deliver each request and to count
-          requests against abuse limits; our server reads only the records, and neither logs nor stores the IP
-          address.</li>
+        <li><b>Where they go.</b> Over HTTPS to our own small server, a Cloudflare Worker on a workers.dev
+          address, which stores them in a Cloudflare D1 database. Cloudflare processes them for us. Our server
+          never reads or stores your IP address, and its request logs are off. To limit abuse, Cloudflare's rate
+          counter holds a scrambled code made from the IP address and the date, which is never written down.</li>
         <li><b>How long.</b> A daily clean-up deletes records older than 12 months.</li>
         <li><b>Switching off.</b> Statistics are on by default. Turn off <b>Share gameplay stats</b> in Settings
           and the game stops sending and deletes any records not yet sent.</li>
