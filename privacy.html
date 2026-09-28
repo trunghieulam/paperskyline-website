@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy policy — Paper Skyline</title>
-<meta name="description" content="Paper Skyline collects nothing about you: no account, ads, analytics or purchases. Progress stays on your device, and four cities download once over HTTPS with no identifiers sent.">
+<meta name="description" content="Paper Skyline keeps your progress on your device and has no account, analytics or purchases. On Android it offers one optional, non-personalised rewarded ad from Google AdMob.">
 <link rel="canonical" href="https://paperskyline.org/privacy.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Paper Skyline">
 <meta property="og:title" content="Privacy policy — Paper Skyline">
-<meta property="og:description" content="Paper Skyline collects nothing about you: no account, ads, analytics or purchases. Progress stays on your device, and four cities download once over HTTPS with no identifiers sent.">
+<meta property="og:description" content="Paper Skyline keeps your progress on your device and has no account, analytics or purchases. On Android it offers one optional, non-personalised rewarded ad from Google AdMob.">
 <meta property="og:url" content="https://paperskyline.org/privacy.html">
 <meta property="og:image" content="https://paperskyline.org/brand/og-image-1200x630.jpg">
 <meta property="og:image:width" content="1200">
@@ -45,7 +45,7 @@
 <main id="main">
   <div class="wrap page-head">
     <h1>Privacy policy</h1>
-    <p class="updated">Version 2 &middot; 28 September 2026 &middot; Paper Skyline 1.0 for iPhone, iPad and Android</p>
+    <p class="updated">Version 3 &middot; <mark>[TBD: publish date]</mark> &middot; Paper Skyline <mark>[TBD: app version with the ad]</mark> for iPhone, iPad and Android</p>
   </div>
   <div class="wrap legal">
       <nav class="toc" aria-label="On this page">
@@ -53,6 +53,7 @@
         <li><a href="#glance">At a glance</a></li>
         <li><a href="#stores">What stays on your device</a></li>
         <li><a href="#downloads">City downloads</a></li>
+        <li><a href="#ads">The optional ad</a></li>
         <li><a href="#not-collected">What it does not collect</a></li>
         <li><a href="#permissions">Permissions</a></li>
         <li><a href="#engine">The engine</a></li>
@@ -67,8 +68,9 @@
         <h2 id="glance">At a glance</h2>
         <ul>
           <li>Paper Skyline is a single-player game made by THLab (Trung Hieu Lam). This policy covers the app on iOS and Android.</li>
-          <li>Paper Skyline collects nothing about you. There is no account, no sign-in and nothing to register.</li>
-          <li>No advertising, no analytics or crash reporting, and no in-app purchases.</li>
+          <li>The game itself collects nothing about you. There is no account, no sign-in and nothing to register.</li>
+          <li>No analytics or crash reporting, and no in-app purchases.</li>
+          <li>On Android you can choose to watch a short ad from Google AdMob for spare fuel. No ad is shown unless you tap to watch one. Every ad is non-personalised and treated as child-directed. <mark>[TBD: confirm iOS ships no ads]</mark></li>
           <li>Your progress and your settings are saved on your own device and stay there.</li>
           <li>Paris comes with the app. New York, Tokyo, Cairo and Rio de Janeiro are downloaded once over HTTPS.
             The download sends no account, advertising ID or device identifier.</li>
@@ -86,14 +88,15 @@
             <tr><th scope="col">What</th><th scope="col">What it holds</th><th scope="col">Leaves the device?</th></tr>
           </thead>
           <tbody>
-            <tr><td>Progress</td><td>The city you are in, your coins and plane upgrades, the cities you have cleared, the treasures you have found and your best flights.</td><td>No</td></tr>
+            <tr><td>Progress</td><td>The city you are in, your coins and plane upgrades, the cities you have cleared, the treasures you have found, your best flights, and when you last watched an ad, to space them out.</td><td>No</td></tr>
             <tr><td>Settings</td><td>Music, sound effects and screen shake.</td><td>No</td></tr>
+            <tr><td>Ad consent</td><td>In the EEA and the UK, the choice you made on Google's consent form, kept by Google's consent software. <mark>[TBD: confirm storage and whether it is shared with Google]</mark></td><td><mark>[TBD: Yes/No]</mark></td></tr>
             <tr><td>Downloaded cities</td><td>The city files you downloaded, with a checksum to confirm each one arrived intact.</td><td>No</td></tr>
           </tbody>
         </table>
       </div>
       <p>None of it identifies you. Taken together it describes a paper plane, not a person. <b>Reset everything</b>
-        in Settings clears your progress, and deleting the app removes all three.</p>
+        in Settings clears your progress, and deleting the app removes all of it.</p>
 
       <h2 id="downloads">City downloads</h2>
       <p>Paris is inside the app and plays offline from the first launch. The next four cities, New York, Tokyo,
@@ -112,32 +115,53 @@
         delivery under <a href="https://www.cloudflare.com/privacypolicy/">its own privacy policy</a>. We do not
         use those details to identify, profile or track anyone, and we do not combine them with anything else.</p>
 
+      <h2 id="ads">The optional ad</h2>
+      <p>On Android, the garage and the landing card offer spare fuel with a small &ldquo;or watch an ad&rdquo; link.
+        Tapping it plays one rewarded video ad from Google AdMob. Nothing in the game requires it, and no ad
+        appears unless you tap. <mark>[TBD: frequency limit, e.g. one per N minutes]</mark></p>
+      <ul>
+        <li><b>Never personalised.</b> Every ad request asks Google for non-personalised ads and is marked as
+          child-directed, for every player, whatever their age. Google does not use it to build a profile of you or
+          to show you ads elsewhere.</li>
+        <li><b>Consent first in the EEA and the UK.</b> Before any ad loads there, the game shows Google's consent
+          form. You can change your choice later in <mark>[TBD: Settings entry name]</mark>.</li>
+        <li><b>What Google receives.</b> To serve and measure the ad, Google's ad software (the Google Mobile Ads
+          SDK) collects <mark>[TBD: exact data types from Google's SDK data-safety disclosure for the shipped version: e.g. IP address, device and app information, ad interactions, diagnostics]</mark>.
+          <mark>[TBD: whether the advertising ID is read or zeroed under child-directed treatment; App Set ID]</mark></li>
+        <li><b>When it connects.</b> <mark>[TBD: does the SDK contact Google at launch, or only when you tap to watch?]</mark></li>
+      </ul>
+      <p>Google handles that data under its own policy:
+        <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from apps that
+        use its services</a>. We never receive anything that identifies you, only totals such as how many ads were
+        watched.</p>
+
       <h2 id="not-collected">What it does not collect</h2>
-      <p>To be specific, because vagueness in a privacy policy is usually hiding something. Paper Skyline does not
-        collect, transmit, sell or share:</p>
+      <p>To be specific, because vagueness in a privacy policy is usually hiding something. Apart from the optional ad above, Paper
+        Skyline does not collect, transmit, sell or share:</p>
       <ul>
         <li>your name, email address, phone number or any other contact detail;</li>
         <li>your location, precise or approximate;</li>
         <li>photographs, the camera, the microphone, or your contacts;</li>
         <li>your device's advertising identifier, or any other identifier used to track you across apps;</li>
         <li>analytics, usage statistics, crash reports or diagnostics;</li>
-        <li>anything at all, to any advertising network.</li>
+        <li>anything about how you play, to Google or anyone else.</li>
       </ul>
       <div class="note">
-        <p>There are no advertisements in Paper Skyline and nothing to buy. If either ever changes, this policy is
-          rewritten and published <strong>before</strong> the change reaches a player, never after.</p>
+        <p>There is nothing to buy in Paper Skyline. If that changes, or the ad changes, this policy is rewritten and
+          published <strong>before</strong> the change reaches a player, never after.</p>
       </div>
 
       <h2 id="permissions">Permissions</h2>
-      <p>The game never shows a permission prompt. On Android it declares network access, which it uses only for
-        the city downloads and to tell Wi-Fi from mobile data. It does not use the camera, the microphone, your
+      <p>The game never shows a permission prompt. On Android it declares network access, which it uses for the
+        city downloads, the optional ad, and to tell Wi-Fi from mobile data. <mark>[TBD: final merged-manifest permissions; confirm com.google.android.gms.permission.AD_ID is removed]</mark> It does not use the camera, the microphone, your
         location, your files or your contacts. If something claiming to be Paper Skyline asks for one of these, it
         is not this game.</p>
 
       <h2 id="engine">The engine</h2>
       <p>Paper Skyline is built with Unity. Unity offers optional cloud services, such as analytics, crash
         reporting, advertising and player accounts, and <strong>none of them is switched on in this game</strong>.
-        No other third-party software in the game collects data.</p>
+        The only third-party software in the game that collects data is Google's ad software, described in
+        <a href="#ads">The optional ad</a>.</p>
 
       <h2 id="app-stores">Apple and Google</h2>
       <p>When you install any app, the store you installed it from keeps its own records of that: the download
@@ -147,17 +171,21 @@
         any individual.</p>
 
       <h2 id="children">Children</h2>
-      <p>Paper Skyline can be played by children. It collects no personal information from anyone, children
-        included: there are no ads, no accounts, no chat, nothing to buy, and no third-party software that
-        collects data. The city downloads send no identifiers. Because nothing is
-        collected, there is nothing to obtain parental consent for. A parent who wants the game's data gone can use
+      <p>Paper Skyline can be played by children and follows Google Play's Families policy. The game itself
+        collects no personal information from anyone: there are no accounts, no chat and nothing to buy, and the
+        city downloads send no identifiers. The only ad is one the player chooses to watch, and every ad request is
+        marked child-directed and non-personalised, so it is never used for personalised advertising or
+        remarketing. <mark>[TBD: confirm the Google Mobile Ads SDK version is Families self-certified]</mark> A parent who wants the game's data gone can use
         <b>Reset everything</b> in Settings, or delete the app.</p>
 
       <h2 id="changes">Changes to this policy</h2>
-      <p>This is version 2, and it describes Paper Skyline 1.0. If a future version adds anything that touches your
+      <p>This is version 3. If a future version adds anything that touches your
         data, such as an account, a leaderboard or an advertisement, this page is updated and dated first, and the
         version number goes up.</p>
       <dl class="history">
+        <dt>Version 3 &middot; <mark>[TBD: publish date]</mark></dt>
+        <dd>One optional rewarded ad on Android from Google AdMob: non-personalised, child-directed, with consent
+          first in the EEA and the UK.</dd>
         <dt>Version 2 &middot; 28 September 2026</dt>
         <dd>Paper Skyline 1.0: one-time HTTPS city downloads for New York, Tokyo, Cairo and Rio de Janeiro; what the
           game saves described by category; a section for children.</dd>

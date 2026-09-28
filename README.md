@@ -92,8 +92,8 @@ GitHub Pages, from the default branch root:
 
 ## Keeping the policy honest
 
-Privacy policy version 2 describes Paper Skyline 1.0: progress and settings saved on the device, no
-ads, analytics or purchases, no Unity cloud service enabled, and one-time HTTPS downloads of New York,
+Privacy policy version 3 (draft, branch web-ads-v3) adds the opt-in AdMob rewarded ad on Android. Version 2
+describes Paper Skyline 1.0: progress and settings saved on the device, no ads, analytics or purchases, no Unity cloud service enabled, and one-time HTTPS downloads of New York,
 Tokyo, Cairo and Rio from Cloudflare R2 with no identifiers sent. It is the Play Console privacy URL,
 so keep `privacy.html` at that path. Any change to the game's data flow bumps the policy **first**.
 
