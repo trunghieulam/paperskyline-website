@@ -177,8 +177,8 @@
       <p>The records are not linked to any person or device. Records from the same player share the same purchase
         history, which is how we see the order in which players upgrade.</p>
       <ul>
-        <li><b>Where they go.</b> Over HTTPS to our own small server, a Cloudflare Worker on a workers.dev
-          address, which stores them in a Cloudflare D1 database. Cloudflare processes them for us. Our server
+        <li><b>Where they go.</b> Over HTTPS to our own small server, a Cloudflare Worker at
+          paperskyline-stats.paperskyline-stats.workers.dev, which stores them in a Cloudflare D1 database. Cloudflare processes them for us. Our server
           never reads or stores your IP address, and its request logs are off. To limit abuse, Cloudflare's rate
           counter holds a scrambled code made from the IP address and the date, which is never written down.</li>
         <li><b>How long.</b> A daily clean-up deletes records older than 12 months.</li>
@@ -190,9 +190,10 @@
 
       <h2 id="feedback">Feedback</h2>
       <ul>
-        <li><b>In the game.</b> In Settings, <b>Send feedback</b> offers five choices: Too hard, Too easy,
-          Confusing, Loved it and Found a bug. There is no box to type into. Your choice is sent with the fields
-          every record carries, to the same server, and kept the same way.</li>
+        <li><b>In the game.</b> The landing card and <b>Send feedback</b> in Settings offer five choices: Too
+          hard, Too easy, Confusing, Loved it and Found a bug. There is no box to type into. Your choice and where
+          you picked it are sent with the fields every record carries, to the same server, and kept the same way.
+          It is recorded only while <b>Share gameplay stats</b> is on, and never during a replay.</li>
         <li><b>Ratings.</b> If Google Play shows its own rating sheet, the rating goes to Google; the game never
           sees it.</li>
         <li><b>On this website.</b> The <a href="feedback.html">feedback form</a> opens your email app,
