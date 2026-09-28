@@ -83,6 +83,18 @@ def cities():
             save(k, f'keeper-{slug}-{role}', 'png')
 
 
+# (slug, store capture) — the phone set is 2:1, so slots are 2:1 and nothing is cropped
+SHOTS = [('mime-banner', '02-mime-banner'), ('mime-strike', '03-mime-arena-strike'),
+         ('tokyo', '04-tokyo-sakura'), ('globe', '06-globe-wishlist')]
+
+
+def shots():
+    for slug, name in SHOTS:
+        src = Image.open(game('docs/store/google-play/screenshots/phone', name + '.png')).convert('RGB')
+        for w in (640, 1200):
+            save(fit(src, w, w // 2), f'shot-{slug}-{w}', 'jpg')
+
+
 def og():
     W, H = 1200, 630
     src = Image.open(game('Assets/Resources/Preflight/paris.png')).convert('RGBA')
@@ -121,6 +133,7 @@ def main():
     os.makedirs(IMG, exist_ok=True)
     hero()
     cities()
+    shots()
     og()
     icons()
 

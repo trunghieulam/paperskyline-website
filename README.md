@@ -36,9 +36,9 @@ repo and writes `img/` and `brand/`, so re-run it after the game's art changes r
 images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
 (paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 
-The screenshot slots in "In the game" are placeholders until the store captures land in the game
-repo's `docs/store/google-play/screenshots/`. Each slot swaps its `.shot-pending` span for a
-`<picture>`; the frame is 16:9 and `object-fit` crops a wider capture to it.
+"In the game" shows four of the Play phone captures from the game repo's
+`docs/store/google-play/screenshots/`; `SHOTS` in `tools/art.py` picks them, and the frames are 2:1
+to match, so nothing is cropped.
 
 The step glyphs and the blueprint elevation are still inline `<svg>`.
 
