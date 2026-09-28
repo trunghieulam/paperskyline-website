@@ -1,0 +1,66 @@
+{
+  "format": 1,
+  "releases": {
+    "1.0.0": null
+  },
+  "entries": [
+    {
+      "id": "five-cities",
+      "kind": "new",
+      "version": "1.0.0",
+      "title": "Five cities to fly",
+      "body": "Fly your paper plane over Paris, New York, Tokyo, Cairo and Rio de Janeiro. Each new city downloads once, then plays offline.",
+      "play": "Five cities to fly: Paris, New York, Tokyo, Cairo and Rio de Janeiro"
+    },
+    {
+      "id": "porcelain-keepers",
+      "kind": "new",
+      "version": "1.0.0",
+      "title": "The porcelain keepers",
+      "body": "Two souvenir keepers guard each city's wish. Fly into their arena, switch lanes and strike when a piece glints.",
+      "play": "Porcelain keepers to wake and break in every city"
+    },
+    {
+      "id": "garage",
+      "kind": "new",
+      "version": "1.0.0",
+      "title": "Draw a better plane",
+      "body": "Spend what each flight earns in the garage: a stronger launcher, wider wings, tougher paper, an engine and a tank.",
+      "play": "A garage to upgrade your launcher, wings, paper, engine and tank"
+    },
+    {
+      "id": "treasures",
+      "kind": "new",
+      "version": "1.0.0",
+      "title": "Hidden treasures",
+      "body": "Rare finds hide in every city's streets. The Atlas gives you a riddle for each one you haven't found yet.",
+      "play": "Hidden treasures, with a riddle in the Atlas for each one"
+    },
+    {
+      "id": "easy-medium",
+      "kind": "new",
+      "version": "1.0.0",
+      "title": "Easy or Medium",
+      "body": "Pick how you want to fly on each city's card, before you throw.",
+      "play": "Easy and Medium modes"
+    },
+    {
+      "id": "fly-it-again",
+      "kind": "soon",
+      "title": "Fly it again",
+      "body": "Replay a city you've cleared with a fresh plane, and look for the treasures you missed."
+    },
+    {
+      "id": "hard-mode",
+      "kind": "soon",
+      "title": "Hard mode",
+      "body": "A tougher way to fly each city, for when Medium feels easy."
+    },
+    {
+      "id": "more-cities",
+      "kind": "soon",
+      "title": "More cities",
+      "body": "London, Sydney, Beijing, Rome and San Francisco are already on the wishlist. They will arrive in a later update."
+    }
+  ]
+}
