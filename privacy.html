@@ -124,7 +124,8 @@
           child-directed, for every player, whatever their age. Google does not use it for personalised advertising or
           remarketing.</li>
         <li><b>Consent first in the EEA and the UK.</b> Before any ad loads there, the game shows Google's consent
-          form. The form appears again whenever your choice needs renewing, and uninstalling the app resets it.</li>
+          form. To change your choice later, open <b>Settings</b> and tap <b>Ad privacy choices</b>; that entry
+          appears wherever Google requires it.</li>
         <li><b>What Google receives.</b> To serve and measure the ad, Google's ad software (the Google Mobile Ads
           SDK, with Google's User Messaging Platform for consent) collects your IP address, which gives an
           approximate location; interactions such as app launches, taps and video views; and diagnostics such as
@@ -162,13 +163,14 @@
       <p>The game never shows a permission prompt. On Android it declares network access and network state, which
         it uses for the city downloads and the optional ad, and to tell Wi-Fi from mobile data. Google's ad
         software adds two more, to keep the device awake and to run a foreground service while it works. It does
-        not declare the advertising ID permission. It does not use the camera, the microphone, your
+        not declare the advertising ID permission or any of Android's ad-services permissions. It does not use the camera, the microphone, your
         location, your files or your contacts. If something claiming to be Paper Skyline asks for one of these, it
         is not this game.</p>
 
       <h2 id="engine">The engine</h2>
       <p>Paper Skyline is built with Unity. Unity offers optional cloud services, such as analytics, crash
         reporting, advertising and player accounts, and <strong>none of them is switched on in this game</strong>.
+        Its hardware statistics reporting is off too, and the game contacts no Unity server.
         The only third-party software in the game that collects data is Google's ad software, described in
         <a href="#ads">The optional ad</a>.</p>
 
