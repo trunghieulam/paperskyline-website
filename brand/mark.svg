@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Paper Skyline">
-  <title>Paper Skyline</title>
-  <path d="M7 52 L59 31 L62 35 L10 57 Z" fill="#c9463d"/>
-  <g stroke="#2a2622" stroke-width="3" stroke-linejoin="round">
-    <path d="M6 16 L59 31 L18 38 Z" fill="#f6efd9"/>
-    <path d="M18 38 L59 31 L6 52 Z" fill="#ece4cf"/>
-  </g>
-</svg>

@@ -125,8 +125,11 @@ def og():
 
 def icons():
     src = Image.open(game('Assets/Branding/app-icon.png')).convert('RGB')
-    src.save(os.path.join(SITE, 'brand/app-icon-1024.png'), optimize=True)
+    # JPEG: the painted icon is ~1.9 MB as PNG, and nothing here needs its (absent) alpha
+    src.save(os.path.join(SITE, 'brand/app-icon-1024.jpg'), quality=85, optimize=True, progressive=True)
     fit(src, 180).save(os.path.join(SITE, 'apple-touch-icon.png'), optimize=True)
+    fit(src, 32).save(os.path.join(SITE, 'favicon-32.png'), optimize=True)
+    save(fit(src, 96), 'mark-96', 'png')
 
 
 def main():
