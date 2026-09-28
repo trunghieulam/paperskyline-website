@@ -45,7 +45,7 @@
 <main id="main">
   <div class="wrap page-head">
     <h1>Privacy policy</h1>
-    <p class="updated">Version 3 &middot; <mark>[TBD: publish date]</mark> &middot; Paper Skyline <mark>[TBD: app version with the ad]</mark> for iPhone, iPad and Android</p>
+    <p class="updated">Version 3 &middot; 28 September 2026 &middot; Paper Skyline 1.0 for iPhone, iPad and Android</p>
   </div>
   <div class="wrap legal">
       <nav class="toc" aria-label="On this page">
@@ -70,7 +70,7 @@
           <li>Paper Skyline is a single-player game made by THLab (Trung Hieu Lam). This policy covers the app on iOS and Android.</li>
           <li>The game itself collects nothing about you. There is no account, no sign-in and nothing to register.</li>
           <li>No analytics or crash reporting, and no in-app purchases.</li>
-          <li>On Android you can choose to watch a short ad from Google AdMob for spare fuel. No ad is shown unless you tap to watch one. Every ad is non-personalised and treated as child-directed. <mark>[TBD: confirm iOS ships no ads]</mark></li>
+          <li>On Android you can choose to watch a short ad from Google AdMob for spare fuel. No ad is shown unless you tap to watch one, though Google's ad software starts at launch to check consent and load one in the background. Every ad is non-personalised and treated as child-directed. The iPhone and iPad version has no ads.</li>
           <li>Your progress and your settings are saved on your own device and stay there.</li>
           <li>Paris comes with the app. New York, Tokyo, Cairo and Rio de Janeiro are downloaded once over HTTPS.
             The download sends no account, advertising ID or device identifier.</li>
@@ -90,7 +90,7 @@
           <tbody>
             <tr><td>Progress</td><td>The city you are in, your coins and plane upgrades, the cities you have cleared, the treasures you have found, your best flights, and when you last watched an ad, to space them out.</td><td>No</td></tr>
             <tr><td>Settings</td><td>Music, sound effects and screen shake.</td><td>No</td></tr>
-            <tr><td>Ad consent</td><td>In the EEA and the UK, the choice you made on Google's consent form, kept by Google's consent software. <mark>[TBD: confirm storage and whether it is shared with Google]</mark></td><td><mark>[TBD: Yes/No]</mark></td></tr>
+            <tr><td>Ad consent</td><td>In the EEA and the UK, the choice you made on Google's consent form, stored on your device by Google's consent software and sent to Google with each ad request, so that Google follows it.</td><td>Yes, to Google</td></tr>
             <tr><td>Downloaded cities</td><td>The city files you downloaded, with a checksum to confirm each one arrived intact.</td><td>No</td></tr>
           </tbody>
         </table>
@@ -118,17 +118,24 @@
       <h2 id="ads">The optional ad</h2>
       <p>On Android, the garage and the landing card offer spare fuel with a small &ldquo;or watch an ad&rdquo; link.
         Tapping it plays one rewarded video ad from Google AdMob. Nothing in the game requires it, and no ad
-        appears unless you tap. <mark>[TBD: frequency limit, e.g. one per N minutes]</mark></p>
+        appears unless you tap. You can watch at most three an hour and ten a day, at least ten minutes apart.</p>
       <ul>
         <li><b>Never personalised.</b> Every ad request asks Google for non-personalised ads and is marked as
-          child-directed, for every player, whatever their age. Google does not use it to build a profile of you or
-          to show you ads elsewhere.</li>
+          child-directed, for every player, whatever their age. Google does not use it for personalised advertising or
+          remarketing.</li>
         <li><b>Consent first in the EEA and the UK.</b> Before any ad loads there, the game shows Google's consent
-          form. You can change your choice later in <mark>[TBD: Settings entry name]</mark>.</li>
+          form. The form appears again whenever your choice needs renewing, and uninstalling the app resets it.</li>
         <li><b>What Google receives.</b> To serve and measure the ad, Google's ad software (the Google Mobile Ads
-          SDK) collects <mark>[TBD: exact data types from Google's SDK data-safety disclosure for the shipped version: e.g. IP address, device and app information, ad interactions, diagnostics]</mark>.
-          <mark>[TBD: whether the advertising ID is read or zeroed under child-directed treatment; App Set ID]</mark></li>
-        <li><b>When it connects.</b> <mark>[TBD: does the SDK contact Google at launch, or only when you tap to watch?]</mark></li>
+          SDK, with Google's User Messaging Platform for consent) collects your IP address, which gives an
+          approximate location; interactions such as app launches, taps and video views; and diagnostics such as
+          launch time, hang rate and energy use. It may also send the app set ID, an identifier shared only by
+          apps from the same developer on your device. Google uses this for advertising, analytics and fraud
+          prevention, and it is encrypted in transit. The game does not declare the advertising ID permission and
+          never reads your advertising ID.</li>
+        <li><b>When it connects.</b> On Android the ad software starts when the game launches: it checks consent,
+          then loads one ad in the background so it is ready if you tap. Loading an ad contacts Google even if you
+          never watch it. Apart from Google's ad and consent servers, the game connects only to our city file
+          storage.</li>
       </ul>
       <p>Google handles that data under its own policy:
         <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from apps that
@@ -144,7 +151,7 @@
         <li>photographs, the camera, the microphone, or your contacts;</li>
         <li>your device's advertising identifier, or any other identifier used to track you across apps;</li>
         <li>analytics, usage statistics, crash reports or diagnostics;</li>
-        <li>anything about how you play, to Google or anyone else.</li>
+        <li>your progress, your save data or what happens in your flights, to Google or anyone else.</li>
       </ul>
       <div class="note">
         <p>There is nothing to buy in Paper Skyline. If that changes, or the ad changes, this policy is rewritten and
@@ -152,8 +159,10 @@
       </div>
 
       <h2 id="permissions">Permissions</h2>
-      <p>The game never shows a permission prompt. On Android it declares network access, which it uses for the
-        city downloads, the optional ad, and to tell Wi-Fi from mobile data. <mark>[TBD: final merged-manifest permissions; confirm com.google.android.gms.permission.AD_ID is removed]</mark> It does not use the camera, the microphone, your
+      <p>The game never shows a permission prompt. On Android it declares network access and network state, which
+        it uses for the city downloads and the optional ad, and to tell Wi-Fi from mobile data. Google's ad
+        software adds two more, to keep the device awake and to run a foreground service while it works. It does
+        not declare the advertising ID permission. It does not use the camera, the microphone, your
         location, your files or your contacts. If something claiming to be Paper Skyline asks for one of these, it
         is not this game.</p>
 
@@ -175,7 +184,7 @@
         collects no personal information from anyone: there are no accounts, no chat and nothing to buy, and the
         city downloads send no identifiers. The only ad is one the player chooses to watch, and every ad request is
         marked child-directed and non-personalised, so it is never used for personalised advertising or
-        remarketing. <mark>[TBD: confirm the Google Mobile Ads SDK version is Families self-certified]</mark> A parent who wants the game's data gone can use
+        remarketing. Google's ad software is self-certified for Google Play's Families policy when set up this way. A parent who wants the game's data gone can use
         <b>Reset everything</b> in Settings, or delete the app.</p>
 
       <h2 id="changes">Changes to this policy</h2>
@@ -183,7 +192,7 @@
         data, such as an account, a leaderboard or an advertisement, this page is updated and dated first, and the
         version number goes up.</p>
       <dl class="history">
-        <dt>Version 3 &middot; <mark>[TBD: publish date]</mark></dt>
+        <dt>Version 3 &middot; 28 September 2026</dt>
         <dd>One optional rewarded ad on Android from Google AdMob: non-personalised, child-directed, with consent
           first in the EEA and the UK.</dd>
         <dt>Version 2 &middot; 28 September 2026</dt>
