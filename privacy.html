@@ -45,7 +45,7 @@
 <main id="main">
   <div class="wrap page-head">
     <h1>Privacy policy</h1>
-    <p class="updated">Version 4 &middot; <mark>[TBD: publish date]</mark> &middot; Paper Skyline <mark>[TBD: app version with the statistics]</mark> for iPhone, iPad and Android</p>
+    <p class="updated">Version 4 &middot; 28 September 2026 &middot; Paper Skyline 1.0 for iPhone, iPad and Android</p>
   </div>
   <div class="wrap legal">
       <nav class="toc" aria-label="On this page">
@@ -90,16 +90,17 @@
             <tr><th scope="col">What</th><th scope="col">What it holds</th><th scope="col">Leaves the device?</th></tr>
           </thead>
           <tbody>
-            <tr><td>Progress</td><td>The city you are in, your coins and plane upgrades, the cities you have cleared, the treasures you have found, your best flights, and when you last watched an ad, to space them out.</td><td>Only inside the anonymous statistics, if they are switched on</td></tr>
+            <tr><td>Progress</td><td>The city you are in, your coins and plane upgrades, the cities you have cleared, the treasures you have found, your best flights, your purchase history, and when you last watched an ad, to space them out.</td><td>Only inside the anonymous statistics, if they are switched on</td></tr>
             <tr><td>Settings</td><td>Music, sound effects, screen shake, and whether gameplay statistics are shared.</td><td>No</td></tr>
-            <tr><td>Unsent statistics</td><td>Gameplay statistics waiting to be sent, a few kilobytes at most.</td><td>Yes, to our statistics server, if switched on</td></tr>
+            <tr><td>Unsent statistics</td><td>Gameplay statistics waiting to be sent.</td><td>Yes, to our statistics server, if switched on</td></tr>
             <tr><td>Ad consent</td><td>In the EEA and the UK, the choice you made on Google's consent form, stored on your device by Google's consent software and sent to Google with each ad request, so that Google follows it.</td><td>Yes, to Google</td></tr>
             <tr><td>Downloaded cities</td><td>The city files you downloaded, with a checksum to confirm each one arrived intact.</td><td>No</td></tr>
           </tbody>
         </table>
       </div>
       <p>None of it identifies you. Taken together it describes a paper plane, not a person. <b>Reset everything</b>
-        in Settings clears your progress, and deleting the app removes all of it. <mark>[TBD: does Reset everything also clear the unsent statistics?]</mark></p>
+        in Settings clears your progress and any statistics not yet sent, and keeps your choice about sharing them.
+        Deleting the app removes all of it.</p>
 
       <h2 id="downloads">City downloads</h2>
       <p>Paris is inside the app and plays offline from the first launch. The next four cities, New York, Tokyo,
@@ -107,7 +108,9 @@
         them. After that each city plays offline too.</p>
       <ul>
         <li>When the game starts with a connection, it fetches a short list of the city files available for this
-          version of the app.</li>
+          version of the app, and a short list of game news.</li>
+        <li>On Android, tapping <b>Update</b> on a news entry opens Google Play's own update screen, through
+          Google's in-app update library, which talks to the Play Store app on your device.</li>
         <li>On Wi-Fi, reaching a city fetches the next one in the background. On mobile data the game shows the
           size and asks before downloading.</li>
         <li>Every request uses HTTPS and asks only for a file. It carries no account, name, advertising ID, device
@@ -148,38 +151,44 @@
 
       <h2 id="stats">Gameplay statistics</h2>
       <p>So that we can tune prices, upgrades and cities from real play, the game sends short, anonymous records
-        of what happens in it. <mark>[TBD: platforms: Android only, or iOS too?]</mark></p>
+        of what happens in it. For now only the Android version sends them.</p>
       <ul>
-        <li><b>What is sent.</b> One record when a flight ends: the city, difficulty, flight number, upgrade
-          levels, what the flight paid, how far and how high it went, how it ended, strikes on each keeper, fuel
-          used, and whether spare fuel came from an ad. One when you leave the garage: your coins before and after,
-          what you could afford, what the garage suggested and what you bought. One at milestones: a keeper
-          broken, a city cleared, the first ad watched. One if you leave the game in the middle of a flight or in
-          the garage, saying which screen. Every record also carries the game version, the date without the time,
-          and the order in which you bought your upgrades. <mark>[TBD: check against Engineer B's final event and field list]</mark></li>
-        <li><b>What is not.</b> No install ID, device ID, advertising ID or account; no name, device model,
-          language or location. Records are not linked to a person or a device.</li>
-        <li><b>When.</b> Nothing is sent before your first flight. Records go in small batches over HTTPS to
-          <mark>[TBD: statistics host, e.g. stats.paperskyline.org]</mark> when the game is paused and after every 20 records.</li>
-        <li><b>Who handles them.</b> Our statistics server runs on Cloudflare, which processes the records for us.
-          Like any connection, the request reaches Cloudflare with your IP address; our server does not read, log
-          or store it. <mark>[TBD: confirm Workers logs are off, and whether the feedback rate limit uses a short-lived IP hash held in memory only]</mark></li>
-        <li><b>How long.</b> Records are kept for 12 months, then deleted. <mark>[TBD: confirm the Worker's scheduled deletion at 12 months]</mark></li>
-        <li><b>Switching off.</b> Statistics are on by default. Turn them off in Settings under
-          <mark>[TBD: exact label, e.g. Share gameplay stats]</mark>; the game then stops sending and deletes any records not
-          yet sent.</li>
+        <li><b>In every record.</b> The game version, Android or iOS, the date (UTC, with no time of day), the
+          city, the difficulty, how many flights you have flown in total, and your purchase history so far: each
+          upgrade with its level and the flight you bought it on, plus the cities you moved on to.</li>
+        <li><b>After each flight.</b> Your upgrade levels, what the flight paid (for distance, height, time, speed,
+          things knocked over and coins), the coins you then held, whether it landed or finished, what it last hit
+          (a bird, a building or a keeper), how far and how high it went, your strikes on each keeper, seconds of
+          boost, and whether you used a spare-fuel can.</li>
+        <li><b>Leaving the garage.</b> Your coins before and after, the upgrades you could afford, the garage's
+          suggestion, and what you bought, in order.</li>
+        <li><b>Milestones.</b> An Elite or a Boss broken, a city cleared, the first ad watched.</li>
+        <li><b>Leaving the game.</b> Which screen was open, if the game was left for more than 10 seconds.</li>
+        <li><b>Never sent.</b> No account, install, device or advertising ID; no device model, operating-system
+          version or language; no time of day and no free text. The request identifies the game only by a fixed
+          name, not your device.</li>
+      </ul>
+      <p>The records are not linked to any person or device. Records from the same player share the same purchase
+        history, which is how we see the order in which players upgrade.</p>
+      <ul>
+        <li><b>Where they go.</b> Over HTTPS to stats.paperskyline.org, our own server running on Cloudflare,
+          which processes them for us. Cloudflare handles your IP address to deliver each request and to count
+          requests against abuse limits; our server reads only the records, and neither logs nor stores the IP
+          address.</li>
+        <li><b>How long.</b> A daily clean-up deletes records older than 12 months.</li>
+        <li><b>Switching off.</b> Statistics are on by default. Turn off <b>Share gameplay stats</b> in Settings
+          and the game stops sending and deletes any records not yet sent.</li>
       </ul>
       <p>We use the records only to balance Paper Skyline. We do not sell or share them, and never combine them with
         anything else.</p>
 
       <h2 id="feedback">Feedback</h2>
       <ul>
-        <li><b>In the game.</b> <mark>[TBD: where: the landing card and Settings?]</mark> you can send quick feedback by tapping
-          one of a few fixed choices, such as &ldquo;too hard here&rdquo; or &ldquo;loved it&rdquo;. There is no box
-          to type into. Your choice is sent with the current flight's record to the same statistics server and kept
-          the same way.</li>
-        <li><b>Ratings.</b> After your first city, Google Play may show its own rating sheet. The rating goes to
-          Google; the game never sees it.</li>
+        <li><b>In the game.</b> In Settings, <b>Send feedback</b> offers five choices: Too hard, Too easy,
+          Confusing, Loved it and Found a bug. There is no box to type into. Your choice is sent with the fields
+          every record carries, to the same server, and kept the same way.</li>
+        <li><b>Ratings.</b> If Google Play shows its own rating sheet, the rating goes to Google; the game never
+          sees it.</li>
         <li><b>On this website.</b> The <a href="feedback.html">feedback form for parents</a> opens your email app,
           so your message and any reply address reach us by email. We use them only to answer you, never share
           them, and delete them when they are no longer needed.</li>
@@ -239,9 +248,9 @@
         data, such as an account, a leaderboard or an advertisement, this page is updated and dated first, and the
         version number goes up.</p>
       <dl class="history">
-        <dt>Version 4 &middot; <mark>[TBD: publish date]</mark></dt>
+        <dt>Version 4 &middot; 28 September 2026</dt>
         <dd>Anonymous gameplay statistics, with an off switch in Settings; in-game feedback; the parents'
-          feedback form on this website.</dd>
+          feedback form on this website; the game news list and Google Play's in-app update screen.</dd>
         <dt>Version 3 &middot; 28 September 2026</dt>
         <dd>One optional rewarded ad on Android from Google AdMob: non-personalised, child-directed, with consent
           first in the EEA and the UK.</dd>
