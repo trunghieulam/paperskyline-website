@@ -86,8 +86,8 @@ GitHub Pages, from the default branch root:
    dimmed, and `check.sh` **fails the build if one becomes a link** — invert that rule in
    `tools/check.sh` on launch day, add the two `href`s, and add `installUrl` plus `offers` to the
    JSON-LD in `index.html`.
-3. **Governing law is unnamed.** `terms.html` says "the country in which LLOG is established"
-   rather than naming one. Name it before publishing.
+3. **Developer and law.** The developer is "THLab (Trung Hieu Lam)", and the terms are governed by
+   Vietnamese law (user, 2026-09-28).
 4. **Two claims are absent on purpose**: price and a release date. Add each one when it is real.
    The city count (five, for v1) is now stated.
 
