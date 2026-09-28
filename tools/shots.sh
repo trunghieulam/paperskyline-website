@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 CHROME="${CHROME_PATH:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
 pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=(index.html)
 site="tools/.tmp/site"; rm -rf "$site"; mkdir -p "$site" tools/.tmp/shots
-cp ./*.html styles.css favicon.svg "$site"/ 2>/dev/null
+cp ./*.html styles.css favicon.svg "$site"/ 2>/dev/null; cp -r img "$site"/ 2>/dev/null
 cp -r brand "$site"/ 2>/dev/null
 # Headless Chrome has no prefers-color-scheme switch — promote the dark block to unconditional instead.
 sed 's/@media (prefers-color-scheme: dark)/@media all/' styles.css > "$site/styles-dark.css"
