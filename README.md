@@ -94,8 +94,8 @@ GitHub Pages, from the default branch root:
 
 Privacy policy version 3 adds the opt-in AdMob rewarded ad on Android (F17): child-directed,
 non-personalised, UMP consent in the EEA and UK, no advertising ID. Version 4 (branch web-stats-v4, G5)
-adds anonymous gameplay statistics to our Cloudflare Worker, in-game feedback and `feedback.html`, a
-no-JS mailto form for parents. Version 2 described Paper Skyline 1.0: progress and settings saved on the device, no ads, analytics or purchases, no Unity cloud service enabled, and one-time HTTPS downloads of New York,
+describes Paper Skyline 1.1: made for players 16 and over (V-D37), anonymous gameplay statistics to our
+Cloudflare Worker, in-game feedback and `feedback.html`, a no-JS mailto form for adults. Version 2 described Paper Skyline 1.0: progress and settings saved on the device, no ads, analytics or purchases, no Unity cloud service enabled, and one-time HTTPS downloads of New York,
 Tokyo, Cairo and Rio from Cloudflare R2 with no identifiers sent. It is the Play Console privacy URL,
 so keep `privacy.html` at that path. Any change to the game's data flow bumps the policy **first**.
 
