@@ -38,7 +38,7 @@ images by hand. Each image is exported at the size its slot needs, as AVIF and W
 
 The screenshot slots in "In the game" are placeholders until the store captures land in the game
 repo's `docs/store/google-play/screenshots/`. Each slot swaps its `.shot-pending` span for a
-`<picture>`; the frame is 20:9 and crops a 16:9 capture with `object-fit`.
+`<picture>`; the frame is 16:9 and `object-fit` crops a wider capture to it.
 
 The step glyphs and the blueprint elevation are still inline `<svg>`.
 

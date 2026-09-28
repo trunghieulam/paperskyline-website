@@ -250,7 +250,7 @@ strong { font-weight: 400; color: var(--red); }
 .city h3 { margin: 0; }
 .city p { margin: 0; color: var(--ink-soft); font-size: 1.05rem; line-height: 1.3; }
 
-/* screenshot slots: a landscape phone drawn in ink; a real capture drops into .shot-frame as an <img> */
+/* screenshot slots: a landscape phone drawn in ink (Play caps captures at 2:1); a real capture drops into .shot-frame as an <img> */
 .shots {
   display: grid; gap: 2rem 1.5rem; grid-template-columns: minmax(0, 1fr);
   margin: 2rem 0 0; padding: 0; list-style: none;
@@ -259,7 +259,7 @@ strong { font-weight: 400; color: var(--red); }
 .shots li { max-width: none; }
 .shot { margin: 0; }
 .shot-frame {
-  aspect-ratio: 20 / 9; border: 3px solid var(--ink); border-radius: 1.1rem; padding: .45rem .9rem;
+  aspect-ratio: 16 / 9; border: 3px solid var(--ink); border-radius: 1.1rem; padding: .45rem .9rem;
   background: #2a2622; box-shadow: var(--shadow); overflow: hidden;
 }
 .shot-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: .35rem; }
