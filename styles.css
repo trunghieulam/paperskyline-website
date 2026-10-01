@@ -138,11 +138,11 @@ strong { font-weight: 400; color: var(--red); }
 .section.alt { background: var(--desk); border-block: 3px solid var(--ink); }
 .lede { font-size: 1.45rem; color: var(--ink-soft); }
 
-/* hero — the Paris preflight painting, full-bleed, with the title lettered into its sky */
+/* hero — painted Paris from the game, full-bleed, with the title lettered into its sky */
 .hero { padding-bottom: 1rem; }
 .hero-scene { position: relative; border-block: 3px solid var(--ink); background: #f3c9a4; }
 .hero-scene img {
-  width: 100%; height: clamp(17rem, 56.25vw, 80vh); object-fit: cover; object-position: 30% 60%;
+  width: 100%; height: clamp(17rem, 50vw, 80vh); object-fit: cover; object-position: 50% 70%;
 }
 /* The sky is painted peach in both themes, so the title stays ink rather than following --ink. */
 .hero-title {
@@ -159,9 +159,11 @@ strong { font-weight: 400; color: var(--red); }
 .hero-tag { font: 700 clamp(2rem, 5vw, 3.1rem)/1.05 var(--display); margin: .2rem 0 0; }
 .hero-copy .lede { max-width: 44ch; margin: 0; }
 
-/* Store badges, drawn here rather than fetched, and deliberately unlinked until the listings
-   exist (spec §5). Launch day is one href each; check.sh fails if one appears early by accident. */
-.badges { display: flex; flex-wrap: wrap; gap: .75rem; margin: 0; padding: 0; list-style: none; }
+/* Google Play is Google's own badge, linked; the App Store stays a drawn, unlinked placeholder
+   until the iPhone version ships (check.sh enforces both). */
+.badges { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin: 0; padding: 0; list-style: none; }
+.store-link { display: block; margin: -.9rem -.75rem; }
+.store-link img { height: 5.4rem; width: auto; }
 .badges li { max-width: none; }
 .badge {
   display: inline-flex; align-items: center; gap: .6rem;
@@ -215,41 +217,36 @@ strong { font-weight: 400; color: var(--red); }
 }
 .tracks .lv { font: 700 1.1rem/1 var(--display); color: var(--gold); }
 
-/* the tour */
-.cities { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
-.cities li {
-  max-width: none; border: 2px solid var(--ink); background: var(--paper);
-  padding: .3rem .8rem; font-size: 1.05rem;
-}
-.cities li.later { border-style: dashed; color: var(--ink-faint); }
-.tour { display: grid; gap: 2rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@media (min-width: 52rem) { .tour { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 3rem; } }
-
 /* card rows */
 .plainly { display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1fr); margin-top: 2rem; }
 @media (min-width: 44rem) { .plainly { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-/* the first five cities: a postcard of the skyline with its two keepers standing on the roofline */
-.cities-strip {
-  display: grid; gap: 2rem 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr));
+/* the keepers: two cut-outs standing on each city's card, with a line of history for each */
+.keeper-grid {
+  display: grid; gap: 1.75rem 1.5rem; grid-template-columns: minmax(0, 1fr);
   margin: 2.25rem 0 0; padding: 0; list-style: none;
 }
-@media (max-width: 43.99rem) { .city:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - .625rem); } }
-@media (min-width: 44rem) { .cities-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 64rem) { .cities-strip { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-.city { max-width: none; display: grid; }
-.city:nth-child(odd) .city-scene { transform: rotate(-1.2deg); }
-.city:nth-child(even) .city-scene { transform: rotate(1deg); }
-.city-scene { width: 100%; border: 3px solid var(--ink); box-shadow: var(--shadow); background: #f3c9a4; }
-.keepers {
-  display: flex; justify-content: space-between; align-items: flex-end;
-  height: 7.5rem; margin: -4.6rem -.4rem .6rem; position: relative;
+@media (min-width: 44rem) { .keeper-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.keeper-card {
+  max-width: none; display: grid; gap: .5rem; align-content: start;
+  background: var(--paper); border: 3px solid var(--ink); box-shadow: var(--shadow); padding: 1.1rem 1.4rem 1.3rem;
+}
+.keeper-card .keepers {
+  display: flex; justify-content: space-evenly; align-items: flex-end; gap: 1rem;
+  height: 9.5rem; border-bottom: 2px dashed var(--line); padding-bottom: .5rem;
 }
 .keepers picture { display: contents; }
-.keepers img { height: 100%; width: auto; max-width: 48%; object-fit: contain; object-position: bottom;
+.keepers img { height: 100%; width: auto; max-width: 46%; object-fit: contain; object-position: bottom;
   filter: drop-shadow(2px 3px 2px rgba(42, 38, 34, .35)); }
-.city h3 { margin: 0; }
-.city p { margin: 0; color: var(--ink-soft); font-size: 1.05rem; line-height: 1.3; }
+.keeper-card h3 { margin: .2rem 0 0; }
+.lore { margin: 0; }
+.lore dt { font: 700 1.3rem/1.1 var(--display); color: var(--red); margin-top: .5rem; }
+.lore dd { margin: .15rem 0 0; color: var(--ink-soft); font-size: 1.05rem; line-height: 1.35; }
+
+/* what's new */
+.changes-card { max-width: 40rem; margin-top: 1.5rem; }
+.changes { margin: 0; padding-left: 1.2rem; }
+.changes li + li { margin-top: .35rem; }
 
 /* screenshot slots: a landscape phone drawn in ink, 2:1 like the Play phone captures */
 .shots {

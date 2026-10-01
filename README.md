@@ -8,9 +8,8 @@ toolchain moved on.
 
 ## Why it exists
 
-The game is unreleased, so the site's first job is to say what Paper Skyline is. Its second job is
-to be carrying a reachable privacy policy and terms on the day the store listings are submitted —
-both Apple and Google ask for the URL, and neither waits while you write one.
+Paper Skyline is on Google Play; the site says what it is and links there. It also carries the
+privacy policy and terms the store listings point at.
 
 ## Structure
 
@@ -30,15 +29,15 @@ surface Paper Skyline already owns.
 
 ## The art is the game's own
 
-The hero, the city strip and the social card are the game's shipped paintings: the Paris preflight
-card, the five city backgrounds and the porcelain keepers. `tools/art.py` reads them from the game
-repo and writes `img/` and `brand/`, so re-run it after the game's art changes rather than editing
-images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
+The hero and the social card are cropped from the 1.3 Paris phone capture, and the keepers section
+shows all twenty keepers of the ten cities. `tools/art.py` reads them from the game repo and writes
+`img/` and `brand/`, so re-run it after the game's art changes rather than editing images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
 (paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 
-"In the game" shows four of the Play phone captures from the game repo's
-`docs/store/google-play/screenshots/`; `SHOTS` in `tools/art.py` picks them, and the frames are 2:1
-to match, so nothing is cropped.
+"In the game" shows the eight 1.3 Play phone captures from the game repo's
+`docs/store/google-play/screenshots-1.3/phone/`, at 800 and 1600 px; `SHOTS` in `tools/art.py` picks
+them, and the frames are 2:1 to match, so nothing is cropped. `brand/google-play-badge.png` is
+Google's official badge, used unmodified.
 
 The step glyphs and the blueprint elevation are still inline `<svg>`.
 
@@ -81,14 +80,12 @@ GitHub Pages, from the default branch root:
 
 1. **Contact.** Every page's mailto is the owner's address (user, 2026-09-28); it must receive mail
    before publishing, since store reviewers do check.
-2. **The store badges are deliberately unlinked.** They are `<span class="badge">`, dashed and
-   dimmed, and `check.sh` **fails the build if one becomes a link** — invert that rule in
-   `tools/check.sh` on launch day, add the two `href`s, and add `installUrl` plus `offers` to the
-   JSON-LD in `index.html`.
+2. **Store links.** Google Play is linked (package `paperskyline.org`); `check.sh` fails any
+   `store-link` that points elsewhere. The App Store badge stays an unlinked `<span class="badge">`
+   until the iPhone version ships, and `check.sh` fails it if it becomes a link.
 3. **Developer and law.** The developer is "THLab (Trung Hieu Lam)", and the terms are governed by
    Vietnamese law (user, 2026-09-28).
-4. **Two claims are absent on purpose**: price and a release date. Add each one when it is real.
-   The city count (five, for v1) is now stated.
+4. **Two claims are absent on purpose**: price and a release date. The city count (ten) is stated.
 
 ## Keeping the policy honest
 

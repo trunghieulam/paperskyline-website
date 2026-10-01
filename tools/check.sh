@@ -23,9 +23,10 @@ for p in "${pages[@]}"; do
   grep -qiE 'lorem|TODO|TBD' "$p" && err "$p" "placeholder text"
   grep -qE 'https://www\.paperskyline\.org' "$p" && err "$p" "www host — the apex is canonical"
 
-  # The game is unpublished: the store badges are drawn but must not link anywhere yet.
-  # Invert this rule on launch day, when the listings exist.
-  grep -qE '<a[^>]*class="badge"' "$p" && err "$p" "store badge links before the game is published"
+  # Google Play is live; the App Store badge stays an unlinked placeholder until iOS ships.
+  grep -qE '<a[^>]*class="badge"' "$p" && err "$p" "App Store badge links before the iPhone version is published"
+  grep -oE '<a[^>]*class="store-link"[^>]*>' "$p" | grep -vqF 'href="https://play.google.com/store/apps/details?id=paperskyline.org"' \
+    && err "$p" "store link that is not the Play listing"
 
   # Claims the copy may not make until they are real (design spec §5).
   grep -qiE 'free to play|no purchases ever|launches (in|on) ' "$p" && err "$p" "price or release-date claim"
