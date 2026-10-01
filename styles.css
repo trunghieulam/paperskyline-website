@@ -332,3 +332,19 @@ strong { font-weight: 400; color: var(--red); }
 .oops { text-align: center; padding: 4rem 0 5rem; }
 .oops .wrap { display: grid; justify-items: center; gap: 1.25rem; }
 .oops svg { width: min(100%, 20rem); }
+
+/* business page — two languages on one page; Caveat has no Vietnamese glyphs, Patrick Hand does */
+:is(h1, h2, h3, .cta):lang(vi) { font-family: var(--body); font-weight: 400; }
+.cta:lang(vi) { font-size: 1.3rem; }
+.lang-switch { font-size: 1.15rem; }
+.page-head .shot { margin-top: 1.5rem; }
+.perks { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); margin: 2rem 0 2.5rem; padding: 0; list-style: none; }
+@media (min-width: 48rem) { .perks { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.perks li { max-width: none; }
+.cta {
+  display: inline-block; font: 700 1.5rem/1.1 var(--display); color: #2a2622; background: var(--gold);
+  border: 3px solid var(--ink); border-radius: .5rem; padding: .6rem 1.2rem; box-shadow: var(--shadow); text-decoration: none;
+}
+.cta:hover { color: #2a2622; background: var(--amber); }
+.mail { overflow-wrap: anywhere; font-size: 1.05rem; }
+.faq-title { margin-top: 2.5rem; }
