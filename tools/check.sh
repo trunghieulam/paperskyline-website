@@ -21,6 +21,7 @@ for p in "${pages[@]}"; do
   fi
 
   grep -qiE 'lorem|TODO|TBD' "$p" && err "$p" "placeholder text"
+  grep -q '—' "$p" && err "$p" "em dash in copy: use a period, comma, colon or | instead"
   grep -qE 'https://www\.paperskyline\.org' "$p" && err "$p" "www host — the apex is canonical"
 
   # Google Play is live; the App Store badge stays an unlinked placeholder until iOS ships.
