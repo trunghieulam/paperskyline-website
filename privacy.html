@@ -45,7 +45,7 @@
 <main id="main">
   <div class="wrap page-head">
     <h1>Privacy policy</h1>
-    <p class="updated">Version 5.2 &middot; 30 September 2026 &middot; Paper Skyline 1.1 for Android</p>
+    <p class="updated">Version 5.3 &middot; 2 October 2026 &middot; Paper Skyline 1.1 for Android</p>
   </div>
   <div class="wrap legal">
       <nav class="toc" aria-label="On this page">
@@ -71,7 +71,7 @@
         <ul>
           <li>Paper Skyline is a single-player game made by THLab (Trung Hieu Lam). This policy covers the Android app and the feedback form on this website. An iPhone and iPad version may follow, and this policy will be updated when it does.</li>
           <li>The game collects no personal information. There is no account, no sign-in and nothing to register.</li>
-          <li>The game sends anonymous gameplay statistics, such as how far a flight went and which upgrades were bought, so that we can balance it. They carry no identifier, and you can switch them off in Settings.</li>
+          <li>The game sends anonymous gameplay statistics, such as how far a flight went and which upgrades were bought, so that we can balance it. They carry a random install code the game makes for itself, not tied to any account, device or advertising ID, and you can switch them off in Settings.</li>
           <li>No crash reporting and no in-app purchases.</li>
           <li>On Android you can choose to watch a short ad from Google AdMob for bonus cash. No ad is shown unless you tap to watch one, though Google's ad software starts at launch to check consent and load one in the background. Every ad is non-personalised and treated as child-directed.</li>
           <li>Your progress and your settings are saved on your own device and stay there.</li>
@@ -91,6 +91,7 @@
           </thead>
           <tbody>
             <tr><td>Progress</td><td>The city you are in, your coins and plane upgrades, the cities you have cleared, the treasures you have found, the relics you have won and which ones you wear, your replay medals, your best flights, your purchase history, and when you last watched an ad, to space them out.</td><td>Only inside the anonymous statistics, if they are switched on</td></tr>
+            <tr><td>Install code</td><td>A random code made the first time the game starts, and a count of how many times it has been opened. Neither is taken from your device's identifiers, your account or any advertising ID.</td><td>Only inside the anonymous statistics, if they are switched on</td></tr>
             <tr><td>Settings</td><td>Music, sound effects, screen shake, and whether gameplay statistics are shared.</td><td>No</td></tr>
             <tr><td>Unsent statistics</td><td>Gameplay statistics waiting to be sent.</td><td>Yes, to our statistics server, if switched on</td></tr>
             <tr><td>Ad consent</td><td>In the EEA and the UK, the choice you made on Google's consent form, stored on your device by Google's consent software and sent to Google with each ad request, so that Google follows it.</td><td>Yes, to Google</td></tr>
@@ -99,7 +100,7 @@
         </table>
       </div>
       <p>None of it identifies you. Taken together it describes a paper plane, not a person. <b>Reset everything</b>
-        in Settings clears your progress and any statistics not yet sent, and keeps your choice about sharing them.
+        in Settings clears your progress and any statistics not yet sent, and keeps your install code and your choice about sharing them.
         Deleting the app removes all of it.</p>
 
       <h2 id="downloads">City downloads</h2>
@@ -152,11 +153,11 @@
         watched.</p>
 
       <h2 id="stats">Gameplay statistics</h2>
-      <p>So that we can tune prices, upgrades and cities from real play, the game sends short, anonymous records
+      <p>So that we can tune prices, upgrades and cities from real play, and count how many players come back and on which version, the game sends short, anonymous records
         of what happens in it. For now only the Android version sends them, and only copies installed from the store.
         Nothing is recorded before your first flight has landed or finished.</p>
       <ul>
-        <li><b>In every record.</b> The game version, the date (UTC, with no time of day), the city, the
+        <li><b>In every record.</b> Your install code, how many times the game has been opened on this install, the game version, the date (UTC, with no time of day), the city, the
           difficulty, which flight of this city visit it was, how many flights you have flown in total, and your
           purchase history so far: each
           upgrade with its level and the flight you bought it on, plus the cities you moved on to.</li>
@@ -172,15 +173,18 @@
         <li><b>City content.</b> From Paper Skyline 1.2: which version of each downloaded city's content is on your
           device, and whether it was just downloaded or already saved (for example v3:1a2b3c4d:cache). It says which
           content you have, not who you are.</li>
-        <li><b>Never sent.</b> No account, install, device, advertising or app set ID; no time of day and no free
+        <li><b>Install code.</b> From Paper Skyline 1.4, a random code (a UUID) that the game makes on your device the first
+          time it starts. It is not made from, or linked to, your account, your device or any advertising or app set ID, and it is
+          never given to Google's ad software. The game never shows it, and we have no way to match it to a person.</li>
+        <li><b>Never sent.</b> No account, device, advertising or app set ID; no time of day and no free
           text.</li>
         <li><b>Not added.</b> The game adds no device model, operating-system version, language or region to the
           statistics; each batch carries only the game version and the records. Like every web request, a batch
           arrives with the IP address and the standard device details, such as the phone model and Android
           version, and our server does not keep them.</li>
       </ul>
-      <p>The records are not linked to any person or device. Records from the same player share the same purchase
-        history, which is how we see the order in which players upgrade.</p>
+      <p>The records are not linked to any person or device. Records from the same install share its install code,
+        which is how we count returning players and see the order in which players upgrade.</p>
       <ul>
         <li><b>Where they go.</b> Over HTTPS to our own small server, a Cloudflare Worker at
           paperskyline-stats.paperskyline-stats.workers.dev, which stores them in a Cloudflare D1 database. Cloudflare processes them for us. Our server
@@ -190,8 +194,8 @@
         <li><b>Switching off.</b> Statistics are on by default. Turn off <b>Share gameplay stats</b> in Settings
           and the game stops sending and deletes any records not yet sent.</li>
       </ul>
-      <p>We use the records only to balance Paper Skyline. We do not sell or share them, and never combine them with
-        anything else.</p>
+      <p>We use the records only to balance Paper Skyline and to count returning players and versions, never to profile
+        anyone or for ads. We do not sell or share them, and never combine them with anything else.</p>
 
       <h2 id="feedback">Feedback</h2>
       <ul>
@@ -248,17 +252,20 @@
       <h2 id="children">Children</h2>
       <p>Paper Skyline is made for players 16 and over (or the age of digital consent where you live, if that is higher) and is not directed at anyone younger. The game collects no
         personal information from anyone: there are no accounts, no chat and nothing to buy, and the city
-        downloads and gameplay statistics send no identifiers. Every ad request is marked child-directed and
+        downloads send no identifiers, and the gameplay statistics carry only the random install code. Every ad request is marked child-directed and
         non-personalised. If a child has played it anyway, a parent who wants their data gone can use <b>Reset everything</b> in Settings,
-        switch the statistics off, or delete the app. Records already sent carry no identifier, so no one can pick
-        out a single player's records to delete; they are deleted after 12 months. Questions about a child's
+        switch the statistics off, or delete the app, which also removes the install code. The game never shows that code,
+        so no one can tell which records already sent are a given player's; they are deleted after 12 months. Questions about a child's
         privacy go to the address under <a href="#contact">Contact</a>.</p>
 
       <h2 id="changes">Changes to this policy</h2>
-      <p>This is version 5.2. If a future version adds anything that touches your
+      <p>This is version 5.3. If a future version adds anything that touches your
         data, such as an account, a leaderboard or personalised ads, this page is updated and dated first, and the
         version number goes up.</p>
       <dl class="history">
+        <dt>Version 5.3 &middot; 2 October 2026</dt>
+        <dd>Gameplay statistics: from Paper Skyline 1.4, each record carries a random install code and how many times the
+          game has been opened, to count returning players and versions.</dd>
         <dt>Version 5.2 &middot; 30 September 2026</dt>
         <dd>Gameplay statistics: from Paper Skyline 1.2, the version of each downloaded city's content on your device,
           and whether it was just downloaded or already saved.</dd>
