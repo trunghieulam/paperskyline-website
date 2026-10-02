@@ -43,7 +43,7 @@ The step glyphs and the blueprint elevation are still inline `<svg>`.
 
 ## Copy
 
-No em dash (—) in any page's copy, titles or meta: write a period, comma or colon, and `|` in page titles. `tools/check.sh` fails on one.
+English only, one language per page (user, 2026-10-02). No em dash (—) in any page's copy, titles or meta: write a period, comma or colon, and `|` in page titles. `tools/check.sh` fails on one.
 
 ## Checks
 
