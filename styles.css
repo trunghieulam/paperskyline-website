@@ -248,6 +248,21 @@ strong { font-weight: 400; color: var(--red); }
 .changes { margin: 0; padding-left: 1.2rem; }
 .changes li + li { margin-top: .35rem; }
 
+/* the reel: autoplays muted, except for reduced motion, which gets a twin that waits for a tap (no JS) */
+.reel { margin: 2rem 0 0; max-width: 56rem; }
+.reel-frame {
+  aspect-ratio: 1280 / 630; border: 3px solid var(--ink); border-radius: 1.1rem; padding: .45rem .9rem;
+  background: #2a2622; box-shadow: var(--shadow); overflow: hidden;
+}
+.reel video { display: block; width: 100%; height: 100%; border-radius: .35rem; background: #2a2622; }
+.reel .reel-still { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reel .reel-auto { display: none; }
+  .reel .reel-still { display: block; }
+}
+.reel figcaption { margin-top: .9rem; font: 700 1.5rem/1.1 var(--display); }
+.reel-credit { margin: .4rem 0 0; max-width: 56rem; font-size: .9rem; }
+
 /* screenshot slots: a landscape phone drawn in ink, 2:1 like the Play phone captures */
 .shots {
   display: grid; gap: 2rem 1.5rem; grid-template-columns: minmax(0, 1fr);
