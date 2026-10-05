@@ -249,7 +249,7 @@ strong { font-weight: 400; color: var(--red); }
 .changes li + li { margin-top: .35rem; }
 
 /* the reel: autoplays muted, except for reduced motion, which gets a twin that waits for a tap (no JS) */
-.reel { margin: 2rem 0 0; max-width: 56rem; }
+.reel { margin: 2rem 0 0; }
 .reel-frame {
   aspect-ratio: 1280 / 630; border: 3px solid var(--ink); border-radius: 1.1rem; padding: .45rem .9rem;
   background: #2a2622; box-shadow: var(--shadow); overflow: hidden;

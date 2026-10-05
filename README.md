@@ -14,11 +14,12 @@ privacy policy and terms the store listings point at.
 ## Structure
 
 ```
-index.html  privacy.html  terms.html  support.html  404.html
+index.html  devlog.html  privacy.html  terms.html  support.html  404.html
+video/                # the home page reel and its poster, copied from the game repo
 styles.css            # tokens + every component, light/dark via prefers-color-scheme
 img/                  # the game's paintings and keepers, exported by tools/art.py
 brand/                # the app icon and the social card
-tools/                # art.py, check.sh, shots.sh
+tools/                # art.py, check.sh, news.py (devlog.html from the game's changelog), shots.sh
 docs/superpowers/specs/               # the design spec this was built from
 sitemap.xml  robots.txt  site.webmanifest  CNAME
 ```
