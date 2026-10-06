@@ -380,3 +380,6 @@ strong { font-weight: 400; color: var(--red); }
 .gift-count { margin: 0; font: 700 clamp(1.8rem, 6vw, 2.6rem)/1.1 var(--display); }
 .claim-steps { padding-left: 1.4rem; max-width: var(--measure); }
 .claim-steps li { margin-bottom: .6rem; }
+.claim-closed { max-width: var(--measure); }
+[data-state="out"] .claim-open, [data-state="ended"] .claim-open { display: none; }
+[data-state="out"] .claim-closed, [data-state="ended"] .claim-closed { display: block; }
