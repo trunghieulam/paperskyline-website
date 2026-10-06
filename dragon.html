@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Red Paper Dragon gift | Paper Skyline</title>
 <meta name="description" content="A free red Paper Dragon look for your plane, a gift for our first flyers while gifts last. Here is what it is and how to claim it.">
-<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-ndU/abzprMJIsLFKuSLFQycarp7X7MlBEFSB6wjYnzA='; connect-src https://paperskyline-stats.paperskyline-stats.workers.dev">
+<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-GfPcTwvQRjj64oFiTVLguP+5/qffWtGbFsUmPCf6NQ8='; connect-src https://paperskyline-stats.paperskyline-stats.workers.dev">
 <link rel="canonical" href="https://paperskyline.org/dragon.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Paper Skyline">
@@ -44,7 +44,7 @@
 </header>
 
 <main id="main">
-  <section class="section dragon-hero" aria-labelledby="dragon-title" data-gift data-gift-url="https://paperskyline-stats.paperskyline-stats.workers.dev/gifts/founder-2026">
+  <section class="section dragon-hero" aria-labelledby="dragon-title" data-gift data-gift-url="https://paperskyline-stats.paperskyline-stats.workers.dev/v1/claims/founder-2026">
     <div class="wrap">
       <span class="eyebrow">A gift for our first flyers</span>
       <h1 id="dragon-title">A red Paper Dragon for our first flyers</h1>
@@ -111,7 +111,7 @@
   fetch(box.getAttribute('data-gift-url'), { credentials: 'omit', cache: 'no-store', referrerPolicy: 'no-referrer' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
     .then(function (d) {
-      var cap = Number(d.cap), left = Number(d.remaining), end = Date.parse(d.ends);
+      var cap = Number(d.cap), left = Number(d.remaining), end = Date.parse(/^\d{4}-\d\d-\d\d$/.test(d.ends) ? d.ends + 'T23:59:59Z' : d.ends);
       if (!(cap > 0) || !(left >= 0)) return;
       var n = function (v) { return v.toLocaleString('en-GB'); };
       var state = end < Date.now() ? 'ended' : left === 0 ? 'out' : 'open';
