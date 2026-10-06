@@ -15,10 +15,17 @@ for p in "${pages[@]}"; do
     grep -q "$needle" "$p" || err "$p" "missing $needle"
   done
 
-  # Zero-JS, JSON-LD excepted.
-  if grep -oiE '<script[^>]*>' "$p" | grep -viE 'type="application/ld\+json"' | grep -q .; then
-    err "$p" "executable <script> — the site is zero-JS (JSON-LD excepted)"
-  fi
+  # Zero-JS, JSON-LD excepted, plus exactly one inline script (tools/gift.js) on the two gift pages.
+  nscripts=$(grep -oiE '<script[^>]*>' "$p" | grep -viEc 'type="application/ld\+json"')
+  case "$p" in
+    index.html|dragon.html)
+      expect="<script>$(python3 -c "print(open('tools/gift.js',encoding='utf-8').read().strip(),end='')")</script>"
+      [ "$nscripts" -eq 1 ] && grep -qF -- "$expect" "$p" || err "$p" "the one allowed script must be tools/gift.js, byte for byte"
+      grep -qF "script-src '$(cat tools/gift.sha256)'" "$p" || err "$p" "CSP script-src hash missing or stale (tools/gift.sha256)"
+      grep -qF 'connect-src https://paperskyline-stats.paperskyline-stats.workers.dev"' "$p" || err "$p" "CSP connect-src missing"
+      ;;
+    *) [ "$nscripts" -eq 0 ] || err "$p" "executable <script>: the site is zero-JS (JSON-LD and the gift script excepted)" ;;
+  esac
 
   grep -qiE 'lorem|TODO|TBD' "$p" && err "$p" "placeholder text"
   grep -q '—' "$p" && err "$p" "em dash in copy: use a period, comma, colon or | instead"

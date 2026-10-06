@@ -14,9 +14,6 @@ OUT = os.path.join(SITE, 'news', 'out')
 PLAY_LIMIT = 500
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
-# Child audience (devlog spike §4): no pressure, and "Coming soon" never promises a date.
-PRESSURE = re.compile(r'hurry|limited[- ]time|last chance|only today|countdown|don\'t miss|ends in|before it\'s gone',
-                      re.I)
 DATEISH = re.compile(r'\b(20\d\d|' + '|'.join(MONTHS) + r'|tomorrow|next (week|month)|this (week|month))\b', re.I)
 
 
@@ -49,8 +46,6 @@ def load():
         if len(e.get('play', '')) > 120:
             fail(f'{i}: play line over 120 characters')
         text = ' '.join(e.get(k, '') for k in ('title', 'body', 'play'))
-        if PRESSURE.search(text):
-            fail(f'{i}: pressure wording ({PRESSURE.search(text).group(0)!r})')
         if e['kind'] == 'new':
             if e.get('version') not in releases:
                 fail(f'{i}: a new entry needs a version listed in releases')

@@ -362,3 +362,21 @@ strong { font-weight: 400; color: var(--red); }
 .cta:hover { color: #2a2622; background: var(--amber); }
 .mail { overflow-wrap: anywhere; font-size: 1.05rem; }
 .faq-title { margin-top: 2.5rem; }
+
+/* The founder dragon gift: hero card on the home page, and the dragon page. */
+.gift {
+  display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: .9rem; align-items: center;
+  max-width: 26rem; padding: .7rem 1rem; text-decoration: none; color: var(--ink);
+  background: var(--paper); border: 3px solid var(--ink); box-shadow: var(--shadow);
+}
+.gift img { width: 100%; height: auto; }
+.gift-text { display: grid; gap: .15rem; }
+.gift-text b { font: 700 1.35rem/1.05 var(--display); }
+.gift-line { color: var(--ink-soft); }
+.gift[data-state="open"] .gift-line, .gift-count { font-weight: 700; }
+.gift[data-state="out"], .gift[data-state="ended"] { opacity: .85; }
+.dragon-art { margin: 1.5rem 0 1rem; max-width: 30rem; }
+.dragon-art img { width: 100%; height: auto; }
+.gift-count { margin: 0; font: 700 clamp(1.8rem, 6vw, 2.6rem)/1.1 var(--display); }
+.claim-steps { padding-left: 1.4rem; max-width: var(--measure); }
+.claim-steps li { margin-bottom: .6rem; }

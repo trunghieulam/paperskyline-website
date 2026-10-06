@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paper Skyline | Throw a paper plane across the world</title>
 <meta name="description" content="Take a breath, throw a paper plane and glide it across ten hand-drawn cities. Draw a better plane between flights, and meet the keeper waiting in every city, from a stone gargoyle above Paris to the Sphinx rising from the sand.">
+<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-ndU/abzprMJIsLFKuSLFQycarp7X7MlBEFSB6wjYnzA='; connect-src https://paperskyline-stats.paperskyline-stats.workers.dev">
 <link rel="canonical" href="https://paperskyline.org/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Paper Skyline">
@@ -94,6 +95,10 @@
         <p class="hero-tag">Fold a wish. Fly it there.</p>
         <p class="lede">Take a breath, throw a paper plane and glide it across ten hand-drawn cities.</p>
         <span class="pill">Drag to aim · release to throw</span>
+        <a class="gift" href="dragon.html" data-gift data-gift-url="https://paperskyline-stats.paperskyline-stats.workers.dev/gifts/founder-2026">
+          <picture><source type="image/avif" srcset="img/dragon-466.avif"><source type="image/webp" srcset="img/dragon-466.webp"><img src="img/dragon-466.png" width="466" height="122" alt="A red folded-paper dragon, wings out, gliding" loading="lazy" decoding="async"></picture>
+          <span class="gift-text"><b>A red Paper Dragon for our first flyers</b><span class="gift-line" data-gift-line aria-live="polite">Free while gifts last</span></span>
+        </a>
       </div>
       <ul class="badges">
         <li><a class="store-link" href="https://play.google.com/store/apps/details?id=paperskyline.org">
@@ -612,5 +617,22 @@
     </nav>
   </div>
 </footer>
+<script>(function () {
+  var lines = document.querySelectorAll('[data-gift-line]');
+  var box = document.querySelector('[data-gift-url]');
+  if (!lines.length || !box || !window.fetch) return;
+  fetch(box.getAttribute('data-gift-url'), { credentials: 'omit', cache: 'no-store', referrerPolicy: 'no-referrer' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (d) {
+      var cap = Number(d.cap), left = Number(d.remaining), end = Date.parse(d.ends);
+      if (!(cap > 0) || !(left >= 0)) return;
+      var n = function (v) { return v.toLocaleString('en-GB'); };
+      var state = end < Date.now() ? 'ended' : left === 0 ? 'out' : 'open';
+      var text = state === 'ended' ? 'This gift has ended' : state === 'out' ? 'All ' + n(cap) + ' gifts are claimed' : n(Math.min(left, cap)) + ' of ' + n(cap) + ' left';
+      lines.forEach(function (el) { el.textContent = text; });
+      document.querySelectorAll('[data-gift]').forEach(function (el) { el.setAttribute('data-state', state); });
+    })
+    .catch(function () {});
+})();</script>
 </body>
 </html>
