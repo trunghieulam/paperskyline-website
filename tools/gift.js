@@ -5,7 +5,7 @@
   fetch(box.getAttribute('data-gift-url'), { credentials: 'omit', cache: 'no-store', referrerPolicy: 'no-referrer' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
     .then(function (d) {
-      var cap = Number(d.cap), left = Number(d.remaining), end = Date.parse(/^\d{4}-\d\d-\d\d$/.test(d.ends) ? d.ends + 'T23:59:59Z' : d.ends);
+      var cap = Number(d.cap), left = Number(d.remaining), end = Date.parse(d.endsAt || (/^\d{4}-\d\d-\d\d$/.test(d.ends) ? d.ends + 'T23:59:59Z' : d.ends));
       if (!(cap > 0) || !(left >= 0)) return;
       var n = function (v) { return v.toLocaleString('en-GB'); };
       var state = end < Date.now() ? 'ended' : left === 0 ? 'out' : 'open';
