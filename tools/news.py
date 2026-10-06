@@ -126,6 +126,20 @@ def devlog(releases, entries):
       </div>
     </div>
   </section>''')
+    parts.append('''
+  <section class="section" aria-labelledby="ahead-title">
+    <div class="wrap">
+      <h2 id="ahead-title">The road ahead &middot; 6 October 2026</h2>
+      <p>Where the plane goes next. Not in the app yet, and no dates.</p>
+      <div class="plainly">
+        <article class="card">
+          <span class="pill">Vision</span>
+          <h3>Across the whole story of civilisation</h3>
+          <p>Throw your paper plane across the cities and enjoy the wonders of our world. You won&#39;t only fly through today&#39;s skies, but across the whole story of human civilisation. Fly back in time to watch the Pyramids rise, or to London in the Victorian age. Fly ahead to a future where people voyage to the farthest stars. Then cross into fictional worlds and their cities to meet the characters you love. It&#39;s all waiting for you.</p>
+        </article>
+      </div>
+    </div>
+  </section>''')
     for v in sorted(releases, key=vkey, reverse=True):
         items = [e for e in entries if e.get('version') == v]
         if not items:
