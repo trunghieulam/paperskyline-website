@@ -43,6 +43,14 @@ def load():
             fail(f'{i}: kind must be new or soon ("now" is decided in the game, from Play)')
         if not 0 < len(e.get('title', '')) <= 40 or not 0 < len(e.get('body', '')) <= 200:
             fail(f'{i}: title 1-40 and body 1-200 characters')
+        i18n = e.get('i18n', {})
+        if not isinstance(i18n, dict):
+            fail(f'{i}: i18n must map a locale to its title and body')
+        for lang, t in i18n.items():
+            if lang == 'en' or not re.fullmatch(r'[a-z]{2}(-[A-Za-z]+)?', lang) or not isinstance(t, dict) or set(t) != {'title', 'body'}:
+                fail(f'{i}: i18n {lang!r} must be a non-English locale with exactly a title and a body')
+            if not 0 < len(t['title']) <= 40 or not 0 < len(t['body']) <= 200:
+                fail(f'{i}: i18n {lang}: title 1-40 and body 1-200 characters')
         if len(e.get('play', '')) > 120:
             fail(f'{i}: play line over 120 characters')
         text = ' '.join(e.get(k, '') for k in ('title', 'body', 'play'))
@@ -61,7 +69,7 @@ def news_json(releases, entries):
     rows = []
     for e in entries:
         r = {k: e[k] for k in ('id', 'kind', 'title', 'body') if k in e}
-        for k in ('image', 'availableIn', 'version'):
+        for k in ('image', 'availableIn', 'version', 'i18n'):
             if k in e:
                 r[k] = e[k]
         if e['kind'] == 'new':
