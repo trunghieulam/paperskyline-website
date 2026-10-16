@@ -13,9 +13,7 @@ SRC = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else
 OUT = os.path.join(SITE, 'news', 'out')
 PLAY_LIMIT = 500
 # The next release while it is on a test track: (version, lines), shown above the shipped ones
-COMING = ('1.9.1', ["Day 7 on the daily board can be taken.",
-                    "The rocket no longer shows over the plane in a dive.",
-                    "The Dragon and Gyro looks keep their colours in flight."])
+COMING = None
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
 DATEISH = re.compile(r'\b(20\d\d|' + '|'.join(MONTHS) + r'|tomorrow|next (week|month)|this (week|month))\b', re.I)
