@@ -12,6 +12,10 @@ SRC = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else
                       os.path.join(SITE, '..', 'game-paper-flights', 'docs', 'store', 'changelog.json'))
 OUT = os.path.join(SITE, 'news', 'out')
 PLAY_LIMIT = 500
+# The next release while it is on a test track: (version, lines), shown above the shipped ones
+COMING = ('1.9.1', ["Day 7 on the daily board can be taken.",
+                    "The rocket no longer shows over the plane in a dive.",
+                    "The Dragon and Gyro looks keep their colours in flight."])
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
 DATEISH = re.compile(r'\b(20\d\d|' + '|'.join(MONTHS) + r'|tomorrow|next (week|month)|this (week|month))\b', re.I)
@@ -39,8 +43,8 @@ def load():
         if not re.fullmatch(r'[a-z0-9-]+', i) or i in seen:
             fail(f'entry id {i!r} missing, malformed or repeated')
         seen.add(i)
-        if e.get('kind') not in ('new', 'soon'):
-            fail(f'{i}: kind must be new or soon ("now" is decided in the game, from Play)')
+        if e.get('kind') not in ('new', 'fix', 'soon'):
+            fail(f'{i}: kind must be new, fix or soon ("now" is decided in the game, from Play)')
         if not 0 < len(e.get('title', '')) <= 40 or not 0 < len(e.get('body', '')) <= 200:
             fail(f'{i}: title 1-40 and body 1-200 characters')
         i18n = e.get('i18n', {})
@@ -54,9 +58,9 @@ def load():
         if len(e.get('play', '')) > 120:
             fail(f'{i}: play line over 120 characters')
         text = ' '.join(e.get(k, '') for k in ('title', 'body', 'play'))
-        if e['kind'] == 'new':
+        if e['kind'] != 'soon':
             if e.get('version') not in releases:
-                fail(f'{i}: a new entry needs a version listed in releases')
+                fail(f'{i}: a {e["kind"]} entry needs a version listed in releases')
         else:
             if 'version' in e:
                 fail(f'{i}: a soon entry has no version until it ships')
@@ -72,7 +76,7 @@ def news_json(releases, entries):
         for k in ('image', 'availableIn', 'version', 'i18n'):
             if k in e:
                 r[k] = e[k]
-        if e['kind'] == 'new':
+        if e['kind'] != 'soon':
             r['date'] = releases[e['version']]
         rows.append(r)
     return {'format': 1, 'entries': rows}
@@ -82,6 +86,9 @@ def whats_new(entries, version):
     lines = [f"• {e.get('play', e['title'])}" for e in entries if e.get('version') == version]
     text = '\n'.join(lines)
     if len(text) > PLAY_LIMIT:
+        # A hand-written whats-new beside the changelog is what Play gets, so this one is only a draft
+        if os.path.exists(os.path.join(os.path.dirname(SRC), 'google-play', f'whats-new-{version}.txt')):
+            return None
         fail(f'Play text for {version} is {len(text)} characters, over {PLAY_LIMIT}')
     return text
 
@@ -95,7 +102,7 @@ def cards(items, stamp):
     out = []
     for e in items:
         out.append(f'''        <article class="card">
-          <span class="pill">{stamp}</span>
+          <span class="pill">{'Fix' if e.get('kind') == 'fix' else stamp}</span>
           <h3>{html.escape(e['title'])}</h3>
           <p>{html.escape(e['body'])}</p>
         </article>''')
@@ -143,6 +150,20 @@ def devlog(releases, entries):
       </div>
     </div>
   </section>''')
+    if COMING and COMING[0] not in releases:
+        lines = '\n'.join(f'          <li>{html.escape(t)}</li>' for t in COMING[1])
+        parts.append(f'''
+  <section class="section" aria-labelledby="coming-title">
+    <div class="wrap">
+      <h2 id="coming-title">Coming next: version {COMING[0]}</h2>
+      <p>In testing now, and on Google Play once it passes.</p>
+      <div class="card changes-card">
+        <ul class="changes">
+{lines}
+        </ul>
+      </div>
+    </div>
+  </section>''')
     for v in sorted(releases, key=vkey, reverse=True):
         items = [e for e in entries if e.get('version') == v]
         if not items:
@@ -172,6 +193,9 @@ def main():
         json.dump(news_json(releases, entries), f, ensure_ascii=False, indent=1)
         f.write('\n')
     for v, text in notes.items():
+        if text is None:
+            print(f'whats-new-{v}.txt: skipped, over {PLAY_LIMIT}; the game repo has a hand-written one')
+            continue
         with open(os.path.join(OUT, f'whats-new-{v}.txt'), 'w', encoding='utf-8') as f:
             f.write(text + '\n')
         print(f'whats-new-{v}.txt: {len(text)}/{PLAY_LIMIT} characters')

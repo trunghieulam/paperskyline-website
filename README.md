@@ -24,21 +24,21 @@ docs/superpowers/specs/               # the design spec this was built from
 sitemap.xml  robots.txt  site.webmanifest  CNAME
 ```
 
-Every colour and both typefaces come from the game's own design spec, not from a web palette. Dark
-mode is the Garage blueprint — `#1f3a5f` with `#e8eef7` line work — because that is the one dark
-surface Paper Skyline already owns.
+Every colour and both typefaces come from the game's Paper Pop standard (`docs/UI_STANDARD.md`, V-D173):
+navy, pink for the one primary, yellow, card stock, cream, sky and blue; sticker cards with a navy
+border, white ring and hard navy shadow; Baloo 2 ExtraBold and Be Vietnam Pro. Dark mode is the same
+stickers on a deep navy night.
 
 ## The art is the game's own
 
-The hero and the social card are cropped from the 1.3 Paris phone capture, and the keepers section
-shows all twenty keepers of the ten cities. `tools/art.py` reads them from the game repo and writes
+The hero and the social card use the game's Paris painting, and the keepers section shows all thirty
+keepers of the fifteen shipped cities, each on a strip of its city's painting. `tools/art.py` reads them from the game repo and writes
 `img/` and `brand/`, so re-run it after the game's art changes rather than editing images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
 (paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 
-"In the game" shows the eight 1.3 Play phone captures from the game repo's
-`docs/store/google-play/screenshots-1.3/phone/`, at 800 and 1600 px; `SHOTS` in `tools/art.py` picks
-them, and the frames are 2:1 to match, so nothing is cropped. `brand/google-play-badge.png` is
-Google's official badge, used unmodified.
+"In the game" shows the five 1.9.0 Play captures from `docs/store/google-play/1.9.0/en-US/`, caption
+band cropped, at 800 and 1600 px. `img/shot-paris-*` (business.html) is a frozen 1.3 export.
+`brand/google-play-badge.png` is Google's official badge, used unmodified.
 
 The step glyphs and the blueprint elevation are still inline `<svg>`.
 

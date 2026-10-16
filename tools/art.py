@@ -12,9 +12,9 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 GAME = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(SITE, '..', 'game-paper-flights'))
 IMG = os.path.join(SITE, 'img')
-INK = (42, 38, 34)
+NAVY = (29, 31, 79)
 
-# (slug, (elite kit, module), (boss kit, module)): the ten v1 cities' keepers, idle state
+# (slug, (elite kit, module), (boss kit, module)): the shipped cities' keepers in campaign order, idle state
 CITIES = [
     ('paris', ('paris-elite', 'paris_horse_state1'), ('paris-boss-stryge', 'paris_stryge_state1')),
     ('new-york', ('new-york-elite', 'nyc_taxi_state1'), ('new-york-boss', 'nyc_boss_state1')),
@@ -26,10 +26,18 @@ CITIES = [
     ('beijing', ('beijing-elite-lion', 'beijing_lion_state1'), ('beijing-boss-xiezhi', 'beijing_xiezhi_state1')),
     ('rome', ('rome-elite-lion', 'rome_lion_state1'), ('rome-boss-gladiator', 'rome_gladiator_state1')),
     ('san-francisco', ('sf-elite-gripman', 'sf_gripman_state1'), ('sf-boss-grizzly', 'sf_grizzly_state1')),
+    ('bangkok', ('bangkok-elite-fighting-fish', 'bangkok_fish_state1'),
+     ('bangkok-boss-war-elephant', 'bangkok_elephant_state1')),
+    ('istanbul', ('istanbul-elite-gull', 'istanbul_gull_state1'), ('istanbul-boss-karagoz', 'istanbul_karagoz_state1')),
+    ('barcelona', ('barcelona-elite-gegant', 'barcelona_gegant_state1'),
+     ('barcelona-boss-salamander', 'barcelona_salamander_state1')),
+    ('hong-kong', ('hong-kong-elite-neon-master', 'hong_kong_neon_state1'),
+     ('hong-kong-boss-pirate', 'hong_kong_pirate_state1')),
+    ('toronto', ('toronto-elite-moose', 'toronto_moose_state1'), ('toronto-boss-raccoon', 'toronto_raccoon_state1')),
 ]
-PHONE = 'docs/store/google-play/screenshots-1.3/phone'
-# The Paris capture minus its HUD: the top gauges and the two thumb controls along the bottom
-HERO_CROP = (340, 250, 2300, 1190)
+STORE = 'docs/store/google-play/1.9.0/en-US'
+# The 1.9.0 store frames carry a caption band above the game; content starts at y 192
+STORE_CROP = (0, 192, 1920, 1080)
 
 
 def game(*p):
@@ -65,8 +73,13 @@ def save(im, name, fallback):
     print(name, im.size, {e: os.path.getsize(base + '.' + e) for e in ('avif', 'webp', fallback)})
 
 
+def painting(slug):
+    folder = ''.join(w.capitalize() for w in slug.split('-'))
+    return Image.open(game('Assets/Art/Cities', folder, slug + '-background.png')).convert('RGB')
+
+
 def hero_src():
-    return Image.open(game(PHONE, '01-paris-leaves.png')).convert('RGB').crop(HERO_CROP)
+    return painting('paris')
 
 
 def hero():
@@ -83,17 +96,21 @@ def keepers():
             save(k, f'keeper-{slug}-{role}', 'png')
 
 
-# (slug, store capture): the 1.3 phone set is 2:1, so slots are 2:1 and nothing is cropped
-SHOTS = [('paris', '01-paris-leaves'), ('stryge', '02-paris-stryge'), ('new-york', '03-ny-east-river'),
-         ('tokyo', '04-tokyo'), ('cairo', '05-cairo'), ('rio', '06-rio'), ('garage', '07-garage'),
-         ('globe', '08-globe')]
+def skies():
+    for slug, _, _ in CITIES:
+        save(fit(painting(slug), 720), f'sky-{slug}', 'jpg')
+
+
+# img/shot-paris-* (business.html) is a frozen 1.3 export; its source capture is gone
+# The 1.9.0 Paper Pop set, caption band cropped, 1920:888
+SHOTS = ['wish', 'workshop', 'keepers', 'daily', 'looks']
 
 
 def shots():
-    for slug, name in SHOTS:
-        src = Image.open(game(PHONE, name + '.png')).convert('RGB')
+    for slug in SHOTS:
+        src = Image.open(game(STORE, f'0{SHOTS.index(slug) + 1}-{slug}-en-US.jpg')).convert('RGB').crop(STORE_CROP)
         for w in (800, 1600):
-            save(fit(src, w, w // 2), f'shot-{slug}-{w}', 'jpg')
+            save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
 def og():
@@ -102,14 +119,11 @@ def og():
     s = max(W / src.width, H / src.height)
     bg = fit(src, round(src.width * s), round(src.height * s))
     card = bg.crop(((bg.width - W) // 2, 0, (bg.width - W) // 2 + W, H))
-    font = ImageFont.truetype(game('Assets/Fonts/Caveat-Bold.ttf'), 132)
-    text = Image.new('RGBA', card.size, (0, 0, 0, 0))
-    ImageDraw.Draw(text).text((48, 36), 'Paper Skyline', font=font, fill=(246, 239, 217, 255),
-                              stroke_width=10, stroke_fill=(246, 239, 217, 255))
-    glow = text.filter(ImageFilter.GaussianBlur(10))
-    card.alpha_composite(glow)
-    card.alpha_composite(text)
-    ImageDraw.Draw(card).text((48, 36), 'Paper Skyline', font=font, fill=INK + (255,))
+    font = ImageFont.truetype(game('Assets/Fonts/Baloo2-ExtraBold.ttf'), 128)
+    ImageDraw.Draw(card).text((52, 44), 'Paper Skyline', font=font, fill=NAVY + (180,),
+                              stroke_width=12, stroke_fill=NAVY + (180,))
+    ImageDraw.Draw(card).text((44, 34), 'Paper Skyline', font=font, fill=NAVY + (255,),
+                              stroke_width=12, stroke_fill=(255, 255, 255, 255))
     ks = [fit(sprite(kit, mid), h=230) for _, _, (kit, mid) in CITIES[:4:3] + CITIES[1:2]]
     x = W - 36 - sum(k.width - 8 for k in ks)
     for k in ks:
@@ -137,6 +151,7 @@ def main():
     os.makedirs(IMG, exist_ok=True)
     hero()
     keepers()
+    skies()
     shots()
     og()
     icons()
