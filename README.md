@@ -67,9 +67,15 @@ The invite lives in one constant, `DISCORD` in `tools/i18n.py`; after a swap, re
 Nothing newer than `LIVE` in news.py is published, so raise it only once that version is on Play production.
 Run it on game main's changelog via `git show`, with the `google-play/whats-new-*.txt` files beside it, never on a checkout's working copy.
 
+## Shipping a city
+
+A city is published only once its version is on Play production (HCMC, Amsterdam and Singapore wait for 1.9.4).
+Add its keepers to `CITIES` in `tools/art.py` (plus `NAMES`/`IDS` if its slug differs), then run `tools/art.py`, `tools/cities.py`, and `tools/news.py` with `LIVE` raised.
+Then run `tools/check.sh`; country pages that fall under the word rule stay `noindex` until the City Writer adds verified text.
+
 ## Copy
 
-English only, one language per page (user, 2026-10-02). No em dash (—) in any page's copy, titles or meta: write a period, comma or colon, and `|` in page titles. `tools/check.sh` fails on one.
+One language per page: English at the root, zh-Hans and id generated under their prefixes (vi is left out). No em dash (—) in any page's copy, titles or meta: write a period, comma or colon, and `|` in page titles. `tools/check.sh` fails on one.
 
 ## Checks
 
