@@ -422,6 +422,7 @@ strong { font-weight: 700; color: var(--hot); }
 .card .pill + h3 { margin-top: .6rem; }
 
 /* city pages (tools/cities.py): one painting, two keeper cards, the boy's own lines */
+.hero-title .small { font-size: .55em; }
 .crumbs { padding-block: .9rem; font-size: .95rem; color: var(--ink-faint); }
 .crumbs a { font-weight: 600; }
 .section .eyebrow + h2 + p, .section h2 + .lede { margin-top: .2rem; }

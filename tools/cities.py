@@ -212,7 +212,7 @@ def city_page(x, by_id, total):
     body += [f'{r[0]} {r[1]}' for r in x['relics'].values()]
     n_words = words(*body)
     index = n_words >= MIN_WORDS
-    title = f'Fly a paper plane over {x["name"]} | Paper Skyline'
+    title = f'{x["name"]} paper plane game | Paper Skyline'
     desc = (f'Fly a paper plane over {x["name"]}, {x["country"]}, painted in ink and watercolour. '
             f'Meet its keepers, {elite} and {boss}, and the history behind them.')
     others = ''.join(f'\n        <li><a href="../{o["id"]}/">{esc(o["name"])}</a></li>'
@@ -229,11 +229,11 @@ def city_page(x, by_id, total):
         <source type="image/webp" srcset="{srcset('webp')}" sizes="100vw">
         <img srcset="{srcset('jpg')}" sizes="100vw" src="../../img/{hero}-1024.jpg" width="1600" height="533" alt="{esc(f'The {x["name"]} skyline in ink and watercolour, as the game paints it')}" fetchpriority="high" style="object-position: {round(x['landmark_col'] * 100)}% 100%">
       </picture>
-      <h1 id="hero-title" class="hero-title"><span>{esc(x["name"])}</span> <span>{esc(x["country"])}</span></h1>
+      <h1 id="hero-title" class="hero-title"><span>{esc(x["name"])}</span> <span class="small">paper plane game</span></h1>
     </div>
     <div class="wrap hero-copy">
       <div>
-        <span class="eyebrow">City {x["n"]} of {total} &middot; {CONTINENTS[lv["continent"]]}</span>
+        <span class="eyebrow">City {x["n"]} of {total} &middot; {esc(x["country"])} &middot; {CONTINENTS[lv["continent"]]}</span>
         <p class="hero-tag">{esc(wish)}</p>
         <p class="lede">{esc(b["preflight.goal"])}</p>
       </div>
