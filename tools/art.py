@@ -35,6 +35,8 @@ CITIES = [
      ('hong-kong-boss-pirate', 'hong_kong_pirate_state1')),
     ('toronto', ('toronto-elite-moose', 'toronto_moose_state1'), ('toronto-boss-raccoon', 'toronto_raccoon_state1')),
 ]
+# Display names where the art slug is not the city's name
+NAMES = {'rio': 'Rio de Janeiro'}
 STORE = 'docs/store/google-play/1.9.0/en-US'
 # The 1.9.0 store frames carry a caption band above the game; content starts at y 192
 STORE_CROP = (0, 192, 1920, 1080)
@@ -113,18 +115,19 @@ def shots():
             save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
-def og():
+def og(src=None, title='Paper Skyline', ks=None, out='brand/og-image-1200x630.jpg'):
     W, H = 1200, 630
-    src = hero_src().convert('RGBA')
+    src = (src or hero_src()).convert('RGBA')
     s = max(W / src.width, H / src.height)
     bg = fit(src, round(src.width * s), round(src.height * s))
     card = bg.crop(((bg.width - W) // 2, 0, (bg.width - W) // 2 + W, H))
     font = ImageFont.truetype(game('Assets/Fonts/Baloo2-ExtraBold.ttf'), 128)
-    ImageDraw.Draw(card).text((52, 44), 'Paper Skyline', font=font, fill=NAVY + (180,),
+    ImageDraw.Draw(card).text((52, 44), title, font=font, fill=NAVY + (180,),
                               stroke_width=12, stroke_fill=NAVY + (180,))
-    ImageDraw.Draw(card).text((44, 34), 'Paper Skyline', font=font, fill=NAVY + (255,),
+    ImageDraw.Draw(card).text((44, 34), title, font=font, fill=NAVY + (255,),
                               stroke_width=12, stroke_fill=(255, 255, 255, 255))
-    ks = [fit(sprite(kit, mid), h=230) for _, _, (kit, mid) in CITIES[:4:3] + CITIES[1:2]]
+    ks = ks or [sprite(kit, mid) for _, _, (kit, mid) in CITIES[:4:3] + CITIES[1:2]]
+    ks = [fit(k, h=230) if k.width * 230 <= k.height * 420 else fit(k, w=420) for k in ks]
     x = W - 36 - sum(k.width - 8 for k in ks)
     for k in ks:
         shadow = Image.new('RGBA', k.size, (0, 0, 0, 0))
@@ -134,8 +137,18 @@ def og():
         card.alpha_composite(shadow, (x + 3, y + 4))
         card.alpha_composite(k, (x, y))
         x += k.width - 8
-    card.convert('RGB').save(os.path.join(SITE, 'brand/og-image-1200x630.jpg'), quality=84, optimize=True,
-                             progressive=True)
+    card.convert('RGB').save(os.path.join(SITE, out), quality=84, optimize=True, progressive=True)
+
+
+def cities():
+    """The city pages (tools/cities.py): each painting at hero sizes, and a share card with its keepers."""
+    for slug, elite, boss in CITIES:
+        src = painting(slug)
+        if slug != 'paris':
+            for w in (640, 1024, 1600):
+                save(fit(src, w), f'city-{slug}-{w}', 'jpg')
+        name = NAMES.get(slug, slug.replace('-', ' ').title())
+        og(src, name, [sprite(*elite), sprite(*boss)], f'img/og-{slug}.jpg')
 
 
 def icons():
@@ -154,6 +167,7 @@ def main():
     skies()
     shots()
     og()
+    cities()
     icons()
 
 

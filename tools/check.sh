@@ -2,7 +2,7 @@
 # Structural rules for paperskyline.org. Usage: tools/check.sh [page.html …]  (no args = every page)
 set -o nounset
 cd "$(dirname "$0")/.."
-pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html )
+pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html )
 fail=0
 err() { echo "FAIL $1: $2"; fail=1; }
 
@@ -64,7 +64,16 @@ for p in "${pages[@]}"; do
            | grep -vE '^(https?:|mailto:|tel:|//)' | sort -u)
 done
 
-for f in sitemap.xml robots.txt; do
+# sitemap.xml is an index of one sitemap per page type; every row must be a live, indexable page.
+for sm in $(grep -oE 'https://paperskyline\.org/sitemap-[a-z]+\.xml' sitemap.xml | sed 's#https://paperskyline.org/##'); do
+  [ -f "$sm" ] || { err sitemap.xml "missing $sm"; continue; }
+  while read -r u; do
+    f=".${u#https://paperskyline.org}"; [ "${f%/}" = "$f" ] || f="${f}index.html"
+    [ "$f" = "./index.html" ] || [ -f "$f" ] || { err "$sm" "no page for $u"; continue; }
+    grep -q 'name="robots" content="noindex' "$f" && err "$sm" "noindex page listed: $u"
+  done < <(grep -oE '<loc>[^<]+' "$sm" | sed 's/<loc>//')
+done
+for f in sitemap.xml sitemap-*.xml robots.txt; do
   grep -qE 'https://www\.paperskyline\.org' "$f" && err "$f" "www host — the apex is canonical"
 done
 grep -q 'paperskyline.org' CNAME || err CNAME "wrong domain"

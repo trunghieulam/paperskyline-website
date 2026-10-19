@@ -420,3 +420,30 @@ strong { font-weight: 700; color: var(--hot); }
 [data-state="out"] .claim-closed, [data-state="ended"] .claim-closed { display: block; }
 .more { margin: 2rem 0 0; }
 .card .pill + h3 { margin-top: .6rem; }
+
+/* city pages (tools/cities.py): one painting, two keeper cards, the boy's own lines */
+.crumbs { padding-block: .9rem; font-size: .95rem; color: var(--ink-faint); }
+.crumbs a { font-weight: 600; }
+.section .eyebrow + h2 + p, .section h2 + .lede { margin-top: .2rem; }
+.section .wrap > .eyebrow:not(:first-child) { margin-top: 1.5rem; }
+.keeper-grid.pair { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 44rem) { .keeper-grid.pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.keeper-grid.pair .keepers { height: 14rem; }
+.keeper-grid.pair .keepers picture:not(.sky) img { max-width: 80%; }
+.keeper-card .eyebrow { justify-self: start; margin-top: .3rem; }
+.keeper-card p { margin: 0; color: var(--ink-soft); }
+.keeper-card .sub { font-weight: 600; color: var(--ink-faint); }
+.keeper-card h3 a { text-decoration: none; }
+.mine, .mine-line { margin: 0; font: 800 1.2rem/1.25 var(--display); color: var(--hot); }
+.mine-line { margin-bottom: 1rem; }
+.relic { border-top: 2px dashed var(--line); padding-top: .6rem; }
+.journal { margin: .5rem 0 1.25rem; padding-left: 1.2rem; }
+.journal li { font-size: 1.15rem; margin-bottom: .3rem; }
+.journal li::marker { color: var(--pink); }
+.city-links { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.city-links li { max-width: none; }
+.city-links a {
+  display: block; padding: .45rem .9rem; border: 3px solid var(--edge); border-radius: 999px;
+  background: var(--paper); color: var(--ink); text-decoration: none; box-shadow: var(--sticker-sm);
+}
+.city-links a:hover { background: var(--yellow); color: var(--navy); }
