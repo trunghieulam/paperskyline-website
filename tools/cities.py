@@ -49,6 +49,7 @@ def load():
         beats = {r['key'].split('/', 1)[1]: json.loads(r['props'])['en']
                  for r in kg(f"SELECT key, props FROM nodes WHERE key LIKE 'story_beat:{cid}/%'")}
         bg = json.loads(kg(f"SELECT props FROM nodes WHERE key='background:{cid}'")[0]['props'])
+        place = json.loads(kg(f"SELECT props FROM nodes WHERE key='place:{level['place']}'")[0]['props'])
         relics = {json.loads(r['props'])['keeper']: (r['label'], json.loads(r['props'])['reason'])
                   for r in kg(f"SELECT label, props FROM nodes WHERE kind='relic' "
                               f"AND json_extract(props,'$.city')='{cid}' AND json_extract(props,'$.shipped')=1")}
@@ -60,13 +61,14 @@ def load():
                    f"WHERE e.src='level:{cid}' AND e.kind='grants_look'")
         a = atlas['cities'][cid]
         cities.append(dict(n=n, id=cid, slug=slug, name=NAMES.get(slug, level['name']), level=level, beats=beats,
-                           landmark_col=bg.get('landmarkColumn', .5), relics=relics, keepers=keepers,
+                           landmark_col=bg.get('landmarkColumn', .5), coords=place.get('coords'), relics=relics, keepers=keepers,
                            parents=parents, children=children, looks=looks, atlas=a,
                            country=atlas['countries'][a['country']]['name']))
     return cities
 
 
-def head(c, title, desc, path, image, index):
+def head(c, title, desc, path, image, index, ld=None):
+    ld = f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False, indent=1)}\n</script>\n' if ld else ''
     robots = '' if index else '<meta name="robots" content="noindex,follow">\n'
     return f'''<!doctype html>
 <html lang="en">
@@ -94,7 +96,7 @@ def head(c, title, desc, path, image, index):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&amp;family=Be+Vietnam+Pro:wght@400;600;700&amp;display=swap">
 <link rel="stylesheet" href="{c}styles.css">
-</head>
+{ld}</head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
@@ -185,6 +187,27 @@ def keeper_card(x, role):
         </li>'''
 
 
+GAME_LD = {'@type': ['VideoGame', 'MobileApplication'], '@id': f'{ORIGIN}/#game', 'name': 'Paper Skyline',
+           'applicationCategory': 'GameApplication', 'operatingSystem': 'Android', 'gamePlatform': 'Android',
+           'installUrl': 'https://play.google.com/store/apps/details?id=paperskyline.org', 'url': f'{ORIGIN}/'}
+
+
+def city_ld(x, title, desc):
+    url = f'{ORIGIN}/cities/{x["id"]}/'
+    place = {'@type': 'City', 'name': x['name'], 'containedInPlace': {'@type': 'Country', 'name': x['country']}}
+    if x['coords']:
+        place['geo'] = {'@type': 'GeoCoordinates', 'latitude': x['coords']['lat'], 'longitude': x['coords']['lon']}
+    crumbs = [('Home', f'{ORIGIN}/'), ('Cities', f'{ORIGIN}/cities/'), (x['name'], url)]
+    return {'@context': 'https://schema.org', '@graph': [
+        {'@type': 'WebPage', '@id': url, 'url': url, 'name': title, 'description': desc, 'inLanguage': 'en',
+         'primaryImageOfPage': {'@type': 'ImageObject', 'url': f'{ORIGIN}/img/og-{x["slug"]}.jpg',
+                                'width': 1200, 'height': 630},
+         'about': place, 'mentions': {'@id': f'{ORIGIN}/#game'}, 'breadcrumb': {'@id': f'{url}#breadcrumb'}},
+        {'@type': 'BreadcrumbList', '@id': f'{url}#breadcrumb', 'itemListElement': [
+            {'@type': 'ListItem', 'position': i, 'name': n, 'item': u} for i, (n, u) in enumerate(crumbs, 1)]},
+        GAME_LD]}
+
+
 def city_page(x, by_id, total):
     a, b, lv = x['atlas'], x['beats'], x['level']
     wish = re.sub(r'^Wish #\{n\}:\s*', '', b['preflight.wish'])
@@ -217,7 +240,7 @@ def city_page(x, by_id, total):
             f'Meet its keepers, {elite} and {boss}, and the history behind them.')
     others = ''.join(f'\n        <li><a href="../{o["id"]}/">{esc(o["name"])}</a></li>'
                      for o in by_id.values() if o['id'] != x['id'])
-    page = head('../../', title, desc, f'/cities/{x["id"]}/', f'img/og-{x["slug"]}.jpg', index) + f'''
+    page = head('../../', title, desc, f'/cities/{x["id"]}/', f'img/og-{x["slug"]}.jpg', index, city_ld(x, title, desc)) + f'''
 <main id="main">
   <nav class="wrap crumbs" aria-label="Breadcrumb">
     <a href="../../">Home</a> <span aria-hidden="true">/</span> <a href="../">Cities</a> <span aria-hidden="true">/</span> <span aria-current="page">{esc(x["name"])}</span>

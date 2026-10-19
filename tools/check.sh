@@ -27,6 +27,8 @@ for p in "${pages[@]}"; do
     *) [ "$nscripts" -eq 0 ] || err "$p" "executable <script>: the site is zero-JS (JSON-LD and the gift script excepted)" ;;
   esac
 
+  python3 -c 'import json,re,sys; [json.loads(b) for b in re.findall(r"<script type=\"application/ld\+json\">(.*?)</script>", open(sys.argv[1], encoding="utf-8").read(), re.S)]' "$p" 2>/dev/null \
+    || err "$p" "JSON-LD that does not parse"
   grep -qiE 'lorem|TODO|TBD' "$p" && err "$p" "placeholder text"
   grep -q '—' "$p" && err "$p" "em dash in copy: use a period, comma, colon or | instead"
   grep -qE 'https://www\.paperskyline\.org' "$p" && err "$p" "www host — the apex is canonical"
