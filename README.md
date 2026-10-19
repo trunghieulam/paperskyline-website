@@ -53,6 +53,7 @@ A page is indexed and listed in its sitemap only with 300+ words of its own veri
 The zh-Hans and id pages take every city, keeper and country line from the game's locale packs; the page strings live in `tools/i18n.py`.
 Extra verified text from `design/web-text/{cities,countries}/<key>.<lang>.md` in the game repo renders as one H2 per `##` section and counts toward the rule.
 Every page lists all its languages as `hreflang` alternates, and `check.sh` fails any set that is not reciprocal.
+Their share cards are `img/og-<slug>-<lang>.jpg` wherever the pack names the city differently; `tools/art.py` draws the Chinese ones in Noto Sans SC Black (OFL), fetched once into `tools/.tmp/`.
 It also stamps the hand-written pages: the city count on `index.html` and `support.html`, and the Discord invite on every page.
 
 ## Discord

@@ -3,9 +3,11 @@
 Usage: tools/art.py [path to game-paper-flights]   (default: ../game-paper-flights next to this repo)
 Opaque paintings fall back to JPEG, cut-out keepers to PNG; AVIF and WebP carry the weight.
 """
+import hashlib
 import json
 import os
 import sys
+import urllib.request
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -35,8 +37,12 @@ CITIES = [
      ('hong-kong-boss-pirate', 'hong_kong_pirate_state1')),
     ('toronto', ('toronto-elite-moose', 'toronto_moose_state1'), ('toronto-boss-raccoon', 'toronto_raccoon_state1')),
 ]
-# Display names where the art slug is not the city's name
+# Display names and city ids where the art slug is not the city's
 NAMES = {'rio': 'Rio de Janeiro'}
+IDS = {'rio': 'rio-de-janeiro'}
+# The share cards' Chinese face: Noto Sans SC Black (OFL), fetched once into tools/.tmp and checked
+CJK = ('https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/SubsetOTF/SC/NotoSansSC-Black.otf',
+       'ccb496022356b7dd14d117538a472ae40feff8f6e8f3fe8bffc5616785d2f3f9')
 STORE = 'docs/store/google-play/1.9.0/en-US'
 # The 1.9.0 store frames carry a caption band above the game; content starts at y 192
 STORE_CROP = (0, 192, 1920, 1080)
@@ -44,6 +50,16 @@ STORE_CROP = (0, 192, 1920, 1080)
 
 def game(*p):
     return os.path.join(GAME, *p)
+
+
+def cjk_font():
+    path = os.path.join(SITE, 'tools', '.tmp', os.path.basename(CJK[0]))
+    if not os.path.exists(path):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        urllib.request.urlretrieve(CJK[0], path)
+    if hashlib.sha256(open(path, 'rb').read()).hexdigest() != CJK[1]:
+        sys.exit(f'{path}: unexpected checksum; delete it and re-run')
+    return path
 
 
 def sprite(kit, mid):
@@ -115,13 +131,13 @@ def shots():
             save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
-def og(src=None, title='Paper Skyline', ks=None, out='brand/og-image-1200x630.jpg'):
+def og(src=None, title='Paper Skyline', ks=None, out='brand/og-image-1200x630.jpg', font=None):
     W, H = 1200, 630
     src = (src or hero_src()).convert('RGBA')
     s = max(W / src.width, H / src.height)
     bg = fit(src, round(src.width * s), round(src.height * s))
     card = bg.crop(((bg.width - W) // 2, 0, (bg.width - W) // 2 + W, H))
-    font = ImageFont.truetype(game('Assets/Fonts/Baloo2-ExtraBold.ttf'), 128)
+    font = font or ImageFont.truetype(game('Assets/Fonts/Baloo2-ExtraBold.ttf'), 128)
     ImageDraw.Draw(card).text((52, 44), title, font=font, fill=NAVY + (180,),
                               stroke_width=12, stroke_fill=NAVY + (180,))
     ImageDraw.Draw(card).text((44, 34), title, font=font, fill=NAVY + (255,),
@@ -141,14 +157,23 @@ def og(src=None, title='Paper Skyline', ks=None, out='brand/og-image-1200x630.jp
 
 
 def cities():
-    """The city pages (tools/cities.py): each painting at hero sizes, and a share card with its keepers."""
+    """The city pages (tools/cities.py): each painting at hero sizes, and a share card with its keepers,
+    plus one per language whose pack names the city differently."""
+    packs = {lang: json.load(open(game('Assets/Content/Locale/packs', lang, f'{lang}.json'), encoding='utf-8'))
+             for lang in ('zh-Hans', 'id')}
+    fonts = {'zh-Hans': ImageFont.truetype(cjk_font(), 112)}
     for slug, elite, boss in CITIES:
         src = painting(slug)
         if slug != 'paris':
             for w in (640, 1024, 1600):
                 save(fit(src, w), f'city-{slug}-{w}', 'jpg')
         name = NAMES.get(slug, slug.replace('-', ' ').title())
-        og(src, name, [sprite(*elite), sprite(*boss)], f'img/og-{slug}.jpg')
+        ks = [sprite(*elite), sprite(*boss)]
+        og(src, name, ks, f'img/og-{slug}.jpg')
+        for lang, ui in packs.items():
+            local = ui[f'city.{IDS.get(slug, slug)}.name']
+            if local != name:
+                og(src, local, ks, f'img/og-{slug}-{lang.lower()}.jpg', fonts.get(lang))
 
 
 def countries():
