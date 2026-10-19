@@ -5,7 +5,9 @@ Usage: tools/cities.py [path to game-paper-flights]   (default: ../game-paper-fl
 Facts come from the city graph (kg.py, built into tools/.tmp/), the Atlas text and the game's locale packs;
 the only text written here is the page furniture in tools/i18n.py.
 """
+import base64
 import copy
+import hashlib
 import html
 import json
 import os
@@ -745,6 +747,40 @@ def stamp(cities):
             print(f'stamped  {f}')
 
 
+STATS = 'https://paperskyline-stats.paperskyline-stats.workers.dev'
+PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'zh-Hans', 'id']
+
+
+def csp_for(page):
+    """script-src lists exactly the page's inline scripts plus any origins it already allowed; connect-src self and the Worker."""
+    m = re.search(r'<meta http-equiv="Content-Security-Policy" content="([^"]*)">\n', page)
+    dirs = dict(d.strip().split(' ', 1) for d in m.group(1).split(';')) if m else {}
+    hashes = [f"'sha256-{base64.b64encode(hashlib.sha256(s.encode()).digest()).decode()}'"
+              for s in re.findall(r'<script>(.*?)</script>', page, re.S)]
+    dirs['script-src'] = ' '.join(hashes + [x for x in dirs.get('script-src', '').split() if not x.startswith("'sha256-")])
+    dirs['connect-src'] = ' '.join(["'self'"] + [x for x in dirs.pop('connect-src', STATS).split() if x != "'self'"])
+    meta = f'<meta http-equiv="Content-Security-Policy" content="{"; ".join(f"{k} {v}" for k, v in dirs.items())}">\n'
+    if m:
+        return page.replace(m.group(0), meta)
+    return page.replace('<meta name="viewport" content="width=device-width, initial-scale=1">\n',
+                        '<meta name="viewport" content="width=device-width, initial-scale=1">\n' + meta, 1)
+
+
+def stamp_geo():
+    """Every page carries tools/geo.js (the not-available banner) before </body>, and a CSP that allows its scripts."""
+    js = open(os.path.join(SITE, 'tools', 'geo.js'), encoding='utf-8').read().strip()
+    files = [f for f in os.listdir(SITE) if f.endswith('.html')]
+    for d in PAGE_DIRS:
+        files += [os.path.relpath(os.path.join(r, f), SITE) for r, _, fs in os.walk(os.path.join(SITE, d)) for f in fs if f.endswith('.html')]
+    for f in sorted(files):
+        path = os.path.join(SITE, f)
+        s = open(path, encoding='utf-8').read()
+        new = re.sub(r'<script>\(function \(\) \{\n  var main = document\.getElementById[^<]*</script>\n', '', s)
+        new = csp_for(new.replace('</body>', f'<script>{js}</script>\n</body>', 1))
+        if new != s:
+            open(path, 'w', encoding='utf-8').write(new)
+
+
 def main():
     cities, atlas = load()
     stamp(cities)
@@ -755,6 +791,7 @@ def main():
             sitemap('sitemap-world.xml', world_urls)
         else:
             sitemap(f'sitemap-{lang.lower()}.xml', [prefix(lang)] + city_urls + world_urls)
+    stamp_geo()
 
 
 if __name__ == '__main__':

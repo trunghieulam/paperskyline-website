@@ -2,7 +2,7 @@
 
 The public website for **Paper Skyline** — the landing page, plus privacy, terms and support.
 
-Hand-written static HTML and one stylesheet, zero JavaScript. No framework, no build step, no
+Hand-written static HTML and one stylesheet, and no JavaScript beyond a few small allow-listed inline scripts (see Scripts). No framework, no build step, no
 dependencies. It is meant to load instantly, stay legible for years, and never break because a
 toolchain moved on.
 
@@ -56,6 +56,12 @@ Extra verified text from `design/web-text/{cities,countries}/<key>.<lang>.md` in
 Every page lists all its languages as `hreflang` alternates, and `check.sh` fails any set that is not reciprocal.
 Their share cards are `img/og-<slug>-<lang>.jpg` wherever the pack names the city differently; `tools/art.py` draws the Chinese ones in Noto Sans SC Black (OFL), fetched once into `tools/.tmp/`.
 It also stamps the hand-written pages: the city count on `index.html` and `support.html`, and the Discord invite on every page.
+
+## Scripts
+
+Every page carries `tools/geo.js` inline: it fetches same-origin `/geo.json` and, only on `{"vn":true}`, shows "This game is not available in your country yet" above `<main>`, dismissible and remembered per browser.
+GitHub Pages always serves `{"vn":false}`; a Cloudflare rewrite of `/geo.json` to `/geo-vn.json` for Vietnamese visitors turns the banner on. Any error means no banner.
+`tools/cities.py` stamps it and each page's CSP, which allows exactly that page's inline scripts; re-run it after editing any of them.
 
 ## Discord
 

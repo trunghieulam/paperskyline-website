@@ -7,6 +7,8 @@ pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/
 fail=0
 discord=$(python3 -c "import sys; sys.path.insert(0, 'tools'); from i18n import DISCORD; print(DISCORD)")
 err() { echo "FAIL $1: $2"; fail=1; }
+geo_expect="<script>$(python3 -c "print(open('tools/geo.js',encoding='utf-8').read().strip(),end='')")</script>"
+geo_sha="sha256-$(python3 -c "import base64,hashlib; print(base64.b64encode(hashlib.sha256(open('tools/geo.js',encoding='utf-8').read().strip().encode()).digest()).decode())")"
 
 for p in "${pages[@]}"; do
   [ -f "$p" ] || { err "$p" "missing"; continue; }
@@ -17,16 +19,18 @@ for p in "${pages[@]}"; do
     grep -q "$needle" "$p" || err "$p" "missing $needle"
   done
 
-  # Zero-JS, JSON-LD excepted, plus exactly one inline script (tools/gift.js) on the two gift pages.
+  # Zero-JS, JSON-LD excepted, plus tools/geo.js on every page and tools/gift.js on the two gift pages.
   nscripts=$(grep -oiE '<script[^>]*>' "$p" | grep -viEc 'type="application/ld\+json"')
+  grep -qF -- "$geo_expect" "$p" || err "$p" "no tools/geo.js, byte for byte, before </body> (re-run tools/cities.py)"
+  grep -oE 'content="script-src [^;"]*' "$p" | grep -qF "'$geo_sha'" || err "$p" "CSP script-src misses tools/geo.js's hash (re-run tools/cities.py)"
+  grep -qF "connect-src 'self' https://paperskyline-stats.paperskyline-stats.workers.dev\"" "$p" || err "$p" "CSP connect-src missing"
   case "$p" in
     index.html|dragon.html)
       expect="<script>$(python3 -c "print(open('tools/gift.js',encoding='utf-8').read().strip(),end='')")</script>"
-      [ "$nscripts" -eq 1 ] && grep -qF -- "$expect" "$p" || err "$p" "the one allowed script must be tools/gift.js, byte for byte"
+      [ "$nscripts" -eq 2 ] && grep -qF -- "$expect" "$p" || err "$p" "the scripts must be tools/gift.js and tools/geo.js, byte for byte"
       grep -qF "script-src '$(cat tools/gift.sha256)'" "$p" || err "$p" "CSP script-src hash missing or stale (tools/gift.sha256)"
-      grep -qF 'connect-src https://paperskyline-stats.paperskyline-stats.workers.dev"' "$p" || err "$p" "CSP connect-src missing"
       ;;
-    *) [ "$nscripts" -eq 0 ] || err "$p" "executable <script>: the site is zero-JS (JSON-LD and the gift script excepted)" ;;
+    *) [ "$nscripts" -eq 1 ] || err "$p" "executable <script> beyond tools/geo.js: the site is otherwise zero-JS (JSON-LD and the gift script excepted)" ;;
   esac
 
   python3 -c 'import json,re,sys; [json.loads(b) for b in re.findall(r"<script type=\"application/ld\+json\">(.*?)</script>", open(sys.argv[1], encoding="utf-8").read(), re.S)]' "$p" 2>/dev/null \

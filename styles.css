@@ -476,3 +476,15 @@ strong { font-weight: 700; color: var(--hot); }
 .world .city-links { margin-top: .9rem; }
 .city-links + h3 { margin-top: 1.75rem; }
 .section h2 + h3 { margin-top: 1rem; }
+
+/* the not-available banner tools/geo.js adds above <main> for visitors from Vietnam */
+.geo-banner {
+  display: flex; align-items: center; justify-content: center; gap: .75rem; padding: .55rem 1rem;
+  background: var(--yellow); color: var(--navy); border-bottom: 3px solid var(--navy); font-weight: 700; text-align: center;
+}
+.geo-banner p { margin: 0; max-width: none; }
+.geo-banner button {
+  flex: none; font: 800 1.25rem/1 var(--display); color: var(--navy); background: transparent;
+  border: 2px solid var(--navy); border-radius: 999px; width: 2rem; height: 2rem; cursor: pointer;
+}
+.geo-banner button:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }

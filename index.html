@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paper Skyline | Throw a paper plane across the world</title>
 <meta name="description" content="Throw a paper plane across fifteen painted cities. Build a better plane in the Workshop after every flight, get past each city's keepers with a BONK!, and open gifts for new plane looks.">
-<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-E4W94TNxw/ospcKH49I23GRWAs7Qukkb0k1NdclYf68='; connect-src https://paperskyline-stats.paperskyline-stats.workers.dev">
+<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-E4W94TNxw/ospcKH49I23GRWAs7Qukkb0k1NdclYf68=' 'sha256-er9xVZqiz8e5c1cluMTpeX60U/PWnT9N5VaAz6pmQAE='; connect-src 'self' https://paperskyline-stats.paperskyline-stats.workers.dev">
 <link rel="canonical" href="https://paperskyline.org/">
 <link rel="alternate" hreflang="en" href="https://paperskyline.org/">
 <link rel="alternate" hreflang="zh-Hans" href="https://paperskyline.org/zh-Hans/">
@@ -819,6 +819,31 @@
       var text = state === 'ended' ? 'This gift has ended' : state === 'out' ? 'All ' + n(cap) + ' gifts are claimed' : n(Math.min(left, cap)) + ' of ' + n(cap) + ' left';
       lines.forEach(function (el) { el.textContent = text; });
       document.querySelectorAll('[data-gift]').forEach(function (el) { el.setAttribute('data-state', state); });
+    })
+    .catch(function () {});
+})();</script>
+<script>(function () {
+  var main = document.getElementById('main'), seen = 'ps-geo-dismissed', got = 'ps-geo';
+  if (!main || !window.fetch) return;
+  try { if (localStorage.getItem(seen) === '1') return; } catch (e) {}
+  var show = function () {
+    var box = document.createElement('div'), p = document.createElement('p'), b = document.createElement('button');
+    box.className = 'geo-banner'; box.setAttribute('role', 'note');
+    p.textContent = 'This game is not available in your country yet';
+    b.type = 'button'; b.textContent = '×'; b.setAttribute('aria-label', 'Dismiss');
+    b.addEventListener('click', function () { box.parentNode.removeChild(box); try { localStorage.setItem(seen, '1'); } catch (e) {} });
+    box.appendChild(p); box.appendChild(b);
+    main.parentNode.insertBefore(box, main);
+  };
+  var cached = null;
+  try { cached = sessionStorage.getItem(got); } catch (e) {}
+  if (cached !== null) { if (cached === 'VN') show(); return; }
+  fetch('/geo.json', { cache: 'no-store', credentials: 'omit' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (d) {
+      var vn = d.vn === true;
+      try { sessionStorage.setItem(got, vn ? 'VN' : '-'); } catch (e) {}
+      if (vn) show();
     })
     .catch(function () {});
 })();</script>
