@@ -180,7 +180,10 @@ strong { font-weight: 700; color: var(--hot); }
   display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr);
   padding-top: 2.25rem; align-items: end;
 }
-@media (min-width: 56rem) { .hero-copy { grid-template-columns: minmax(0, 1fr) auto; } }
+@media (min-width: 56rem) {
+  .hero-copy { grid-template-columns: minmax(0, 1fr) auto; }
+  .hero-copy .badges { max-width: 26rem; }
+}
 .hero-copy > div { display: grid; gap: .9rem; justify-items: start; }
 .hero-tag { font: 800 clamp(1.9rem, 4.6vw, 2.9rem)/1.05 var(--display); margin: .2rem 0 0; }
 .hero-copy .lede { max-width: 46ch; margin: 0; }
@@ -200,6 +203,13 @@ strong { font-weight: 700; color: var(--hot); }
 .badge-text > b { display: block; font: 800 1.2rem/1 var(--display); }
 .badge-text > span { display: block; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
 .badge[aria-disabled="true"] { opacity: .7; border-style: dashed; }
+.discord { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; }
+.discord svg { width: 1.3em; height: 1.3em; flex: none; fill: currentColor; }
+.discord.join {
+  border: 3px solid var(--edge); border-radius: 20px; background: var(--paper); color: var(--ink);
+  padding: .7rem 1rem; text-decoration: none;
+}
+.discord.join svg { fill: #5865f2; }
 @media (prefers-color-scheme: dark) { .badge svg path { stroke: #fffaf2; } }
 
 /* three steps */

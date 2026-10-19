@@ -15,7 +15,7 @@ import sys
 import unicodedata
 
 from art import CITIES, NAMES
-from i18n import T
+from i18n import DISCORD, T
 
 SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 GAME = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(SITE, '..', 'game-paper-flights'))
@@ -28,6 +28,7 @@ LANGS = ['en', 'zh-Hans', 'id']
 # Chinese counts Han characters; 450 is the usual 1.5 characters per English word.
 MIN_WORDS = {'en': 300, 'zh-Hans': 450, 'id': 300}
 IDS = {'rio': 'rio-de-janeiro'}
+DISCORD_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>'
 
 
 def kg(sql):
@@ -161,7 +162,7 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None):
     robots = '' if index else '<meta name="robots" content="noindex,follow">\n'
     alts, switch = hreflang(c, rel, lang, t)
     path = f'/{prefix(lang)}{rel}'
-    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['nav'], ['', 'business.html', 'support.html', 'privacy.html', 'terms.html']))
+    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['nav'], [prefix(lang), 'business.html', 'support.html', 'privacy.html', 'terms.html']))
     return f'''<!doctype html>
 <html lang="{lang}">
 <head>
@@ -193,7 +194,7 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None):
 <a class="skip" href="#main">{t["skip"]}</a>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="{c}">
+    <a class="brand" href="{c}{prefix(lang)}">
       <picture><source type="image/avif" srcset="{c}img/mark-96.avif"><source type="image/webp" srcset="{c}img/mark-96.webp"><img src="{c}img/mark-96.png" width="96" height="96" alt=""></picture>
       Paper Skyline
     </a>
@@ -204,16 +205,17 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None):
 ''', switch
 
 
-def foot(c, t):
-    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], ['', 'business.html', 'support.html', 'privacy.html', 'terms.html']))
+def foot(c, t, lang):
+    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], [prefix(lang), 'business.html', 'support.html', 'privacy.html', 'terms.html']))
     return f'''<footer class="site-footer">
   <div class="wrap">
     <div>
-      <a class="brand" href="{c}">
+      <a class="brand" href="{c}{prefix(lang)}">
         <picture><source type="image/avif" srcset="{c}img/mark-96.avif"><source type="image/webp" srcset="{c}img/mark-96.webp"><img src="{c}img/mark-96.png" width="96" height="96" alt=""></picture>
         Paper Skyline
       </a>
       <p>{t["tagline"]}</p>
+      <p>{discord(t)}</p>
       <p>&copy; 2026 THLab &middot; paperskyline.org</p>
       <p class="fine">{t["trademark"]}</p>
     </div>
@@ -224,6 +226,10 @@ def foot(c, t):
 </body>
 </html>
 '''
+
+
+def discord(t, cls='discord'):
+    return f'<a class="{cls}" href="{DISCORD}">{DISCORD_SVG}{t["discord"]}</a>'
 
 
 def pic(c, name, ext, alt, w, h, extra=''):
@@ -335,7 +341,7 @@ def city_page(x, by_id, total, lang):
     others = ''.join(f'\n        <li><a href="../{o["id"]}/">{esc(o["name"])}</a></li>'
                      for o in by_id.values() if o['id'] != x['id'])
     cont = t['continents'][x['cont']]
-    trail = [(t['home'], ''), (cont, f'{p}world/{x["cont"]}/'), (x['country'], p + x['country_path']), (x['name'], p + rel)]
+    trail = [(t['home'], p), (cont, f'{p}world/{x["cont"]}/'), (x['country'], p + x['country_path']), (x['name'], p + rel)]
     place = {'@type': 'City', 'name': x['name'], 'containedInPlace': {'@type': 'Country', 'name': x['country']}}
     if x['coords']:
         place['geo'] = {'@type': 'GeoCoordinates', 'latitude': x['coords']['lat'], 'longitude': x['coords']['lon']}
@@ -411,7 +417,7 @@ def city_page(x, by_id, total, lang):
   </section>
 </main>
 
-''' + foot(c, t)
+''' + foot(c, t, lang)
     return page, n_words, index
 
 
@@ -444,7 +450,7 @@ def hub(cities, lang):
   </section>
 </main>
 
-''' + foot(c, t)
+''' + foot(c, t, lang)
 
 
 def home(cities, lang):
@@ -455,7 +461,7 @@ def home(cities, lang):
         <div class="card">
           <h3>{esc(n)}</h3>
           <p>{esc(d)}</p>
-        </div>''' for n, d in h['cards'])
+        </div>''' for n, d in h['cards']).replace('{n}', str(len(cities)))
     tiles = ''.join(city_card(x, c, t, f'cities/{x["id"]}/') for x in cities)
     top, switch = head(c, t, lang, h['title'], h['desc'], '', 'brand/og-image-1200x630.jpg', True)
     return top + f'''
@@ -479,6 +485,7 @@ def home(cities, lang):
       </div>
       <ul class="badges">
         <li>{play(c, lang, "home", "badge")}</li>
+        <li>{discord(t, "discord join")}</li>
       </ul>
     </div>
   </section>
@@ -509,7 +516,7 @@ def home(cities, lang):
   </section>
 </main>
 
-''' + foot(c, t)
+''' + foot(c, t, lang)
 
 
 def city_card(x, c, t, href):
@@ -541,7 +548,7 @@ def country_page(code, cs, atlas, conts, lang):
     index = n_words >= MIN_WORDS[lang]
     title = t['country_title'].format(name=k['name'])
     desc = t['country_desc'].format(cities=t['join']([x['name'] for x in cs]), country=t['country_in'](code, k['name']))
-    trail = [(t['home'], ''), (t['continents'][cont], f'{p}world/{cont}/'), (k['name'], p + rel)]
+    trail = [(t['home'], p), (t['continents'][cont], f'{p}world/{cont}/'), (k['name'], p + rel)]
     facts = ''.join(f'\n        <li>{esc(f)}</li>' for f in k['facts'])
     cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
     near = [(n, p + h) for n, h in conts[cont] if h != rel]
@@ -591,7 +598,7 @@ def country_page(code, cs, atlas, conts, lang):
   </section>
 </main>
 
-''' + foot(c, t)
+''' + foot(c, t, lang)
     return p + rel, page, n_words, index
 
 
@@ -603,7 +610,7 @@ def continent_page(cont, cs, conts, total, lang):
     countries = sorted({x['country'] for x in cs})
     desc = t['cont_desc'].format(n=len(cs), total=total, cont=name, countries=t['n_countries'](len(countries)),
                                  cities=t['join']([x['name'] for x in cs]))
-    trail = [(t['home'], ''), (name, p + rel)]
+    trail = [(t['home'], p), (name, p + rel)]
     cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
     top, switch = head(c, t, lang, title, desc, rel, f'img/og-{cs[0]["slug"]}.jpg', False,
                        page_ld(lang, rel, title, desc, trail, {'@type': 'Continent', 'name': name}))
@@ -631,7 +638,7 @@ def continent_page(cont, cs, conts, total, lang):
   </section>
 </main>
 
-''' + foot(c, t)
+''' + foot(c, t, lang)
     return p + rel, page
 
 
@@ -640,7 +647,7 @@ def world_page(by_cont, conts, cities, lang):
     c, rel = '../' + '../' * (lang != 'en'), 'world/'
     title = t['world_title']
     desc = t['world_desc'].format(total=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
-    trail = [(t['home'], ''), (t['world'], p + rel)]
+    trail = [(t['home'], p), (t['world'], p + rel)]
     blocks = ''.join(f'''
       <h2><a href="{c}{p}world/{k}/">{t["continents"][k]}</a></h2>
       <ul class="city-links">{links(c, [(t['place'](x['name'], x['country']), f'{p}cities/{x["id"]}/') for x in by_cont[k]])}
@@ -658,7 +665,7 @@ def world_page(by_cont, conts, cities, lang):
   </section>
 </main>
 
-''' + foot(c, t)
+''' + foot(c, t, lang)
     return p + rel, page
 
 
@@ -707,8 +714,35 @@ def build(cities, atlas, lang):
     return city_urls, world_urls
 
 
+NUMS = ('zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen '
+        'seventeen eighteen nineteen').split() + [f'{t}{"-" + u if u else ""}' for t in ('twenty', 'thirty', 'forty', 'fifty')
+                                                   for u in [''] + 'one two three four five six seven eight nine'.split()]
+
+
+def stamp(cities):
+    """Keeps the hand-written pages current: the Discord invite everywhere, the city count on index and support."""
+    num = '|'.join(sorted(NUMS, key=len, reverse=True))
+    n = len(cities)
+    for f in sorted(os.listdir(SITE)):
+        if not f.endswith('.html'):
+            continue
+        path = os.path.join(SITE, f)
+        s = open(path, encoding='utf-8').read()
+        new = re.sub(r'https://discord\.gg/[A-Za-z0-9]+', DISCORD, s)
+        if f == 'index.html':
+            new = re.sub(rf'\b({num})(?= (painted )?cities)', NUMS[n], new)
+            new = re.sub(rf'\b({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
+        if f == 'support.html':
+            listed = T['en']['join']([x['name'] for x in cities])
+            new = re.sub(r'(<summary>Which cities can I fly\?</summary>\s*<p>)[^<]*(</p>)', rf'\g<1>{NUMS[n].capitalize()}: {listed}.\2', new)
+        if new != s:
+            open(path, 'w', encoding='utf-8').write(new)
+            print(f'stamped  {f}')
+
+
 def main():
     cities, atlas = load()
+    stamp(cities)
     for lang in LANGS:
         city_urls, world_urls = build(*localize(cities, atlas, lang), lang)
         if lang == 'en':

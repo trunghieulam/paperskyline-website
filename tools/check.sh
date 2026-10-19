@@ -5,6 +5,7 @@ cd "$(dirname "$0")/.."
 pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html world/index.html world/*/index.html world/*/*/index.html
   {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
 fail=0
+discord=$(python3 -c "import sys; sys.path.insert(0, 'tools'); from i18n import DISCORD; print(DISCORD)")
 err() { echo "FAIL $1: $2"; fail=1; }
 
 for p in "${pages[@]}"; do
@@ -33,6 +34,8 @@ for p in "${pages[@]}"; do
   grep -qiE 'lorem|TODO|TBD' "$p" && err "$p" "placeholder text"
   grep -q '—' "$p" && err "$p" "em dash in copy: use a period, comma, colon or | instead"
   grep -qE 'https://www\.paperskyline\.org' "$p" && err "$p" "www host — the apex is canonical"
+  sed -n '/<footer class="site-footer">/,/<\/footer>/p' "$p" | grep -qF "href=\"$discord\"" \
+    || err "$p" "footer without the Discord link (tools/i18n.py DISCORD; re-run tools/cities.py after a swap)"
 
   # Google Play is live; the App Store badge stays an unlinked placeholder until iOS ships.
   grep -qE '<a[^>]*class="badge"' "$p" && err "$p" "App Store badge links before the iPhone version is published"

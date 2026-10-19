@@ -53,6 +53,11 @@ A page is indexed and listed in its sitemap only with 300+ words of its own veri
 The zh-Hans and id pages take every city, keeper and country line from the game's locale packs; the page strings live in `tools/i18n.py`.
 Extra verified text from `design/web-text/{cities,countries}/<key>.<lang>.md` in the game repo renders as one H2 per `##` section and counts toward the rule.
 Every page lists all its languages as `hreflang` alternates, and `check.sh` fails any set that is not reciprocal.
+It also stamps the hand-written pages: the city count on `index.html` and `support.html`, and the Discord invite on every page.
+
+## Discord
+
+The invite lives in one constant, `DISCORD` in `tools/i18n.py`; after a swap, re-run `tools/cities.py`. `check.sh` fails any page whose footer lacks it.
 
 ## Copy
 

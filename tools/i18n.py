@@ -2,6 +2,9 @@
 it comes from the game's packs. zh-Hans and id were drafted by the Web Engineer and checked by the City Writer.
 """
 
+# The Paper Skyline server's permanent invite; to change it, edit here and re-run tools/cities.py.
+DISCORD = 'https://discord.gg/MApRvYQu5g'
+
 
 def _en_the(name):
     return 'the ' + name[4:] if name.startswith('The ') else name
@@ -31,7 +34,7 @@ T = {
         name='English', og_locale='en_US', sp=' ', skip='Skip to content', langs='Language', crumbs='Breadcrumb',
         nav=['Home', 'Business', 'Support', 'Privacy', 'Terms'],
         foot_nav=['Home', 'For businesses', 'Support', 'Privacy policy', 'Terms of use'],
-        tagline='One sheet of paper, one city at a time.',
+        tagline='One sheet of paper, one city at a time.', discord='Join us on Discord',
         trademark='Google Play and the Google Play logo are trademarks of Google LLC.',
         home='Home', world='World',
         continents={'europe': 'Europe', 'asia': 'Asia', 'africa': 'Africa', 'north-america': 'North America',
@@ -72,7 +75,7 @@ T = {
         name='简体中文', og_locale='zh_CN', sp='', skip='跳到正文', langs='语言', crumbs='当前位置',
         nav=['首页', '商务合作', '帮助', '隐私', '条款'],
         foot_nav=['首页', '商务合作', '帮助', '隐私政策', '使用条款'],
-        tagline='一张纸，一座城市接着一座城市。',
+        tagline='一张纸，一座城市接着一座城市。', discord='加入我们的 Discord',
         trademark='Google Play 和 Google Play 徽标是 Google LLC 的商标。',
         home='首页', world='世界',
         continents={'europe': '欧洲', 'asia': '亚洲', 'africa': '非洲', 'north-america': '北美洲',
@@ -115,14 +118,14 @@ T = {
             cards=[('每一次，都飞得更远一点', '掠过屋顶，看看自己能飞多远。距离、高度、速度和飞行时间，都会变成下一次飞行的资金。在工坊里升级发射器、机翼、机身、引擎和油箱。'),
                    ('挑战城市守护者', '找到弱点，看准时机，撞出关键的一击。下一段天空正在等你。'),
                    ('收集新外观', '每天飞一飞，打开礼物，为你的纸飞机收集外观。'),
-                   ('15 座城市等你去', '从巴黎、东京到里约和多伦多。把古物和明信片收进图集，任何城市都能用简单、普通或困难模式再玩一次。')],
+                   ('{n} 座城市等你去', '从巴黎、东京到里约和多伦多。把古物和明信片收进图集，任何城市都能用简单、普通或困难模式再玩一次。')],
             by_cont='按大洲浏览', all_cities='所有城市'),
     ),
     'id': dict(
         name='Bahasa Indonesia', og_locale='id_ID', sp=' ', skip='Langsung ke konten', langs='Bahasa', crumbs='Navigasi',
         nav=['Beranda', 'Bisnis', 'Bantuan', 'Privasi', 'Ketentuan'],
         foot_nav=['Beranda', 'Untuk bisnis', 'Bantuan', 'Kebijakan privasi', 'Ketentuan penggunaan'],
-        tagline='Selembar kertas, satu demi satu kota.',
+        tagline='Selembar kertas, satu demi satu kota.', discord='Gabung di Discord kami',
         trademark='Google Play dan logo Google Play adalah merek dagang Google LLC.',
         home='Beranda', world='Dunia',
         continents={'europe': 'Eropa', 'asia': 'Asia', 'africa': 'Afrika', 'north-america': 'Amerika Utara',
@@ -160,17 +163,17 @@ T = {
         world_desc='Setiap kota di Paper Skyline menurut benua dan negara: {total} kota, dari {first} sampai {last}.',
         homepage=dict(  # drafted from the en-US Play listing, in the game's own words, for the City Writer to check
             title='Paper Skyline | game pesawat kertas',
-            desc='Terbangkan pesawat kertas melintasi kota-kota di seluruh dunia, dan tingkatkan setelah setiap penerbangan.',
-            alt='Langit Paris saat matahari terbenam dalam tinta dan cat air, dengan awan jingga di atas atap dan Menara Eiffel',
+            desc='Terbangkan pesawat kertas melintasi kota-kota di seluruh dunia, dan tingkatkan pesawatmu setelah setiap penerbangan.',
+            alt='Langit Paris saat matahari terbenam dalam tinta dan cat air, dengan awan warna persik di atas atap dan Menara Eiffel',
             eyebrow='Ponsel dan tablet Android', tag='Lipat sebuah keinginan. Terbangkan ke sana.',
-            lede=('Seorang anak laki-laki yang belum bisa bepergian menulis keinginannya di selembar halaman buku catatan, '
-                  'melipatnya menjadi pesawat kertas, lalu melemparnya dari jendela. Kini kamu menerbangkannya di atas '
+            lede=('Seorang anak laki-laki yang belum bisa bepergian menulis keinginannya di selembar kertas buku catatan, '
+                  'melipatnya menjadi pesawat kertas, lalu melemparnya keluar jendela. Kini kamu menerbangkannya di atas '
                   'kota-kota nyata yang dilukis dengan tinta dan cat air.'),
-            play_eb='Cara bermain', play_h2='Bangun pesawat yang lebih baik',
-            cards=[('Setiap kali, terbang sedikit lebih jauh', 'Meluncurlah di atas atap dan lihat seberapa jauh kamu bisa terbang. Jarak, tinggi, kecepatan, dan waktu di udara membayar penerbangan berikutnya. Tingkatkan peluncur, sayap, badan, mesin, dan tangki BBM di Bengkel.'),
-                   ('Lewati para penjaga kota', 'Setiap kota punya Penjaga Elite dan Penjaga Boss. Kenai titik lemahnya untuk BONK! besar, atau bangun pesawat yang lebih kuat dan lewati mereka dengan pukulan biasa. Berikan pukulan terakhir untuk KO!'),
+            play_eb='Cara bermain', play_h2='Rakit pesawat yang lebih baik',
+            cards=[('Terbang sedikit lebih jauh setiap kali', 'Meluncurlah di atas atap dan lihat seberapa jauh kamu bisa terbang. Jarak, ketinggian, kecepatan, dan durasi jadi modal untuk penerbangan berikutnya. Tingkatkan peluncur, sayap, badan, mesin, dan tangki BBM di Bengkel.'),
+                   ('Lewati para penjaga kota', 'Setiap kota punya Penjaga Elite dan Penjaga Boss. Kenai titik lemahnya untuk BONK! yang besar, atau rakit pesawat yang lebih kuat dan lewati mereka dengan pukulan biasa. Berikan pukulan terakhir untuk KO!'),
                    ('Kumpulkan tampilan baru', 'Terbanglah setiap hari, buka hadiah, dan kumpulkan tampilan untuk pesawat kertasmu.'),
-                   ('15 kota menunggumu', 'Dari Paris dan Tokyo sampai Rio dan Toronto. Simpan jimat dan kartu pos di Atlas, dan mainkan lagi kota mana pun di tingkat Mudah, Sedang, atau Sulit.')],
+                   ('{n} kota menunggumu', 'Dari Paris dan Tokyo sampai Rio dan Toronto. Kumpulkan jimat dan kartu pos untuk Atlasmu, dan mainkan lagi kota mana pun di tingkat Mudah, Sedang, atau Sulit.')],
             by_cont='Jelajahi menurut benua', all_cities='Semua kota'),
     ),
 }
