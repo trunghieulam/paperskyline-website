@@ -423,8 +423,11 @@ strong { font-weight: 700; color: var(--hot); }
 
 /* city pages (tools/cities.py): one painting, two keeper cards, the boy's own lines */
 .hero-title .small { font-size: .55em; }
-.crumbs { padding-block: .9rem; font-size: .95rem; color: var(--ink-faint); }
+.topbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1.5rem; padding-block: .9rem; }
+.crumbs, .langs { font-size: .95rem; color: var(--ink-faint); }
 .crumbs a { font-weight: 600; }
+.langs { display: flex; flex-wrap: wrap; gap: .3rem .9rem; }
+.langs [aria-current] { font-weight: 700; color: var(--ink-soft); }
 .section .eyebrow + h2 + p, .section h2 + .lede { margin-top: .2rem; }
 .section .wrap > .eyebrow:not(:first-child) { margin-top: 1.5rem; }
 .keeper-grid.pair { grid-template-columns: minmax(0, 1fr); }

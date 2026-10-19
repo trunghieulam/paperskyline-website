@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Writes cities/<id>/, world/<continent>/<country>/ and their hubs and sitemaps from the game's own data.
+"""Writes cities/<id>/, world/<continent>/<country>/ and their hubs and sitemaps from the game's own data,
+in English at the root and in each other language under /<lang>/.
 Usage: tools/cities.py [path to game-paper-flights]   (default: ../game-paper-flights next to this repo)
-Facts come from the city graph (kg.py, built into tools/.tmp/) and the Atlas text; nothing is written here by hand.
+Facts come from the city graph (kg.py, built into tools/.tmp/), the Atlas text and the game's locale packs;
+the only text written here is the page furniture in tools/i18n.py.
 """
+import copy
 import html
 import json
 import os
@@ -12,16 +15,17 @@ import sys
 import unicodedata
 
 from art import CITIES, NAMES
+from i18n import T
 
 SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 GAME = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(SITE, '..', 'game-paper-flights'))
+PACKS = os.path.join(GAME, 'Assets/Content/Locale/packs')
 ORIGIN = 'https://paperskyline.org'
-# The #96 rule: index a page only with this many words of its own verified text, plus its own image
-MIN_WORDS = 300
+LANGS = ['en', 'zh-Hans', 'id']
+# The #96 rule: index a page only with this much verified text of its own, plus its own image.
+# Chinese counts Han characters; 450 is the usual 1.5 characters per English word.
+MIN_WORDS = {'en': 300, 'zh-Hans': 450, 'id': 300}
 IDS = {'rio': 'rio-de-janeiro'}
-CONTINENTS = {'europe': 'Europe', 'asia': 'Asia', 'africa': 'Africa', 'north-america': 'North America',
-              'south-america': 'South America', 'oceania': 'Oceania'}
-LOOK_KINDS = {'trail': 'trail', 'paper': 'paper', 'ink': 'ink', 'colour': 'colour', 'fold': 'fold', 'style': 'style'}
 
 
 def kg(sql):
@@ -37,8 +41,11 @@ def esc(s):
     return html.escape(s, quote=True)
 
 
-def words(*parts):
-    return sum(len(re.findall(r"[\w'’-]+", re.sub(r'<[^>]+>', ' ', p))) for p in parts)
+def words(lang, *parts):
+    text = ' '.join(re.sub(r'<[^>]+>', ' ', p) for p in parts)
+    if lang == 'zh-Hans':
+        return len(re.findall(r'[㐀-鿿]', text)) + len(re.findall(r"[A-Za-z0-9'’-]+", text))
+    return len(re.findall(r"[\w'’-]+", text))
 
 
 def load():
@@ -58,54 +65,77 @@ def load():
                    for r in kg(f"SELECT dst, props FROM edges WHERE src='level:{cid}' AND kind='has_keeper'")}
         parents = [r['dst'].split(':', 1)[1] for r in kg(f"SELECT dst FROM edges WHERE src='level:{cid}' AND kind='parent'")]
         children = [r['src'].split(':', 1)[1] for r in kg(f"SELECT src FROM edges WHERE dst='level:{cid}' AND kind='parent'")]
-        looks = kg(f"SELECT n.label, n.props FROM edges e JOIN nodes n ON n.key=e.dst "
+        looks = kg(f"SELECT n.key, n.label, n.props FROM edges e JOIN nodes n ON n.key=e.dst "
                    f"WHERE e.src='level:{cid}' AND e.kind='grants_look'")
         a = atlas['cities'][cid]
+        country = atlas['countries'][a['country']]['name']
         cities.append(dict(n=n, id=cid, slug=slug, name=NAMES.get(slug, level['name']), level=level, beats=beats,
                            landmark_col=bg.get('landmarkColumn', .5), coords=place.get('coords'), relics=relics, keepers=keepers,
                            parents=parents, children=children, looks=looks, atlas=a,
-                           code=a['country'], cont=level['continent'],
-                           country=atlas['countries'][a['country']]['name']))
+                           code=a['country'], cont=level['continent'], country=country,
+                           country_path=f'world/{level["continent"]}/{slugify(country)}/'))
     return cities, atlas
 
 
-# Country names that take "the" in a sentence
-THE = {'US', 'GB', 'NL'}
-
-
-def the(name):
-    """A keeper or country name in mid-sentence: 'The Stryge' becomes 'the Stryge'."""
-    return 'the ' + name[4:] if name.startswith('The ') else name
-
-
-def country_in(code, name):
-    return f'the {name}' if code in THE else name
-
-
-def joined(xs):
-    return ', '.join(xs[:-1]) + (' and ' if len(xs) > 1 else '') + xs[-1]
+def localize(cities, atlas, lang):
+    """The same cities with every visible string from the game's <lang> packs; a missing key fails the build."""
+    if lang == 'en':
+        return cities, atlas
+    pack = lambda f: json.load(open(os.path.join(PACKS, lang, f), encoding='utf-8'))
+    ui, story = pack(f'{lang}.json'), pack(f'v1-story.{lang}.json')['cities']
+    # A dash joining two names (斯托克顿—达灵顿) is a range, which the site sets as an en dash; the no-em-dash rule stands
+    at = json.loads(re.sub(r'(?<=\S)—(?=\S)', '–', open(os.path.join(PACKS, lang, f'atlas-stories.{lang}.json'), encoding='utf-8').read()))
+    out = []
+    for x in cities:
+        s, y = story[x['id']], copy.deepcopy(x)
+        b = {'preflight.wish': s['preflight']['wish'], 'preflight.goal': s['preflight']['goal'], 'clear': s['clear']}
+        b.update({f'journal[{i}]': j for i, j in enumerate(s['journal'])})
+        for role in ('elite', 'boss'):
+            b.update({f'{role}.{k}': v for k, v in s[role].items() if isinstance(v, str)})
+        y['beats'] = b
+        y['relics'] = {x['keepers'][role]: (s[role]['relic']['name'], s[role]['relic']['effect'])
+                       for role in ('elite', 'boss') if x['keepers'][role] in x['relics']}
+        y['looks'] = [dict(l, label=ui[f'look.{l["key"].split(":", 1)[1]}.name']) for l in x['looks']]
+        y['name'] = ui[f'city.{x["id"]}.name']
+        y['atlas'] = at['cities'][x['id']]
+        y['country'] = at['countries'][x['code']]['name']
+        out.append(y)
+    return out, at
 
 
 def slugify(s):
     return re.sub(r'[^a-z0-9]+', '-', unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode().lower()).strip('-')
 
 
-def country_path(x):
-    return f'world/{x["cont"]}/{slugify(x["country"])}/'
+def prefix(lang):
+    return '' if lang == 'en' else f'{lang}/'
 
 
-def head(c, title, desc, path, image, index, ld=None):
+def hreflang(c, rel, lang, t):
+    """The alternate links for <head> and the visible language switcher, for the page at <lang>/<rel>."""
+    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ORIGIN}/{prefix(l)}{rel}">\n' for l in LANGS)
+    alts += f'<link rel="alternate" hreflang="x-default" href="{ORIGIN}/{rel}">\n'
+    xs = [f'<span aria-current="true">{T[l]["name"]}</span>' if l == lang else
+          f'<a href="{c}{prefix(l)}{rel}" hreflang="{l}" lang="{l}">{T[l]["name"]}</a>' for l in LANGS]
+    switch = f'    <nav class="langs" aria-label="{t["langs"]}">{" ".join(xs)}</nav>\n'
+    return alts, switch
+
+
+def head(c, t, lang, title, desc, rel, image, index, ld=None):
     ld = f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False, indent=1)}\n</script>\n' if ld else ''
     robots = '' if index else '<meta name="robots" content="noindex,follow">\n'
+    alts, switch = hreflang(c, rel, lang, t)
+    path = f'/{prefix(lang)}{rel}'
+    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['nav'], ['', 'business.html', 'support.html', 'privacy.html', 'terms.html']))
     return f'''<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {robots}<link rel="canonical" href="{ORIGIN}{path}">
-<meta property="og:type" content="website">
+{alts}<meta property="og:type" content="website">
 <meta property="og:site_name" content="Paper Skyline">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
@@ -113,7 +143,7 @@ def head(c, title, desc, path, image, index, ld=None):
 <meta property="og:image" content="{ORIGIN}/{image}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="{t["og_locale"]}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#fff3e3">
 <link rel="icon" href="{c}favicon-32.png" sizes="32x32" type="image/png">
@@ -125,26 +155,22 @@ def head(c, title, desc, path, image, index, ld=None):
 <link rel="stylesheet" href="{c}styles.css">
 {ld}</head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#main">{t["skip"]}</a>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="{c}">
       <picture><source type="image/avif" srcset="{c}img/mark-96.avif"><source type="image/webp" srcset="{c}img/mark-96.webp"><img src="{c}img/mark-96.png" width="96" height="96" alt=""></picture>
       Paper Skyline
     </a>
-    <nav class="site-nav" aria-label="Site">
-      <a href="{c}">Home</a>
-      <a href="{c}business.html">Business</a>
-      <a href="{c}support.html">Support</a>
-      <a href="{c}privacy.html">Privacy</a>
-      <a href="{c}terms.html">Terms</a>
+    <nav class="site-nav" aria-label="Site">{nav}
     </nav>
   </div>
 </header>
-'''
+''', switch
 
 
-def foot(c):
+def foot(c, t):
+    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], ['', 'business.html', 'support.html', 'privacy.html', 'terms.html']))
     return f'''<footer class="site-footer">
   <div class="wrap">
     <div>
@@ -152,16 +178,11 @@ def foot(c):
         <picture><source type="image/avif" srcset="{c}img/mark-96.avif"><source type="image/webp" srcset="{c}img/mark-96.webp"><img src="{c}img/mark-96.png" width="96" height="96" alt=""></picture>
         Paper Skyline
       </a>
-      <p>One sheet of paper, one city at a time.</p>
+      <p>{t["tagline"]}</p>
       <p>&copy; 2026 THLab &middot; paperskyline.org</p>
-      <p class="fine">Google Play and the Google Play logo are trademarks of Google LLC.</p>
+      <p class="fine">{t["trademark"]}</p>
     </div>
-    <nav class="site-nav" aria-label="Footer">
-      <a href="{c}">Home</a>
-      <a href="{c}business.html">For businesses</a>
-      <a href="{c}support.html">Support</a>
-      <a href="{c}privacy.html">Privacy policy</a>
-      <a href="{c}terms.html">Terms of use</a>
+    <nav class="site-nav" aria-label="Footer">{nav}
     </nav>
   </div>
 </footer>
@@ -176,16 +197,19 @@ def pic(c, name, ext, alt, w, h, extra=''):
             f'<img src="{c}img/{name}.{ext}" width="{w}" height="{h}" alt="{esc(alt)}"{extra}></picture>')
 
 
-def play(c, medium, campaign):
+def play(c, lang, medium, campaign):
+    # Play Console splits installs by medium, so each language gets its own: city, city_zh_hans, city_id
+    medium += '' if lang == 'en' else '_' + lang.lower().replace('-', '_')
+    alt = '' if lang == 'en' else ' lang="en"'
     return ('<a class="store-link" href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer='
             f'utm_source%3Dsite%26utm_medium%3D{medium}%26utm_campaign%3D{campaign.replace("-", "_")}">\n'
-            f'          <img src="{c}brand/google-play-badge.png" width="646" height="250" alt="Get it on Google Play">\n'
+            f'          <img src="{c}brand/google-play-badge.png" width="646" height="250" alt="Get it on Google Play"{alt}>\n'
             '        </a>')
 
 
-def names(ids, by_id):
+def names(t, ids, by_id):
     xs = [f'<a href="../{i}/">{esc(by_id[i]["name"])}</a>' for i in ids if i in by_id]
-    return ', '.join(xs[:-1]) + (' and ' if len(xs) > 1 else '') + xs[-1] if xs else ''
+    return t['join'](xs) if xs else ''
 
 
 def keeper_size(slug, role):
@@ -193,23 +217,23 @@ def keeper_size(slug, role):
     return Image.open(os.path.join(SITE, 'img', f'keeper-{slug}-{role}.png')).size
 
 
-def keeper_card(x, role):
+def keeper_card(c, t, x, role):
     b = x['beats']
     name, sub = b[f'{role}.name'], b[f'{role}.subtitle']
     w, h = keeper_size(x['slug'], role)
     relic = x['relics'].get(x['keepers'][role])
-    relic_html = (f'\n          <p class="relic"><b>Guards a relic: the {esc(relic[0])}.</b> {esc(relic[1])}</p>'
+    relic_html = (f'\n          <p class="relic"><b>{esc(t["relic"].format(relic=relic[0]))}</b>{t["sp"]}{esc(relic[1])}</p>'
                   if relic else '')
     return f'''        <li class="keeper-card">
           <div class="keepers">
-            {pic('../../', f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
-            {pic('../../', f'keeper-{x["slug"]}-{role}', 'png', f'{name}, {sub.split(" · ")[0].lower()}', w, h, ' loading="lazy" decoding="async"')}
+            {pic(c, f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
+            {pic(c, f'keeper-{x["slug"]}-{role}', 'png', t['keeper_alt'](name, sub), w, h, ' loading="lazy" decoding="async"')}
           </div>
-          <span class="eyebrow">{"The Elite" if role == "elite" else "The Boss"}</span>
+          <span class="eyebrow">{t[role]}</span>
           <h3>{esc(name)}</h3>
           <p class="sub">{esc(sub)}</p>
           <p>{esc(b[f"{role}.legend"])}</p>
-          <p>{esc(b[f"{role}.wake"])} {esc(b[f"{role}.crack"])} {esc(b[f"{role}.break"])}</p>
+          <p>{t["sp"].join(esc(b[f"{role}.{k}"]) for k in ("wake", "crack", "break"))}</p>
           <blockquote class="mine"><p>&ldquo;{esc(b[f"{role}.mine"])}&rdquo;</p></blockquote>{relic_html}
         </li>'''
 
@@ -219,89 +243,97 @@ GAME_LD = {'@type': ['VideoGame', 'MobileApplication'], '@id': f'{ORIGIN}/#game'
            'installUrl': 'https://play.google.com/store/apps/details?id=paperskyline.org', 'url': f'{ORIGIN}/'}
 
 
-def city_ld(x, title, desc):
-    url = f'{ORIGIN}/cities/{x["id"]}/'
-    place = {'@type': 'City', 'name': x['name'], 'containedInPlace': {'@type': 'Country', 'name': x['country']}}
-    if x['coords']:
-        place['geo'] = {'@type': 'GeoCoordinates', 'latitude': x['coords']['lat'], 'longitude': x['coords']['lon']}
-    crumbs = [('Home', f'{ORIGIN}/'), (CONTINENTS[x['cont']], f'{ORIGIN}/world/{x["cont"]}/'),
-              (x['country'], f'{ORIGIN}/{country_path(x)}'), (x['name'], url)]
-    return {'@context': 'https://schema.org', '@graph': [
-        {'@type': 'WebPage', '@id': url, 'url': url, 'name': title, 'description': desc, 'inLanguage': 'en',
-         'primaryImageOfPage': {'@type': 'ImageObject', 'url': f'{ORIGIN}/img/og-{x["slug"]}.jpg',
-                                'width': 1200, 'height': 630},
-         'about': place, 'mentions': {'@id': f'{ORIGIN}/#game'}, 'breadcrumb': {'@id': f'{url}#breadcrumb'}},
-        {'@type': 'BreadcrumbList', '@id': f'{url}#breadcrumb', 'itemListElement': [
-            {'@type': 'ListItem', 'position': i, 'name': n, 'item': u} for i, (n, u) in enumerate(crumbs, 1)]},
-        GAME_LD]}
+def crumbs_html(c, t, trail, switch):
+    sep = ' <span aria-hidden="true">/</span> '
+    xs = [f'<a href="{c}{h}">{esc(n)}</a>' for n, h in trail[:-1]] + [f'<span aria-current="page">{esc(trail[-1][0])}</span>']
+    return (f'  <div class="wrap topbar">\n    <nav class="crumbs" aria-label="{t["crumbs"]}">\n      {sep.join(xs)}\n    </nav>\n'
+            f'{switch}  </div>\n')
 
 
-def city_page(x, by_id, total):
+def page_ld(lang, rel, title, desc, trail, about=None, image=None):
+    url = f'{ORIGIN}/{prefix(lang)}{rel}'
+    page = {'@type': 'WebPage', '@id': url, 'url': url, 'name': title, 'description': desc, 'inLanguage': lang}
+    if image:
+        page['primaryImageOfPage'] = {'@type': 'ImageObject', 'url': f'{ORIGIN}/{image}', 'width': 1200, 'height': 630}
+    if about:
+        page['about'] = about
+    page.update({'mentions': {'@id': f'{ORIGIN}/#game'}, 'breadcrumb': {'@id': f'{url}#breadcrumb'}})
+    return {'@context': 'https://schema.org', '@graph': [page, {
+        '@type': 'BreadcrumbList', '@id': f'{url}#breadcrumb', 'itemListElement': [
+            {'@type': 'ListItem', 'position': i, 'name': n, 'item': f'{ORIGIN}/{h}'}
+            for i, (n, h) in enumerate(trail, 1)]}, GAME_LD]}
+
+
+def city_page(x, by_id, total, lang):
+    t, p = T[lang], prefix(lang)
+    c = '../../' + '../' * (lang != 'en')
     a, b, lv = x['atlas'], x['beats'], x['level']
-    wish = re.sub(r'^Wish #\{n\}:\s*', '', b['preflight.wish'])
+    wish = re.sub(r'^[^#]*#\{n\}[:：]\s*', '', b['preflight.wish'])
     wish = wish[0].upper() + wish[1:]
     elite, boss = b['elite.name'], b['boss.name']
     hero = 'hero-paris' if x['slug'] == 'paris' else f'city-{x["slug"]}'
-    srcset = lambda e: ', '.join(f'../../img/{hero}-{w}.{e} {w}w' for w in (640, 1024, 1600))
+    srcset = lambda e: ', '.join(f'{c}img/{hero}-{w}.{e} {w}w' for w in (640, 1024, 1600))
     route = []
     if x['parents']:
-        route.append(f'The plane reaches {esc(x["name"])} from {names(x["parents"], by_id)}.')
+        route.append(t['route_from'].format(name=esc(x['name']), cities=names(t, x['parents'], by_id)))
     else:
-        route.append(f'Every journey starts in {esc(x["name"])}.')
+        route.append(t['route_start'].format(name=esc(x['name'])))
     nxt = [i for i in x['children'] if i in by_id]
     if nxt:
-        route.append(f'Clear it and the map opens the way to {names(nxt, by_id)}.')
+        route.append(t['route_next'].format(cities=names(t, nxt, by_id)))
     for look in x['looks']:
-        p = json.loads(look['props'])
-        route.append(f'Its own plane look is {esc(look["label"])}, a {LOOK_KINDS.get(p.get("lookKind"), "plane")} '
-                     f'look.')
+        kind = t['kinds'].get(json.loads(look['props']).get('lookKind'), t['kinds']['style'])
+        route.append(t['route_look'].format(look=esc(look['label']), kind=kind))
     journal = ''.join(f'\n          <li>{esc(b[k])}</li>' for k in ('journal[0]', 'journal[1]') if k in b)
     body = [wish, b['preflight.goal'], a['historyTitle'], a['history'], a['historyIdLine'], a['landmarkTitle'],
             a['landmark'], b['clear'], *(b[k] for k in ('journal[0]', 'journal[1]') if k in b)]
     for role in ('elite', 'boss'):
         body += [b[f'{role}.{k}'] for k in ('name', 'subtitle', 'legend', 'wake', 'crack', 'break', 'mine')]
     body += [f'{r[0]} {r[1]}' for r in x['relics'].values()]
-    n_words = words(*body)
-    index = n_words >= MIN_WORDS
-    title = f'{x["name"]} paper plane game | Paper Skyline'
-    desc = (f'Fly a paper plane over {x["name"] if x["name"] == x["country"] else x["name"] + ", " + x["country"]}, '
-            f'painted in ink and watercolour. '
-            f'Meet its keepers, {the(elite)} and {the(boss)}, and the history behind them.')
+    n_words = words(lang, *body)
+    index = n_words >= MIN_WORDS[lang]
+    rel = f'cities/{x["id"]}/'
+    title = t['city_title'].format(name=x['name'])
+    desc = t['city_desc'].format(place=t['place'](x['name'], x['country']), elite=t['the'](elite), boss=t['the'](boss))
     others = ''.join(f'\n        <li><a href="../{o["id"]}/">{esc(o["name"])}</a></li>'
                      for o in by_id.values() if o['id'] != x['id'])
-    page = head('../../', title, desc, f'/cities/{x["id"]}/', f'img/og-{x["slug"]}.jpg', index, city_ld(x, title, desc)) + f'''
+    cont = t['continents'][x['cont']]
+    trail = [(t['home'], ''), (cont, f'{p}world/{x["cont"]}/'), (x['country'], p + x['country_path']), (x['name'], p + rel)]
+    place = {'@type': 'City', 'name': x['name'], 'containedInPlace': {'@type': 'Country', 'name': x['country']}}
+    if x['coords']:
+        place['geo'] = {'@type': 'GeoCoordinates', 'latitude': x['coords']['lat'], 'longitude': x['coords']['lon']}
+    image = f'img/og-{x["slug"]}.jpg'
+    top, switch = head(c, t, lang, title, desc, rel, image, index, page_ld(lang, rel, title, desc, trail, place, image))
+    page = top + f'''
 <main id="main">
-  <nav class="wrap crumbs" aria-label="Breadcrumb">
-    <a href="../../">Home</a> <span aria-hidden="true">/</span> <a href="../../world/{x["cont"]}/">{CONTINENTS[x["cont"]]}</a> <span aria-hidden="true">/</span> <a href="../../{country_path(x)}">{esc(x["country"])}</a> <span aria-hidden="true">/</span> <span aria-current="page">{esc(x["name"])}</span>
-  </nav>
-  <section class="hero" aria-labelledby="hero-title">
+{crumbs_html(c, t, trail, switch)}  <section class="hero" aria-labelledby="hero-title">
     <div class="hero-scene">
       <picture>
         <source type="image/avif" srcset="{srcset('avif')}" sizes="100vw">
         <source type="image/webp" srcset="{srcset('webp')}" sizes="100vw">
-        <img srcset="{srcset('jpg')}" sizes="100vw" src="../../img/{hero}-1024.jpg" width="1600" height="533" alt="{esc(f'The {x["name"]} skyline in ink and watercolour, as the game paints it')}" fetchpriority="high" style="object-position: {round(x['landmark_col'] * 100)}% 100%">
+        <img srcset="{srcset('jpg')}" sizes="100vw" src="{c}img/{hero}-1024.jpg" width="1600" height="533" alt="{esc(t['hero_alt'].format(name=x['name']))}" fetchpriority="high" style="object-position: {round(x['landmark_col'] * 100)}% 100%">
       </picture>
-      <h1 id="hero-title" class="hero-title"><span>{esc(x["name"])}</span> <span class="small">paper plane game</span></h1>
+      <h1 id="hero-title" class="hero-title"><span>{esc(x["name"])}</span> <span class="small">{t["h1_small"]}</span></h1>
     </div>
     <div class="wrap hero-copy">
       <div>
-        <span class="eyebrow">City {x["n"]} of {total} &middot; {esc(x["country"])} &middot; {CONTINENTS[lv["continent"]]}</span>
+        <span class="eyebrow">{t["city_eb"].format(n=x["n"], total=total)} &middot; {esc(x["country"])} &middot; {cont}</span>
         <p class="hero-tag">{esc(wish)}</p>
         <p class="lede">{esc(b["preflight.goal"])}</p>
       </div>
       <ul class="badges">
-        <li>{play("../../", "city", x["id"])}</li>
+        <li>{play(c, lang, "city", x["id"])}</li>
       </ul>
     </div>
   </section>
 
   <section class="section" aria-labelledby="history-title">
     <div class="wrap">
-      <span class="eyebrow">The city</span>
+      <span class="eyebrow">{t["the_city"]}</span>
       <h2 id="history-title">{esc(a["historyTitle"])}</h2>
       <p class="lede">{esc(a["history"])}</p>
       <p class="mine-line">&ldquo;{esc(a["historyIdLine"])}&rdquo;</p>
-      <span class="eyebrow">The landmark</span>
+      <span class="eyebrow">{t["the_landmark"]}</span>
       <h2 id="landmark-title">{esc(a["landmarkTitle"])}</h2>
       <p>{esc(a["landmark"])}</p>
     </div>
@@ -309,60 +341,65 @@ def city_page(x, by_id, total):
 
   <section class="section alt" aria-labelledby="keepers-title">
     <div class="wrap">
-      <span class="eyebrow">Two keepers</span>
-      <h2 id="keepers-title">Who keeps the wish in {esc(x["name"])}.</h2>
-      <p class="lede">An Elite wakes first; the Boss guards the wish itself. Hit their weak points for a BONK!, land the last blow for a KO!, and each one grins and takes a bow.</p>
+      <span class="eyebrow">{t["two_keepers"]}</span>
+      <h2 id="keepers-title">{t["keepers_h2"].format(name=esc(x["name"]))}</h2>
+      <p class="lede">{t["keepers_lede"]}</p>
       <ul class="keeper-grid pair">
-{keeper_card(x, "elite")}
-{keeper_card(x, "boss")}
+{keeper_card(c, t, x, "elite")}
+{keeper_card(c, t, x, "boss")}
       </ul>
     </div>
   </section>
 
   <section class="section" aria-labelledby="journal-title">
     <div class="wrap">
-      <span class="eyebrow">The journal</span>
+      <span class="eyebrow">{t["the_journal"]}</span>
       <h2 id="journal-title">{esc(b["clear"])}</h2>
       <ul class="journal">{journal}
       </ul>
-      <p>{" ".join(route)}</p>
+      <p>{t["sp"].join(route)}</p>
       <ul class="badges">
-        <li>{play("../../", "city", x["id"] + "_end")}</li>
+        <li>{play(c, lang, "city", x["id"] + "_end")}</li>
       </ul>
     </div>
   </section>
 
   <section class="section alt" aria-labelledby="more-title">
     <div class="wrap">
-      <span class="eyebrow">{total} cities</span>
-      <h2 id="more-title">Fly on.</h2>
+      <span class="eyebrow">{t["n_cities"](total)}</span>
+      <h2 id="more-title">{t["fly_on"]}</h2>
       <ul class="city-links">{others}
       </ul>
     </div>
   </section>
 </main>
 
-''' + foot('../../')
+''' + foot(c, t)
     return page, n_words, index
 
 
-def hub(cities):
+def hub(cities, lang):
+    t = T[lang]
+    c = '../' + '../' * (lang != 'en')
     cards = ''.join(f'''
         <li class="keeper-card">
           <div class="keepers">
-            {pic('../', f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
+            {pic(c, f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
           </div>
           <h3><a href="{x["id"]}/">{esc(x["name"])}</a></h3>
           <p class="sub">{esc(x["country"])} &middot; {esc(x["atlas"]["landmarkTitle"])}</p>
-          <p>{esc(x["beats"]["elite.name"])} and {esc(the(x["beats"]["boss.name"]))}</p>
+          <p>{esc(t["join"]([x["beats"]["elite.name"], t["the"](x["beats"]["boss.name"])]))}</p>
         </li>''' for x in cities)
-    desc = f'The {len(cities)} cities of Paper Skyline, from Paris to Toronto, each with its painting, its history and its two keepers.'
-    return head('../', f'Cities | Paper Skyline', desc, '/cities/', 'brand/og-image-1200x630.jpg', False) + f'''
+    desc = t['hub_desc'].format(n=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
+    top, switch = head(c, t, lang, t['hub_title'], desc, 'cities/', 'brand/og-image-1200x630.jpg', False)
+    return top + f'''
 <main id="main">
+  <div class="wrap topbar">
+{switch}  </div>
   <section class="section" aria-labelledby="cities-title">
     <div class="wrap">
-      <span class="eyebrow">{len(cities)} cities</span>
-      <h1 id="cities-title">Where the plane flies.</h1>
+      <span class="eyebrow">{t["n_cities"](len(cities))}</span>
+      <h1 id="cities-title">{t["hub_h1"]}</h1>
       <p class="lede">{esc(desc)}</p>
       <ul class="keeper-grid">{cards}
       </ul>
@@ -370,10 +407,10 @@ def hub(cities):
   </section>
 </main>
 
-''' + foot('../')
+''' + foot(c, t)
 
 
-def city_card(x, c, href):
+def city_card(x, c, t, href):
     keeper = lambda role: pic(c, f'keeper-{x["slug"]}-{role}', 'png', x['beats'][f'{role}.name'],
                               *keeper_size(x['slug'], role), ' loading="lazy" decoding="async"')
     return f'''
@@ -385,57 +422,39 @@ def city_card(x, c, href):
           </div>
           <h3><a href="{href}">{esc(x["name"])}</a></h3>
           <p class="sub">{esc(x["atlas"]["landmarkTitle"])}</p>
-          <p>{esc(x["beats"]["elite.name"])} and {esc(the(x["beats"]["boss.name"]))}</p>
+          <p>{esc(t["join"]([x["beats"]["elite.name"], t["the"](x["beats"]["boss.name"])]))}</p>
         </li>'''
-
-
-def crumbs_html(c, trail):
-    sep = ' <span aria-hidden="true">/</span> '
-    xs = [f'<a href="{c}{h}">{esc(n)}</a>' for n, h in trail[:-1]] + [f'<span aria-current="page">{esc(trail[-1][0])}</span>']
-    return f'  <nav class="wrap crumbs" aria-label="Breadcrumb">\n    {sep.join(xs)}\n  </nav>\n'
-
-
-def page_ld(path, title, desc, trail, about=None):
-    url = f'{ORIGIN}/{path}'
-    page = {'@type': 'WebPage', '@id': url, 'url': url, 'name': title, 'description': desc, 'inLanguage': 'en',
-            'breadcrumb': {'@id': f'{url}#breadcrumb'}, 'mentions': {'@id': f'{ORIGIN}/#game'}}
-    if about:
-        page['about'] = about
-    return {'@context': 'https://schema.org', '@graph': [page, {
-        '@type': 'BreadcrumbList', '@id': f'{url}#breadcrumb', 'itemListElement': [
-            {'@type': 'ListItem', 'position': i, 'name': n, 'item': f'{ORIGIN}/{h}'}
-            for i, (n, h) in enumerate(trail, 1)]}, GAME_LD]}
 
 
 def links(c, items):
     return ''.join(f'\n        <li><a href="{c}{h}">{esc(n)}</a></li>' for n, h in items)
 
 
-def country_page(code, cs, atlas, conts):
+def country_page(code, cs, atlas, conts, lang):
+    t, p = T[lang], prefix(lang)
     k, x0 = atlas['countries'][code], cs[0]
-    c, path, cont = '../../../', country_path(x0), x0['cont']
-    n_words = words(k['intro'], k['idLine'], *k['facts'])
-    index = n_words >= MIN_WORDS
-    title = f'{k["name"]} paper plane game | Paper Skyline'
-    desc = (f'Fly a paper plane over {joined([x["name"] for x in cs])} in Paper Skyline, '
-            f'and meet the keepers of {country_in(code, k["name"])}.')
-    trail = [('Home', ''), (CONTINENTS[cont], f'world/{cont}/'), (k['name'], path)]
+    c, rel, cont = '../../../' + '../' * (lang != 'en'), x0['country_path'], x0['cont']
+    n_words = words(lang, k['intro'], k['idLine'], *k['facts'])
+    index = n_words >= MIN_WORDS[lang]
+    title = t['country_title'].format(name=k['name'])
+    desc = t['country_desc'].format(cities=t['join']([x['name'] for x in cs]), country=t['country_in'](code, k['name']))
+    trail = [(t['home'], ''), (t['continents'][cont], f'{p}world/{cont}/'), (k['name'], p + rel)]
     facts = ''.join(f'\n        <li>{esc(f)}</li>' for f in k['facts'])
-    cards = ''.join(city_card(x, c, f'{c}cities/{x["id"]}/') for x in cs)
-    near = [(n, h) for n, h in conts[cont] if h != path]
+    cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
+    near = [(n, p + h) for n, h in conts[cont] if h != rel]
     more = (f'''
-      <h3>More of {CONTINENTS[cont]}</h3>
+      <h3>{t["more_of"].format(cont=t["continents"][cont])}</h3>
       <ul class="city-links">{links(c, near)}
       </ul>''' if near else '')
-    about = {'@type': 'Country', 'name': k['name']}
-    outline = pic(c, f'country-{code.lower()}-320', 'png', f"The outline of {country_in(code, k['name'])} from the game's Atlas", 320, 320)
-    page = head(c, title, desc, f'/{path}', f'img/og-{x0["slug"]}.jpg', index,
-                page_ld(path, title, desc, trail, about)) + f'''
+    outline = pic(c, f'country-{code.lower()}-320', 'png', t['outline_alt'].format(country=t['country_in'](code, k['name'])), 320, 320)
+    top, switch = head(c, t, lang, title, desc, rel, f'img/og-{x0["slug"]}.jpg', index,
+                       page_ld(lang, rel, title, desc, trail, {'@type': 'Country', 'name': k['name']}))
+    page = top + f'''
 <main id="main">
-{crumbs_html(c, trail)}  <section class="section country-head" aria-labelledby="country-title">
+{crumbs_html(c, t, trail, switch)}  <section class="section country-head" aria-labelledby="country-title">
     <div class="wrap">
       <div>
-        <span class="eyebrow">{CONTINENTS[cont]}</span>
+        <span class="eyebrow">{t["continents"][cont]}</span>
         <h1 id="country-title">{esc(k["name"])}</h1>
         <p class="lede">{esc(k["intro"])}</p>
         <p class="mine-line">&ldquo;{esc(k["idLine"])}&rdquo;</p>
@@ -448,49 +467,51 @@ def country_page(code, cs, atlas, conts):
 
   <section class="section alt" aria-labelledby="cities-title">
     <div class="wrap">
-      <span class="eyebrow">{len(cs)} {"city" if len(cs) == 1 else "cities"} in the game</span>
-      <h2 id="cities-title">Fly over {esc(country_in(code, k["name"]))}.</h2>
+      <span class="eyebrow">{t["in_game"](len(cs))}</span>
+      <h2 id="cities-title">{esc(t["fly_over"].format(country=t["country_in"](code, k["name"])))}</h2>
       <ul class="keeper-grid">{cards}
       </ul>
       <ul class="badges more">
-        <li>{play(c, "country", code.lower())}</li>
+        <li>{play(c, lang, "country", code.lower())}</li>
       </ul>
     </div>
   </section>
 
   <section class="section" aria-labelledby="more-title">
     <div class="wrap">
-      <span class="eyebrow">The world</span>
-      <h2 id="more-title">Fly on.</h2>{more}
-      <h3>Every continent</h3>
-      <ul class="city-links">{links(c, [(CONTINENTS[k2], f'world/{k2}/') for k2 in conts])}
+      <span class="eyebrow">{t["the_world"]}</span>
+      <h2 id="more-title">{t["fly_on"]}</h2>{more}
+      <h3>{t["every_cont"]}</h3>
+      <ul class="city-links">{links(c, [(t["continents"][k2], f'{p}world/{k2}/') for k2 in conts])}
       </ul>
     </div>
   </section>
 </main>
 
-''' + foot(c)
-    return path, page, n_words, index
+''' + foot(c, t)
+    return p + rel, page, n_words, index
 
 
-def continent_page(cont, cs, conts, total):
-    c, path = '../../', f'world/{cont}/'
-    name = CONTINENTS[cont]
-    title = f'{name} in Paper Skyline | paper plane game'
+def continent_page(cont, cs, conts, total, lang):
+    t, p = T[lang], prefix(lang)
+    c, rel = '../../' + '../' * (lang != 'en'), f'world/{cont}/'
+    name = t['continents'][cont]
+    title = t['cont_title'].format(cont=name)
     countries = sorted({x['country'] for x in cs})
-    desc = (f'{len(cs)} of the {total} cities in Paper Skyline are in {name}, across {len(countries)} '
-            f'{"country" if len(countries) == 1 else "countries"}: {joined([x["name"] for x in cs])}.')
-    trail = [('Home', ''), (name, path)]
-    cards = ''.join(city_card(x, c, f'{c}cities/{x["id"]}/') for x in cs)
-    page = head(c, title, desc, f'/{path}', f'img/og-{cs[0]["slug"]}.jpg', False,
-                page_ld(path, title, desc, trail, {'@type': 'Continent', 'name': name})) + f'''
+    desc = t['cont_desc'].format(n=len(cs), total=total, cont=name, countries=t['n_countries'](len(countries)),
+                                 cities=t['join']([x['name'] for x in cs]))
+    trail = [(t['home'], ''), (name, p + rel)]
+    cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
+    top, switch = head(c, t, lang, title, desc, rel, f'img/og-{cs[0]["slug"]}.jpg', False,
+                       page_ld(lang, rel, title, desc, trail, {'@type': 'Continent', 'name': name}))
+    page = top + f'''
 <main id="main">
-{crumbs_html(c, trail)}  <section class="section" aria-labelledby="cont-title">
+{crumbs_html(c, t, trail, switch)}  <section class="section" aria-labelledby="cont-title">
     <div class="wrap">
-      <span class="eyebrow">{len(cs)} {"city" if len(cs) == 1 else "cities"} &middot; {len(countries)} {"country" if len(countries) == 1 else "countries"}</span>
+      <span class="eyebrow">{t["n_cities"](len(cs))} &middot; {t["n_countries"](len(countries))}</span>
       <h1 id="cont-title">{name}</h1>
       <p class="lede">{esc(desc)}</p>
-      <ul class="city-links">{links(c, conts[cont])}
+      <ul class="city-links">{links(c, [(n, p + h) for n, h in conts[cont]])}
       </ul>
       <ul class="keeper-grid">{cards}
       </ul>
@@ -499,42 +520,43 @@ def continent_page(cont, cs, conts, total):
 
   <section class="section alt" aria-labelledby="more-title">
     <div class="wrap">
-      <span class="eyebrow">The world</span>
-      <h2 id="more-title">Fly on.</h2>
-      <ul class="city-links">{links(c, [(CONTINENTS[k], f'world/{k}/') for k in conts if k != cont])}
+      <span class="eyebrow">{t["the_world"]}</span>
+      <h2 id="more-title">{t["fly_on"]}</h2>
+      <ul class="city-links">{links(c, [(t["continents"][k], f'{p}world/{k}/') for k in conts if k != cont])}
       </ul>
     </div>
   </section>
 </main>
 
-''' + foot(c)
-    return path, page
+''' + foot(c, t)
+    return p + rel, page
 
 
-def world_page(by_cont, conts, total):
-    c, path = '../', 'world/'
-    title = 'The world of Paper Skyline | paper plane game'
-    desc = f'Every city in Paper Skyline by continent and country: {total} cities, from Paris to Toronto.'
-    trail = [('Home', ''), ('World', path)]
+def world_page(by_cont, conts, cities, lang):
+    t, p = T[lang], prefix(lang)
+    c, rel = '../' + '../' * (lang != 'en'), 'world/'
+    title = t['world_title']
+    desc = t['world_desc'].format(total=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
+    trail = [(t['home'], ''), (t['world'], p + rel)]
     blocks = ''.join(f'''
-      <h2><a href="{c}world/{k}/">{CONTINENTS[k]}</a></h2>
-      <ul class="city-links">{links(c, [(x['name'] if x['name'] == x['country'] else f'{x["name"]}, {x["country"]}', f'cities/{x["id"]}/')
-                                             for x in by_cont[k]])}
+      <h2><a href="{c}{p}world/{k}/">{t["continents"][k]}</a></h2>
+      <ul class="city-links">{links(c, [(t['place'](x['name'], x['country']), f'{p}cities/{x["id"]}/') for x in by_cont[k]])}
       </ul>''' for k in conts)
-    page = head(c, title, desc, f'/{path}', 'brand/og-image-1200x630.jpg', False,
-                page_ld(path, title, desc, trail)) + f'''
+    top, switch = head(c, t, lang, title, desc, rel, 'brand/og-image-1200x630.jpg', False,
+                       page_ld(lang, rel, title, desc, trail))
+    page = top + f'''
 <main id="main">
-{crumbs_html(c, trail)}  <section class="section world" aria-labelledby="world-title">
+{crumbs_html(c, t, trail, switch)}  <section class="section world" aria-labelledby="world-title">
     <div class="wrap">
-      <span class="eyebrow">{total} cities</span>
-      <h1 id="world-title">Where the plane flies.</h1>
+      <span class="eyebrow">{t["n_cities"](len(cities))}</span>
+      <h1 id="world-title">{t["hub_h1"]}</h1>
       <p class="lede">{esc(desc)}</p>{blocks}
     </div>
   </section>
 </main>
 
-''' + foot(c)
-    return path, page
+''' + foot(c, t)
+    return p + rel, page
 
 
 def write(path, page):
@@ -549,36 +571,46 @@ def sitemap(name, urls):
         f'{rows}</urlset>\n')
 
 
-def main():
-    cities, atlas = load()
+def build(cities, atlas, lang):
+    """Writes one language's pages; returns the indexable city and country paths."""
+    p = prefix(lang)
     by_id = {x['id']: x for x in cities}
-    urls = []
+    city_urls, world_urls = [], []
     for x in cities:
-        page, n, index = city_page(x, by_id, len(cities))
-        write(f'cities/{x["id"]}/', page)
-        print(f'{x["id"]:16} {n:4} words  {"index" if index else "noindex"}')
+        page, n, index = city_page(x, by_id, len(cities), lang)
+        write(f'{p}cities/{x["id"]}/', page)
+        print(f'{lang:8} {x["id"]:16} {n:4} words  {"index" if index else "noindex"}')
         if index:
-            urls.append(f'cities/{x["id"]}/')
-    write('cities/', hub(cities))
-    sitemap('sitemap-cities.xml', urls)
+            city_urls.append(f'{p}cities/{x["id"]}/')
+    write(f'{p}cities/', hub(cities, lang))
 
     by_cont, by_code = {}, {}
     for x in cities:
         by_cont.setdefault(x['cont'], []).append(x)
         by_code.setdefault(x['code'], []).append(x)
-    order = [k for k in CONTINENTS if k in by_cont]
-    conts = {k: sorted({(x['country'], country_path(x)) for x in by_cont[k]}) for k in order}
-    urls = []
+    order = [k for k in T['en']['continents'] if k in by_cont]
+    conts = {k: sorted({(x['country'], x['country_path']) for x in by_cont[k]}) for k in order}
     for code, cs in by_code.items():
-        path, page, n, index = country_page(code, cs, atlas, conts)
+        path, page, n, index = country_page(code, cs, atlas, conts, lang)
         write(path, page)
-        print(f'{path:36} {n:4} words  {"index" if index else "noindex"}')
+        print(f'{lang:8} {path:44} {n:4} words  {"index" if index else "noindex"}')
         if index:
-            urls.append(path)
+            world_urls.append(path)
     for k in order:
-        write(*continent_page(k, by_cont[k], conts, len(cities)))
-    write(*world_page(by_cont, order, len(cities)))
-    sitemap('sitemap-world.xml', urls)
+        write(*continent_page(k, by_cont[k], conts, len(cities), lang))
+    write(*world_page(by_cont, order, cities, lang))
+    return city_urls, world_urls
+
+
+def main():
+    cities, atlas = load()
+    for lang in LANGS:
+        city_urls, world_urls = build(*localize(cities, atlas, lang), lang)
+        if lang == 'en':
+            sitemap('sitemap-cities.xml', city_urls)
+            sitemap('sitemap-world.xml', world_urls)
+        else:
+            sitemap(f'sitemap-{lang.lower()}.xml', city_urls + world_urls)
 
 
 if __name__ == '__main__':

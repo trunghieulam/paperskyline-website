@@ -2,7 +2,8 @@
 # Structural rules for paperskyline.org. Usage: tools/check.sh [page.html …]  (no args = every page)
 set -o nounset
 cd "$(dirname "$0")/.."
-pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html world/index.html world/*/index.html world/*/*/index.html )
+pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html world/index.html world/*/index.html world/*/*/index.html
+  {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
 fail=0
 err() { echo "FAIL $1: $2"; fail=1; }
 
@@ -66,8 +67,32 @@ for p in "${pages[@]}"; do
            | grep -vE '^(https?:|mailto:|tel:|//)' | sort -u)
 done
 
+# hreflang: every alternate is a built page whose own set matches, and the set includes the page's canonical.
+python3 - "${pages[@]}" <<'PY' || fail=1
+import re, sys
+def alts(f):
+    s = open(f, encoding='utf-8').read()
+    return dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">', s)), re.search(r'rel="canonical" href="([^"]+)"', s)
+bad = 0
+for p in sys.argv[1:]:
+    a, canon = alts(p)
+    if not a:
+        continue
+    if canon and canon.group(1) not in a.values():
+        print(f'FAIL {p}: hreflang set misses its own canonical'); bad = 1
+    for lang, u in a.items():
+        f = '.' + u.removeprefix('https://paperskyline.org') + ('index.html' if u.endswith('/') else '')
+        try:
+            back, _ = alts(f)
+        except FileNotFoundError:
+            print(f'FAIL {p}: hreflang {lang} points at a missing page {u}'); bad = 1; continue
+        if back != a:
+            print(f'FAIL {p}: hreflang {lang} page {u} does not list the same alternates back'); bad = 1
+sys.exit(bad)
+PY
+
 # sitemap.xml is an index of one sitemap per page type; every row must be a live, indexable page.
-for sm in $(grep -oE 'https://paperskyline\.org/sitemap-[a-z]+\.xml' sitemap.xml | sed 's#https://paperskyline.org/##'); do
+for sm in $(grep -oE 'https://paperskyline\.org/sitemap-[a-z-]+\.xml' sitemap.xml | sed 's#https://paperskyline.org/##'); do
   [ -f "$sm" ] || { err sitemap.xml "missing $sm"; continue; }
   while read -r u; do
     f=".${u#https://paperskyline.org}"; [ "${f%/}" = "$f" ] || f="${f}index.html"
