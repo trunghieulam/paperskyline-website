@@ -448,3 +448,12 @@ strong { font-weight: 700; color: var(--hot); }
   background: var(--paper); color: var(--ink); text-decoration: none; box-shadow: var(--sticker-sm);
 }
 .city-links a:hover { background: var(--yellow); color: var(--navy); }
+.country-head .wrap { display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 56rem) { .country-head .wrap { grid-template-columns: minmax(0, 1fr) 18rem; } }
+.country-head .wrap > div { display: grid; gap: .6rem; justify-items: start; }
+.country-head picture img { width: min(18rem, 70vw); }
+@media (prefers-color-scheme: dark) { .country-head picture img { filter: drop-shadow(0 0 1px #fffaf2); } }
+.world h2 { margin-top: 2rem; }
+.world .city-links { margin-top: .9rem; }
+.city-links + h3 { margin-top: 1.75rem; }
+.section h2 + h3 { margin-top: 1rem; }

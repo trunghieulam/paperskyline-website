@@ -151,6 +151,13 @@ def cities():
         og(src, name, [sprite(*elite), sprite(*boss)], f'img/og-{slug}.jpg')
 
 
+def countries():
+    d = game('Assets/Resources/Atlas/Countries')
+    for f in sorted(os.listdir(d)):
+        if f.endswith('.png'):
+            save(fit(Image.open(os.path.join(d, f)).convert('RGBA'), 320), f[:-4] + '-320', 'png')
+
+
 def icons():
     src = Image.open(game('Assets/Branding/app-icon.png')).convert('RGB')
     # JPEG: the painted icon is ~1.9 MB as PNG, and nothing here needs its (absent) alpha
@@ -168,6 +175,7 @@ def main():
     shots()
     og()
     cities()
+    countries()
     icons()
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes cities/<id>/index.html, cities/index.html and sitemap-cities.xml from the game's own data.
+"""Writes cities/<id>/, world/<continent>/<country>/ and their hubs and sitemaps from the game's own data.
 Usage: tools/cities.py [path to game-paper-flights]   (default: ../game-paper-flights next to this repo)
 Facts come from the city graph (kg.py, built into tools/.tmp/) and the Atlas text; nothing is written here by hand.
 """
@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
 
 from art import CITIES, NAMES
 
@@ -63,8 +64,34 @@ def load():
         cities.append(dict(n=n, id=cid, slug=slug, name=NAMES.get(slug, level['name']), level=level, beats=beats,
                            landmark_col=bg.get('landmarkColumn', .5), coords=place.get('coords'), relics=relics, keepers=keepers,
                            parents=parents, children=children, looks=looks, atlas=a,
+                           code=a['country'], cont=level['continent'],
                            country=atlas['countries'][a['country']]['name']))
-    return cities
+    return cities, atlas
+
+
+# Country names that take "the" in a sentence
+THE = {'US', 'GB', 'NL'}
+
+
+def the(name):
+    """A keeper or country name in mid-sentence: 'The Stryge' becomes 'the Stryge'."""
+    return 'the ' + name[4:] if name.startswith('The ') else name
+
+
+def country_in(code, name):
+    return f'the {name}' if code in THE else name
+
+
+def joined(xs):
+    return ', '.join(xs[:-1]) + (' and ' if len(xs) > 1 else '') + xs[-1]
+
+
+def slugify(s):
+    return re.sub(r'[^a-z0-9]+', '-', unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode().lower()).strip('-')
+
+
+def country_path(x):
+    return f'world/{x["cont"]}/{slugify(x["country"])}/'
 
 
 def head(c, title, desc, path, image, index, ld=None):
@@ -149,10 +176,10 @@ def pic(c, name, ext, alt, w, h, extra=''):
             f'<img src="{c}img/{name}.{ext}" width="{w}" height="{h}" alt="{esc(alt)}"{extra}></picture>')
 
 
-def play(cid):
+def play(c, medium, campaign):
     return ('<a class="store-link" href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer='
-            f'utm_source%3Dsite%26utm_medium%3Dcity%26utm_campaign%3D{cid.replace("-", "_")}">\n'
-            '          <img src="../../brand/google-play-badge.png" width="646" height="250" alt="Get it on Google Play">\n'
+            f'utm_source%3Dsite%26utm_medium%3D{medium}%26utm_campaign%3D{campaign.replace("-", "_")}">\n'
+            f'          <img src="{c}brand/google-play-badge.png" width="646" height="250" alt="Get it on Google Play">\n'
             '        </a>')
 
 
@@ -197,7 +224,8 @@ def city_ld(x, title, desc):
     place = {'@type': 'City', 'name': x['name'], 'containedInPlace': {'@type': 'Country', 'name': x['country']}}
     if x['coords']:
         place['geo'] = {'@type': 'GeoCoordinates', 'latitude': x['coords']['lat'], 'longitude': x['coords']['lon']}
-    crumbs = [('Home', f'{ORIGIN}/'), ('Cities', f'{ORIGIN}/cities/'), (x['name'], url)]
+    crumbs = [('Home', f'{ORIGIN}/'), (CONTINENTS[x['cont']], f'{ORIGIN}/world/{x["cont"]}/'),
+              (x['country'], f'{ORIGIN}/{country_path(x)}'), (x['name'], url)]
     return {'@context': 'https://schema.org', '@graph': [
         {'@type': 'WebPage', '@id': url, 'url': url, 'name': title, 'description': desc, 'inLanguage': 'en',
          'primaryImageOfPage': {'@type': 'ImageObject', 'url': f'{ORIGIN}/img/og-{x["slug"]}.jpg',
@@ -236,14 +264,15 @@ def city_page(x, by_id, total):
     n_words = words(*body)
     index = n_words >= MIN_WORDS
     title = f'{x["name"]} paper plane game | Paper Skyline'
-    desc = (f'Fly a paper plane over {x["name"]}, {x["country"]}, painted in ink and watercolour. '
-            f'Meet its keepers, {elite} and {boss}, and the history behind them.')
+    desc = (f'Fly a paper plane over {x["name"] if x["name"] == x["country"] else x["name"] + ", " + x["country"]}, '
+            f'painted in ink and watercolour. '
+            f'Meet its keepers, {the(elite)} and {the(boss)}, and the history behind them.')
     others = ''.join(f'\n        <li><a href="../{o["id"]}/">{esc(o["name"])}</a></li>'
                      for o in by_id.values() if o['id'] != x['id'])
     page = head('../../', title, desc, f'/cities/{x["id"]}/', f'img/og-{x["slug"]}.jpg', index, city_ld(x, title, desc)) + f'''
 <main id="main">
   <nav class="wrap crumbs" aria-label="Breadcrumb">
-    <a href="../../">Home</a> <span aria-hidden="true">/</span> <a href="../">Cities</a> <span aria-hidden="true">/</span> <span aria-current="page">{esc(x["name"])}</span>
+    <a href="../../">Home</a> <span aria-hidden="true">/</span> <a href="../../world/{x["cont"]}/">{CONTINENTS[x["cont"]]}</a> <span aria-hidden="true">/</span> <a href="../../{country_path(x)}">{esc(x["country"])}</a> <span aria-hidden="true">/</span> <span aria-current="page">{esc(x["name"])}</span>
   </nav>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-scene">
@@ -261,7 +290,7 @@ def city_page(x, by_id, total):
         <p class="lede">{esc(b["preflight.goal"])}</p>
       </div>
       <ul class="badges">
-        <li>{play(x["id"])}</li>
+        <li>{play("../../", "city", x["id"])}</li>
       </ul>
     </div>
   </section>
@@ -298,7 +327,7 @@ def city_page(x, by_id, total):
       </ul>
       <p>{" ".join(route)}</p>
       <ul class="badges">
-        <li>{play(x["id"]).replace("utm_campaign%3D" + x["id"].replace("-", "_"), "utm_campaign%3D" + x["id"].replace("-", "_") + "_end")}</li>
+        <li>{play("../../", "city", x["id"] + "_end")}</li>
       </ul>
     </div>
   </section>
@@ -325,7 +354,7 @@ def hub(cities):
           </div>
           <h3><a href="{x["id"]}/">{esc(x["name"])}</a></h3>
           <p class="sub">{esc(x["country"])} &middot; {esc(x["atlas"]["landmarkTitle"])}</p>
-          <p>{esc(x["beats"]["elite.name"])} and {esc(x["beats"]["boss.name"])}</p>
+          <p>{esc(x["beats"]["elite.name"])} and {esc(the(x["beats"]["boss.name"]))}</p>
         </li>''' for x in cities)
     desc = f'The {len(cities)} cities of Paper Skyline, from Paris to Toronto, each with its painting, its history and its two keepers.'
     return head('../', f'Cities | Paper Skyline', desc, '/cities/', 'brand/og-image-1200x630.jpg', False) + f'''
@@ -344,22 +373,212 @@ def hub(cities):
 ''' + foot('../')
 
 
+def city_card(x, c, href):
+    keeper = lambda role: pic(c, f'keeper-{x["slug"]}-{role}', 'png', x['beats'][f'{role}.name'],
+                              *keeper_size(x['slug'], role), ' loading="lazy" decoding="async"')
+    return f'''
+        <li class="keeper-card">
+          <div class="keepers">
+            {pic(c, f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
+            {keeper('elite')}
+            {keeper('boss')}
+          </div>
+          <h3><a href="{href}">{esc(x["name"])}</a></h3>
+          <p class="sub">{esc(x["atlas"]["landmarkTitle"])}</p>
+          <p>{esc(x["beats"]["elite.name"])} and {esc(the(x["beats"]["boss.name"]))}</p>
+        </li>'''
+
+
+def crumbs_html(c, trail):
+    sep = ' <span aria-hidden="true">/</span> '
+    xs = [f'<a href="{c}{h}">{esc(n)}</a>' for n, h in trail[:-1]] + [f'<span aria-current="page">{esc(trail[-1][0])}</span>']
+    return f'  <nav class="wrap crumbs" aria-label="Breadcrumb">\n    {sep.join(xs)}\n  </nav>\n'
+
+
+def page_ld(path, title, desc, trail, about=None):
+    url = f'{ORIGIN}/{path}'
+    page = {'@type': 'WebPage', '@id': url, 'url': url, 'name': title, 'description': desc, 'inLanguage': 'en',
+            'breadcrumb': {'@id': f'{url}#breadcrumb'}, 'mentions': {'@id': f'{ORIGIN}/#game'}}
+    if about:
+        page['about'] = about
+    return {'@context': 'https://schema.org', '@graph': [page, {
+        '@type': 'BreadcrumbList', '@id': f'{url}#breadcrumb', 'itemListElement': [
+            {'@type': 'ListItem', 'position': i, 'name': n, 'item': f'{ORIGIN}/{h}'}
+            for i, (n, h) in enumerate(trail, 1)]}, GAME_LD]}
+
+
+def links(c, items):
+    return ''.join(f'\n        <li><a href="{c}{h}">{esc(n)}</a></li>' for n, h in items)
+
+
+def country_page(code, cs, atlas, conts):
+    k, x0 = atlas['countries'][code], cs[0]
+    c, path, cont = '../../../', country_path(x0), x0['cont']
+    n_words = words(k['intro'], k['idLine'], *k['facts'])
+    index = n_words >= MIN_WORDS
+    title = f'{k["name"]} paper plane game | Paper Skyline'
+    desc = (f'Fly a paper plane over {joined([x["name"] for x in cs])} in Paper Skyline, '
+            f'and meet the keepers of {country_in(code, k["name"])}.')
+    trail = [('Home', ''), (CONTINENTS[cont], f'world/{cont}/'), (k['name'], path)]
+    facts = ''.join(f'\n        <li>{esc(f)}</li>' for f in k['facts'])
+    cards = ''.join(city_card(x, c, f'{c}cities/{x["id"]}/') for x in cs)
+    near = [(n, h) for n, h in conts[cont] if h != path]
+    more = (f'''
+      <h3>More of {CONTINENTS[cont]}</h3>
+      <ul class="city-links">{links(c, near)}
+      </ul>''' if near else '')
+    about = {'@type': 'Country', 'name': k['name']}
+    outline = pic(c, f'country-{code.lower()}-320', 'png', f"The outline of {country_in(code, k['name'])} from the game's Atlas", 320, 320)
+    page = head(c, title, desc, f'/{path}', f'img/og-{x0["slug"]}.jpg', index,
+                page_ld(path, title, desc, trail, about)) + f'''
+<main id="main">
+{crumbs_html(c, trail)}  <section class="section country-head" aria-labelledby="country-title">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">{CONTINENTS[cont]}</span>
+        <h1 id="country-title">{esc(k["name"])}</h1>
+        <p class="lede">{esc(k["intro"])}</p>
+        <p class="mine-line">&ldquo;{esc(k["idLine"])}&rdquo;</p>
+        <ul class="journal">{facts}
+        </ul>
+      </div>
+      {outline}
+    </div>
+  </section>
+
+  <section class="section alt" aria-labelledby="cities-title">
+    <div class="wrap">
+      <span class="eyebrow">{len(cs)} {"city" if len(cs) == 1 else "cities"} in the game</span>
+      <h2 id="cities-title">Fly over {esc(country_in(code, k["name"]))}.</h2>
+      <ul class="keeper-grid">{cards}
+      </ul>
+      <ul class="badges more">
+        <li>{play(c, "country", code.lower())}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="more-title">
+    <div class="wrap">
+      <span class="eyebrow">The world</span>
+      <h2 id="more-title">Fly on.</h2>{more}
+      <h3>Every continent</h3>
+      <ul class="city-links">{links(c, [(CONTINENTS[k2], f'world/{k2}/') for k2 in conts])}
+      </ul>
+    </div>
+  </section>
+</main>
+
+''' + foot(c)
+    return path, page, n_words, index
+
+
+def continent_page(cont, cs, conts, total):
+    c, path = '../../', f'world/{cont}/'
+    name = CONTINENTS[cont]
+    title = f'{name} in Paper Skyline | paper plane game'
+    countries = sorted({x['country'] for x in cs})
+    desc = (f'{len(cs)} of the {total} cities in Paper Skyline are in {name}, across {len(countries)} '
+            f'{"country" if len(countries) == 1 else "countries"}: {joined([x["name"] for x in cs])}.')
+    trail = [('Home', ''), (name, path)]
+    cards = ''.join(city_card(x, c, f'{c}cities/{x["id"]}/') for x in cs)
+    page = head(c, title, desc, f'/{path}', f'img/og-{cs[0]["slug"]}.jpg', False,
+                page_ld(path, title, desc, trail, {'@type': 'Continent', 'name': name})) + f'''
+<main id="main">
+{crumbs_html(c, trail)}  <section class="section" aria-labelledby="cont-title">
+    <div class="wrap">
+      <span class="eyebrow">{len(cs)} {"city" if len(cs) == 1 else "cities"} &middot; {len(countries)} {"country" if len(countries) == 1 else "countries"}</span>
+      <h1 id="cont-title">{name}</h1>
+      <p class="lede">{esc(desc)}</p>
+      <ul class="city-links">{links(c, conts[cont])}
+      </ul>
+      <ul class="keeper-grid">{cards}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section alt" aria-labelledby="more-title">
+    <div class="wrap">
+      <span class="eyebrow">The world</span>
+      <h2 id="more-title">Fly on.</h2>
+      <ul class="city-links">{links(c, [(CONTINENTS[k], f'world/{k}/') for k in conts if k != cont])}
+      </ul>
+    </div>
+  </section>
+</main>
+
+''' + foot(c)
+    return path, page
+
+
+def world_page(by_cont, conts, total):
+    c, path = '../', 'world/'
+    title = 'The world of Paper Skyline | paper plane game'
+    desc = f'Every city in Paper Skyline by continent and country: {total} cities, from Paris to Toronto.'
+    trail = [('Home', ''), ('World', path)]
+    blocks = ''.join(f'''
+      <h2><a href="{c}world/{k}/">{CONTINENTS[k]}</a></h2>
+      <ul class="city-links">{links(c, [(x['name'] if x['name'] == x['country'] else f'{x["name"]}, {x["country"]}', f'cities/{x["id"]}/')
+                                             for x in by_cont[k]])}
+      </ul>''' for k in conts)
+    page = head(c, title, desc, f'/{path}', 'brand/og-image-1200x630.jpg', False,
+                page_ld(path, title, desc, trail)) + f'''
+<main id="main">
+{crumbs_html(c, trail)}  <section class="section world" aria-labelledby="world-title">
+    <div class="wrap">
+      <span class="eyebrow">{total} cities</span>
+      <h1 id="world-title">Where the plane flies.</h1>
+      <p class="lede">{esc(desc)}</p>{blocks}
+    </div>
+  </section>
+</main>
+
+''' + foot(c)
+    return path, page
+
+
+def write(path, page):
+    os.makedirs(os.path.join(SITE, path), exist_ok=True)
+    open(os.path.join(SITE, path, 'index.html'), 'w', encoding='utf-8').write(page)
+
+
+def sitemap(name, urls):
+    rows = ''.join(f'  <url><loc>{ORIGIN}/{u}</loc></url>\n' for u in urls)
+    open(os.path.join(SITE, name), 'w', encoding='utf-8').write(
+        '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f'{rows}</urlset>\n')
+
+
 def main():
-    cities = load()
+    cities, atlas = load()
     by_id = {x['id']: x for x in cities}
     urls = []
     for x in cities:
         page, n, index = city_page(x, by_id, len(cities))
-        os.makedirs(os.path.join(SITE, 'cities', x['id']), exist_ok=True)
-        open(os.path.join(SITE, 'cities', x['id'], 'index.html'), 'w', encoding='utf-8').write(page)
+        write(f'cities/{x["id"]}/', page)
         print(f'{x["id"]:16} {n:4} words  {"index" if index else "noindex"}')
         if index:
-            urls.append(f'{ORIGIN}/cities/{x["id"]}/')
-    open(os.path.join(SITE, 'cities', 'index.html'), 'w', encoding='utf-8').write(hub(cities))
-    rows = ''.join(f'  <url><loc>{u}</loc></url>\n' for u in urls)
-    open(os.path.join(SITE, 'sitemap-cities.xml'), 'w', encoding='utf-8').write(
-        '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f'{rows}</urlset>\n')
+            urls.append(f'cities/{x["id"]}/')
+    write('cities/', hub(cities))
+    sitemap('sitemap-cities.xml', urls)
+
+    by_cont, by_code = {}, {}
+    for x in cities:
+        by_cont.setdefault(x['cont'], []).append(x)
+        by_code.setdefault(x['code'], []).append(x)
+    order = [k for k in CONTINENTS if k in by_cont]
+    conts = {k: sorted({(x['country'], country_path(x)) for x in by_cont[k]}) for k in order}
+    urls = []
+    for code, cs in by_code.items():
+        path, page, n, index = country_page(code, cs, atlas, conts)
+        write(path, page)
+        print(f'{path:36} {n:4} words  {"index" if index else "noindex"}')
+        if index:
+            urls.append(path)
+    for k in order:
+        write(*continent_page(k, by_cont[k], conts, len(cities)))
+    write(*world_page(by_cont, order, len(cities)))
+    sitemap('sitemap-world.xml', urls)
 
 
 if __name__ == '__main__':
