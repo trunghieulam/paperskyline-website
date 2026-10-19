@@ -23,7 +23,7 @@ video/                # the home page reel and its poster, copied from the game 
 styles.css            # tokens + every component, light/dark via prefers-color-scheme
 img/                  # the game's paintings and keepers, exported by tools/art.py
 brand/                # the app icon and the social card
-tools/                # art.py, check.sh, cities.py + i18n.py, news.py (devlog.html from the game's changelog), shots.sh
+tools/                # art.py, check.sh, cities.py + i18n.py, demand.py, news.py (devlog.html from the game's changelog), shots.sh
 docs/superpowers/specs/               # the design spec this was built from
 sitemap.xml           # an index: sitemap-pages.xml (by hand); sitemap-cities.xml, sitemap-world.xml, sitemap-zh-hans.xml, sitemap-id.xml (cities.py); sitemap-devlog.xml (news.py)
 robots.txt  site.webmanifest  CNAME
@@ -72,6 +72,11 @@ Run it on game main's changelog via `git show`, with the `google-play/whats-new-
 A city is published only once its version is on Play production (HCMC, Amsterdam and Singapore wait for 1.9.4).
 Add its keepers to `CITIES` in `tools/art.py` (plus `NAMES`/`IDS` if its slug differs), then run `tools/art.py`, `tools/cities.py`, and `tools/news.py` with `LIVE` raised.
 Then run `tools/check.sh`; country pages that fall under the word rule stay `noindex` until the City Writer adds verified text.
+
+## City demand report
+
+Once a month, `tools/demand.py <Search Console export zip>` counts each city's impressions from the Performance export (Queries and Pages), matching the city graph's en, zh-Hans and id names (#95).
+A planned city is a signal at 100+ impressions in 28 days, or in the planned top 5 two months running; the month's top is kept in `tools/.tmp/demand/`. Fill a copy of `docs/demand/note-template.md` and file it in the game repo's `docs/validation/seo/`, not here: Pages publishes every file in this repo. Test: `python3 tools/test_demand.py`.
 
 ## Copy
 
