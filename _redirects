@@ -1,0 +1,2 @@
+# Cloudflare Pages only. A short Play link for bios and QR codes, with the referrer check.sh requires.
+/play https://play.google.com/store/apps/details?id=paperskyline.org&referrer=utm_source%3Dsite%26utm_medium%3Dshort%26utm_campaign%3Dplay 302
