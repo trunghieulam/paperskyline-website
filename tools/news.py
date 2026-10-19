@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
-"""One changelog to news/out/news.json (R2), news/out/whats-new-<version>.txt (Play) and devlog.html.
+"""One changelog to news/out/news.json (R2), news/out/whats-new-<version>.txt (Play), devlog.html,
+devlog/<version>/, feed.xml (Atom) and sitemap-devlog.xml.
 Usage: tools/news.py [changelog.json]   (default: the game repo's docs/store/changelog.json, beside this site). Exits non-zero on any rule below."""
 import html
 import json
 import os
 import re
+import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(__file__))
+from art import CITIES, IDS, NAMES  # noqa: E402
 
 SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 SRC = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else
                       os.path.join(SITE, '..', 'game-paper-flights', 'docs', 'store', 'changelog.json'))
 OUT = os.path.join(SITE, 'news', 'out')
+GAME = os.path.join(SITE, '..', 'game-paper-flights')
+ORIGIN = 'https://paperskyline.org'
+# The newest version on Play production: nothing after it is published here, whatever the changelog holds
+LIVE = '1.9.2'
 PLAY_LIMIT = 500
 # The next release while it is on a test track: (version, lines), shown above the shipped ones
 COMING = None
@@ -107,15 +116,115 @@ def cards(items, stamp):
     return '\n'.join(out)
 
 
-def devlog(releases, entries):
+def slug(v):
+    return v.replace('.', '-')
+
+
+def shipped(releases, entries):
+    """Live versions with entries, newest first."""
+    return [v for v in sorted(releases, key=vkey, reverse=True)
+            if vkey(v) <= vkey(LIVE) and any(e.get('version') == v for e in entries)]
+
+
+def posted(releases, v):
+    """The feed date: the release month when the changelog has one, else when the version first reached game main."""
+    if releases[v]:
+        return releases[v] + '-01T00:00:00Z'
+    out = subprocess.run(['git', '-C', GAME, 'log', 'origin/main', '--reverse', '--format=%cI', f'-S"{v}":', '--',
+                          'docs/store/changelog.json'], capture_output=True, text=True, check=True).stdout.split()
+    if not out:
+        fail(f'{v}: no release date and no history in {GAME}')
+    return out[0]
+
+
+def template(title, desc, url, depth):
+    """support.html's chrome with this page's head; depth re-roots its relative links."""
     src = open(os.path.join(SITE, 'support.html'), encoding='utf-8').read()
-    desc = "What's new in each version of Paper Skyline."
     old_desc = re.search(r'<meta name="description" content="([^"]*)"', src).group(1)
-    page = (src.replace('<title>Support | Paper Skyline</title>', '<title>Devlog | Paper Skyline</title>')
+    page = (src.replace('<title>Support | Paper Skyline</title>', f'<title>{title}</title>')
             .replace(old_desc, desc)
-            .replace('https://paperskyline.org/support.html', 'https://paperskyline.org/devlog.html')
-            .replace('content="Support | Paper Skyline"', 'content="Devlog | Paper Skyline"')
-            .replace('<a href="support.html" aria-current="page">Support</a>', '<a href="support.html">Support</a>'))
+            .replace('https://paperskyline.org/support.html', url)
+            .replace('content="Support | Paper Skyline"', f'content="{title}"')
+            .replace('<a href="support.html" aria-current="page">Support</a>', '<a href="support.html">Support</a>')
+            .replace('<link rel="canonical"', '<link rel="alternate" type="application/atom+xml" title="Paper Skyline devlog" href="/feed.xml">\n<link rel="canonical"'))
+    up = '../' * depth
+    if up:
+        page = re.sub(r'((?:href|src|srcset)=")(?!https?:|/|#|mailto:)', rf'\g<1>{up}', page)
+    return page
+
+
+def linked(text, up):
+    """Escapes an entry's text and links the first mention of each shipped city to its page."""
+    out = html.escape(text)
+    for art_slug, _, _ in CITIES:
+        page = IDS.get(art_slug, art_slug)
+        name = NAMES.get(art_slug, art_slug.replace('-', ' ').title())
+        if os.path.isdir(os.path.join(SITE, 'cities', page)):
+            out = re.sub(rf'(?<![\w>])({re.escape(name)})(?![\w<])', rf'<a href="{up}cities/{page}/">\1</a>', out, count=1)
+    return out
+
+
+def release_page(v, items, newer, older):
+    entries = ', '.join(e['title'] for e in items[:-1]) + (' and ' if len(items) > 1 else '') + items[-1]['title']
+    title = f'Version {v} | Paper Skyline devlog'
+    desc = html.escape(f"What's new in Paper Skyline {v}: {entries}.", quote=True)
+    page = template(title, desc, f'{ORIGIN}/devlog/{slug(v)}/', 2)
+    cards_ = '\n'.join(f'''        <article class="card">
+          <span class="pill">{'Fix' if e.get('kind') == 'fix' else 'New'}</span>
+          <h3>{html.escape(e['title'])}</h3>
+          <p>{linked(e['body'], '../../')}</p>
+        </article>''' for e in items)
+    nav = [f'<a href="../{slug(x)}/">{label} {x}</a>' for x, label in ((newer, 'Newer:'), (older, 'Older:')) if x]
+    body = f'''<main id="main">
+  <div class="wrap page-head">
+    <p><a href="../../devlog.html">Devlog</a></p>
+    <h1>Version {v}</h1>
+    <p class="lede">What's new in Paper Skyline {v}. The latest version is on <a href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer=utm_source%3Dsite%26utm_medium%3Ddevlog%26utm_campaign%3Dv{v.replace('.', '_')}">Google Play</a>.</p>
+  </div>
+  <section class="section alt" aria-label="Version {v}">
+    <div class="wrap">
+      <div class="plainly">
+{cards_}
+      </div>
+      <p>{' &middot; '.join(nav)}</p>
+    </div>
+  </section>
+</main>'''
+    a = page.index('<main id="main">')
+    b = page.index('</main>') + len('</main>')
+    return page[:a] + body + page[b:]
+
+
+def feed(releases, entries, versions):
+    rows = []
+    for v in versions:
+        url = f'{ORIGIN}/devlog/{slug(v)}/'
+        items = ''.join(f'<h3>{html.escape(e["title"])}</h3><p>{html.escape(e["body"])}</p>'
+                        for e in entries if e.get('version') == v)
+        rows.append(f'''  <entry>
+    <title>Paper Skyline {v}</title>
+    <id>{url}</id>
+    <link rel="alternate" type="text/html" href="{url}"/>
+    <updated>{posted(releases, v)}</updated>
+    <content type="html">{html.escape(items)}</content>
+  </entry>''')
+    return f'''<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Paper Skyline devlog</title>
+  <subtitle>What's new in each version of Paper Skyline.</subtitle>
+  <id>{ORIGIN}/devlog.html</id>
+  <link rel="self" type="application/atom+xml" href="{ORIGIN}/feed.xml"/>
+  <link rel="alternate" type="text/html" href="{ORIGIN}/devlog.html"/>
+  <updated>{max(posted(releases, v) for v in versions)}</updated>
+  <author><name>THLab</name><uri>{ORIGIN}/</uri></author>
+  <icon>{ORIGIN}/favicon-32.png</icon>
+{chr(10).join(rows)}
+</feed>
+'''
+
+
+def devlog(releases, entries):
+    page = template('Devlog | Paper Skyline', "What's new in each version of Paper Skyline.", f'{ORIGIN}/devlog.html', 0)
     # Only shipped versions go on the public page; soon entries stay in news.json for the game.
     soon = []
     parts = ['''<main id="main">
@@ -162,16 +271,14 @@ def devlog(releases, entries):
       </div>
     </div>
   </section>''')
-    for v in sorted(releases, key=vkey, reverse=True):
+    for v in shipped(releases, entries):
         items = [e for e in entries if e.get('version') == v]
-        if not items:
-            continue
         when = f' &middot; {month(releases[v])}' if releases[v] else ''
         vid = 'v' + v.replace('.', '-')
         parts.append(f'''
   <section class="section alt" aria-labelledby="{vid}">
     <div class="wrap">
-      <h2 id="{vid}">Version {v}{when}</h2>
+      <h2 id="{vid}"><a href="devlog/{slug(v)}/">Version {v}</a>{when}</h2>
       <div class="plainly">
 {cards(items, 'New')}
       </div>
@@ -199,7 +306,21 @@ def main():
         print(f'whats-new-{v}.txt: {len(text)}/{PLAY_LIMIT} characters')
     with open(os.path.join(SITE, 'devlog.html'), 'w', encoding='utf-8') as f:
         f.write(devlog(releases, entries))
-    print(f'news.json: {len(entries)} entries; devlog.html written')
+    versions = shipped(releases, entries)
+    for i, v in enumerate(versions):
+        d = os.path.join(SITE, 'devlog', slug(v))
+        os.makedirs(d, exist_ok=True)
+        items = [e for e in entries if e.get('version') == v]
+        newer = versions[i - 1] if i else None
+        older = versions[i + 1] if i + 1 < len(versions) else None
+        with open(os.path.join(d, 'index.html'), 'w', encoding='utf-8') as f:
+            f.write(release_page(v, items, newer, older))
+    with open(os.path.join(SITE, 'feed.xml'), 'w', encoding='utf-8') as f:
+        f.write(feed(releases, entries, versions))
+    with open(os.path.join(SITE, 'sitemap-devlog.xml'), 'w', encoding='utf-8') as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                + ''.join(f'  <url><loc>{ORIGIN}/devlog/{slug(v)}/</loc></url>\n' for v in versions) + '</urlset>\n')
+    print(f'news.json: {len(entries)} entries; devlog.html, {len(versions)} release pages, feed.xml and sitemap-devlog.xml written')
 
 
 if __name__ == '__main__':

@@ -3,7 +3,7 @@
 set -o nounset
 cd "$(dirname "$0")/.."
 pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html world/index.html world/*/index.html world/*/*/index.html
-  {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
+  devlog/*/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
 fail=0
 discord=$(python3 -c "import sys; sys.path.insert(0, 'tools'); from i18n import DISCORD; print(DISCORD)")
 err() { echo "FAIL $1: $2"; fail=1; }
@@ -107,6 +107,23 @@ for f in sitemap.xml sitemap-*.xml robots.txt; do
   grep -qE 'https://www\.paperskyline\.org' "$f" && err "$f" "www host — the apex is canonical"
 done
 grep -q 'paperskyline.org' CNAME || err CNAME "wrong domain"
+
+# feed.xml: Atom with the required elements, every entry a built devlog page.
+python3 - <<'PY' || fail=1
+import os, sys, xml.etree.ElementTree as ET
+A = '{http://www.w3.org/2005/Atom}'
+root, bad = ET.parse('feed.xml').getroot(), []
+for el in [root] + root.findall(A + 'entry'):
+    bad += [f'{el.findtext(A + "id")}: no {k}' for k in ('id', 'title', 'updated') if not el.findtext(A + k)]
+if root.find(A + 'author') is None:
+    bad.append('feed: no author')
+for e in root.findall(A + 'entry'):
+    u = e.findtext(A + 'id').removeprefix('https://paperskyline.org/')
+    if not os.path.isfile(u + 'index.html'):
+        bad.append(f'{u}: no page')
+[print(f'FAIL feed.xml: {b}') for b in bad]
+sys.exit(1 if bad else 0)
+PY
 
 # Weight budget: every image is exported sized for its slot, so none should ever be large.
 for f in brand/*.png brand/*.jpg *.png img/*; do
