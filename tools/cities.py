@@ -29,6 +29,10 @@ LANGS = ['en', 'zh-Hans', 'id']
 # The #96 rule: index a page only with this much verified text of its own, plus its own image.
 # Chinese counts Han characters; 450 is the usual 1.5 characters per English word.
 MIN_WORDS = {'en': 300, 'zh-Hans': 450, 'id': 300}
+# #97 votes go to /v1/test until the Worker's vote routes deploy; the Turnstile widget accepts paperskyline.org only.
+VOTE_API = 'https://paperskyline-stats.paperskyline-stats.workers.dev/v1/test'
+TURNSTILE_KEY = '0x4AAAAAAFbTIz8qnpCl2WLo'
+TURNSTILE = 'https://challenges.cloudflare.com'
 DISCORD_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>'
 
 
@@ -148,20 +152,21 @@ def prefix(lang):
     return '' if lang == 'en' else f'{lang}/'
 
 
-def hreflang(c, rel, lang, t):
+def hreflang(c, rel, lang, t, langs=LANGS):
     """The alternate links for <head> and the visible language switcher, for the page at <lang>/<rel>."""
-    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ORIGIN}/{prefix(l)}{rel}">\n' for l in LANGS)
+    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ORIGIN}/{prefix(l)}{rel}">\n' for l in langs)
     alts += f'<link rel="alternate" hreflang="x-default" href="{ORIGIN}/{rel}">\n'
     xs = [f'<span aria-current="true">{T[l]["name"]}</span>' if l == lang else
-          f'<a href="{c}{prefix(l)}{rel}" hreflang="{l}" lang="{l}">{T[l]["name"]}</a>' for l in LANGS]
+          f'<a href="{c}{prefix(l)}{rel}" hreflang="{l}" lang="{l}">{T[l]["name"]}</a>' for l in langs]
     switch = f'    <nav class="langs" aria-label="{t["langs"]}">{" ".join(xs)}</nav>\n'
     return alts, switch
 
 
-def head(c, t, lang, title, desc, rel, image, index, ld=None):
+def head(c, t, lang, title, desc, rel, image, index, ld=None, langs=LANGS, csp=None):
     ld = f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False, indent=1)}\n</script>\n' if ld else ''
     robots = '' if index else '<meta name="robots" content="noindex,follow">\n'
-    alts, switch = hreflang(c, rel, lang, t)
+    alts, switch = hreflang(c, rel, lang, t, langs)
+    csp = f'<meta http-equiv="Content-Security-Policy" content="{csp}">\n' if csp else ''
     path = f'/{prefix(lang)}{rel}'
     nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['nav'], [prefix(lang), 'business.html', 'support.html', 'privacy.html', 'terms.html']))
     return f'''<!doctype html>
@@ -169,7 +174,7 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{esc(title)}</title>
+{csp}<title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {robots}<link rel="canonical" href="{ORIGIN}{path}">
 {alts}<meta property="og:type" content="website">
@@ -542,6 +547,13 @@ def city_card(x, c, t, href):
         </li>'''
 
 
+def wish_more(c, t, lang):
+    return '' if lang != 'en' else f'''
+      <h3>{t["wish_h3"]}</h3>
+      <ul class="city-links">{links(c, [(t["wish_link"], 'wish/')])}
+      </ul>'''
+
+
 def links(c, items):
     return ''.join(f'\n        <li><a href="{c}{h}">{esc(n)}</a></li>' for n, h in items)
 
@@ -600,7 +612,7 @@ def country_page(code, cs, atlas, conts, lang):
       <h2 id="more-title">{t["fly_on"]}</h2>{more}
       <h3>{t["every_cont"]}</h3>
       <ul class="city-links">{links(c, [(t["continents"][k2], f'{p}world/{k2}/') for k2 in conts])}
-      </ul>
+      </ul>{wish_more(c, t, lang)}
     </div>
   </section>
 </main>
@@ -667,13 +679,62 @@ def world_page(by_cont, conts, cities, lang):
     <div class="wrap">
       <span class="eyebrow">{t["n_cities"](len(cities))}</span>
       <h1 id="world-title">{t["hub_h1"]}</h1>
-      <p class="lede">{esc(desc)}</p>{blocks}
+      <p class="lede">{esc(desc)}</p>{blocks}{wish_more(c, t, lang)}
     </div>
   </section>
 </main>
 
 ''' + foot(c, t, lang)
     return p + rel, page
+
+
+def planned():
+    """The cities the game plans but no build carries yet, in campaign order: the ones a vote can still move."""
+    return kg("SELECT l.id, l.label AS name, json_extract(l.props,'$.continent') AS cont, c.label AS country "
+              "FROM nodes l LEFT JOIN nodes c ON c.key = 'country:' || json_extract(l.props,'$.country') "
+              "WHERE l.kind='level' AND json_extract(l.props,'$.era')='present' "
+              "AND coalesce(json_extract(l.props,'$.pack'), '') = '' ORDER BY l.ord")
+
+
+def wish_row(x, t):
+    n = f'n-{x["id"]}'
+    return (f'\n        <li data-city="{x["id"]}" data-name="{esc(x["name"])}">'
+            f'<span class="wish-name">{esc(t["place"](x["name"], x["country"]))}</span> '
+            f'<span class="wish-count" id="{n}" data-count></span> '
+            f'<button type="button" aria-label="I want {esc(x["name"])}" aria-describedby="{n}" hidden>I want it</button></li>')
+
+
+def wish_page(wishes):
+    """English only, noindex and in no sitemap: the planned cities, each with a vote button that vote.js reveals."""
+    t, c, rel = T['en'], '../', 'wish/'
+    js = open(os.path.join(SITE, 'tools', 'vote.js'), encoding='utf-8').read().strip()
+    sha = base64.b64encode(hashlib.sha256(js.encode()).digest()).decode()
+    csp = f"script-src 'sha256-{sha}' {TURNSTILE}; frame-src {TURNSTILE}; connect-src {VOTE_API.rsplit('/v1', 1)[0]}"
+    title, desc = t['wish_title'], t['wish_desc'].format(n=len(wishes), first=wishes[0]['name'], last=wishes[-1]['name'])
+    trail = [(t['home'], ''), (t['world'], 'world/'), (t['wish_link'], rel)]
+    blocks = ''.join(f'''
+      <h2>{t["continents"][k]}</h2>
+      <ul class="wish-list">{"".join(wish_row(x, t) for x in wishes if x["cont"] == k)}
+      </ul>''' for k in t['continents'] if any(x['cont'] == k for x in wishes))
+    top, switch = head(c, t, 'en', title, desc, rel, 'brand/og-image-1200x630.jpg', False,
+                       page_ld('en', rel, title, desc, trail), langs=['en'], csp=csp)
+    page = top + f'''
+<main id="main">
+{crumbs_html(c, t, trail, switch)}  <section class="section world" aria-labelledby="wish-title">
+    <div class="wrap" data-vote-api="{VOTE_API}" data-vote-key="{TURNSTILE_KEY}">
+      <span class="eyebrow">{t["wish_eb"](len(wishes))}</span>
+      <h1 id="wish-title">{t["wish_h1"]}</h1>
+      <p class="lede">{t["wish_lede"]}</p>
+      <noscript><p>{t["wish_nojs"]}</p></noscript>{blocks}
+    </div>
+  </section>
+  <div class="vote-bar"><p role="status" data-vote-status></p><div data-vote-check></div></div>
+</main>
+<script>{js}</script>
+<script src="{TURNSTILE}/turnstile/v0/api.js?render=explicit&amp;onload=psVoteCheck" async defer></script>
+
+''' + foot(c, t, 'en')
+    return rel, page
 
 
 def write(path, page):
@@ -791,6 +852,7 @@ def main():
             sitemap('sitemap-world.xml', world_urls)
         else:
             sitemap(f'sitemap-{lang.lower()}.xml', [prefix(lang)] + city_urls + world_urls)
+    write(*wish_page(planned()))
     stamp_geo()
 
 

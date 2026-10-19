@@ -70,6 +70,12 @@ T = {
         cont_desc='{n} of the {total} cities in Paper Skyline are in {cont}, across {countries}: {cities}.',
         world_title='The world of Paper Skyline | paper plane game',
         world_desc='Every city in Paper Skyline by continent and country: {total} cities, from {first} to {last}.',
+        wish_title='Wish for the next city | Paper Skyline', wish_link='Wish for the next city', wish_h3='The next cities',
+        wish_desc='Vote for the next city in Paper Skyline, the paper plane game: {n} planned cities, from {first} to {last}.',
+        wish_eb=lambda n: _en_n(n, 'planned city', 'planned cities'), wish_h1='Where should the plane fly next?',
+        wish_lede=('These cities are planned for Paper Skyline. Tap the one you want next: the counts help us '
+                   'choose the cities for each release. Votes are anonymous, one per city on each browser.'),
+        wish_nojs='Voting needs JavaScript. Without it, this is the list of planned cities.',
     ),
     'zh-Hans': dict(
         name='简体中文', og_locale='zh_CN', sp='', skip='跳到正文', langs='语言', crumbs='当前位置',

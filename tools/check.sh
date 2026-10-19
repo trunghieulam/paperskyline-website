@@ -3,7 +3,7 @@
 set -o nounset
 cd "$(dirname "$0")/.."
 pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html world/index.html world/*/index.html world/*/*/index.html
-  devlog/*/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
+  devlog/*/index.html wish/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
 fail=0
 discord=$(python3 -c "import sys; sys.path.insert(0, 'tools'); from i18n import DISCORD; print(DISCORD)")
 err() { echo "FAIL $1: $2"; fail=1; }
@@ -30,7 +30,17 @@ for p in "${pages[@]}"; do
       [ "$nscripts" -eq 2 ] && grep -qF -- "$expect" "$p" || err "$p" "the scripts must be tools/gift.js and tools/geo.js, byte for byte"
       grep -qF "script-src '$(cat tools/gift.sha256)'" "$p" || err "$p" "CSP script-src hash missing or stale (tools/gift.sha256)"
       ;;
-    *) [ "$nscripts" -eq 1 ] || err "$p" "executable <script> beyond tools/geo.js: the site is otherwise zero-JS (JSON-LD and the gift script excepted)" ;;
+    wish/index.html)
+      # The vote page: tools/vote.js inline, Cloudflare Turnstile and geo.js, and a CSP that allows only those.
+      expect="<script>$(python3 -c "print(open('tools/vote.js',encoding='utf-8').read().strip(),end='')")</script>"
+      sha=$(python3 -c "import base64,hashlib; print(base64.b64encode(hashlib.sha256(open('tools/vote.js',encoding='utf-8').read().strip().encode()).digest()).decode())")
+      [ "$nscripts" -eq 3 ] && grep -qF -- "$expect" "$p" && grep -qF '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?' "$p" \
+        || err "$p" "the vote page's scripts must be tools/vote.js, byte for byte, Turnstile and geo.js"
+      grep -qF "content=\"script-src 'sha256-$sha' '$geo_sha' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://paperskyline-stats.paperskyline-stats.workers.dev\"" "$p" \
+        || err "$p" "CSP missing or stale (re-run tools/cities.py after editing tools/vote.js)"
+      grep -q 'name="robots" content="noindex' "$p" || err "$p" "the vote page must stay noindex"
+      ;;
+    *) [ "$nscripts" -eq 1 ] || err "$p" "executable <script> beyond tools/geo.js: the site is otherwise zero-JS (JSON-LD, the gift and the vote scripts excepted)" ;;
   esac
 
   python3 -c 'import json,re,sys; [json.loads(b) for b in re.findall(r"<script type=\"application/ld\+json\">(.*?)</script>", open(sys.argv[1], encoding="utf-8").read(), re.S)]' "$p" 2>/dev/null \

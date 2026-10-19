@@ -472,6 +472,25 @@ strong { font-weight: 700; color: var(--hot); }
 .country-head .wrap > div { display: grid; gap: .6rem; justify-items: start; }
 .country-head picture img { width: min(18rem, 70vw); }
 @media (prefers-color-scheme: dark) { .country-head picture img { filter: drop-shadow(0 0 1px #fffaf2); } }
+/* /wish/: one row per planned city; vote.js reveals the button and the count */
+.wish-list { display: grid; gap: .6rem; margin: .9rem 0 0; padding: 0; list-style: none; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
+.wish-list li {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; max-width: none; padding: .45rem .5rem .45rem .9rem;
+  border: 3px solid var(--edge); border-radius: 22px; background: var(--paper); box-shadow: var(--sticker-sm);
+}
+.wish-name { flex: 1 1 auto; font-weight: 600; }
+.wish-count { color: var(--ink-faint); font-size: .95rem; }
+.wish-list button {
+  font: 800 1rem/1 var(--display); color: var(--navy); background: var(--pink); border: 3px solid var(--navy);
+  border-radius: 999px; padding: .45rem .9rem; cursor: pointer;
+}
+.wish-list button[hidden] { display: none; }
+.wish-list button:disabled { background: var(--yellow); cursor: default; }
+.wish-list button:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+.vote-bar { position: fixed; z-index: 10; left: 50%; bottom: 1rem; transform: translateX(-50%); display: grid; justify-items: center; gap: .5rem; width: max-content; max-width: calc(100vw - 2rem); }
+.vote-bar [role="status"]:not(:empty) {
+  margin: 0; padding: .55rem 1rem; border: 3px solid var(--navy); border-radius: 14px; background: var(--yellow); color: var(--navy); box-shadow: var(--sticker-sm);
+}
 .world h2 { margin-top: 2rem; }
 .world .city-links { margin-top: .9rem; }
 .city-links + h3 { margin-top: 1.75rem; }
