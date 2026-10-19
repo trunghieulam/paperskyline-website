@@ -111,7 +111,7 @@ non-personalised, UMP consent in the EEA and UK, no advertising ID. Version 4 (b
 describes Paper Skyline 1.1: made for adults 18 and over (V-D37), anonymous gameplay statistics to our
 Cloudflare Worker, in-game feedback and `feedback.html`, a no-JS mailto form for adults. Version 2 described Paper Skyline 1.0: progress and settings saved on the device, no ads, analytics or purchases, no Unity cloud service enabled, and one-time HTTPS downloads of New York,
 Tokyo, Cairo and Rio from Cloudflare R2 with no identifiers sent. It is the Play Console privacy URL,
-so keep `privacy.html` at that path. Any change to the game's data flow bumps the policy **first**.
+so keep `privacy.html` at that path. Its canonical is `/privacy`; `/privacy.html` must keep answering for Play Console, with a 200 on GitHub Pages and a 308 to `/privacy` on Cloudflare Pages. Any change to the game's data flow bumps the policy **first**.
 
 ## Brand exports
 

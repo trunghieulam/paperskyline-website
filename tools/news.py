@@ -113,7 +113,7 @@ def devlog(releases, entries):
     old_desc = re.search(r'<meta name="description" content="([^"]*)"', src).group(1)
     page = (src.replace('<title>Support | Paper Skyline</title>', '<title>Devlog | Paper Skyline</title>')
             .replace(old_desc, desc)
-            .replace('https://paperskyline.org/support.html', 'https://paperskyline.org/devlog.html')
+            .replace('https://paperskyline.org/support"', 'https://paperskyline.org/devlog"')
             .replace('content="Support | Paper Skyline"', 'content="Devlog | Paper Skyline"')
             .replace('<a href="support.html" aria-current="page">Support</a>', '<a href="support.html">Support</a>'))
     # Only shipped versions go on the public page; soon entries stay in news.json for the game.

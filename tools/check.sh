@@ -33,6 +33,8 @@ for p in "${pages[@]}"; do
   grep -qiE 'lorem|TODO|TBD' "$p" && err "$p" "placeholder text"
   grep -q '—' "$p" && err "$p" "em dash in copy: use a period, comma, colon or | instead"
   grep -qE 'https://www\.paperskyline\.org' "$p" && err "$p" "www host — the apex is canonical"
+  # Cloudflare Pages 308s /x.html to /x, so canonical URLs carry no extension.
+  grep -qE '(rel="canonical" href|property="og:url" content)="[^"]*\.html"' "$p" && err "$p" "canonical or og:url ends in .html: use /page, not /page.html"
 
   # Google Play is live; the App Store badge stays an unlinked placeholder until iOS ships.
   grep -qE '<a[^>]*class="badge"' "$p" && err "$p" "App Store badge links before the iPhone version is published"
@@ -95,7 +97,8 @@ PY
 for sm in $(grep -oE 'https://paperskyline\.org/sitemap-[a-z-]+\.xml' sitemap.xml | sed 's#https://paperskyline.org/##'); do
   [ -f "$sm" ] || { err sitemap.xml "missing $sm"; continue; }
   while read -r u; do
-    f=".${u#https://paperskyline.org}"; [ "${f%/}" = "$f" ] || f="${f}index.html"
+    case "$u" in *.html) err "$sm" "row ends in .html: $u"; continue ;; esac
+    f=".${u#https://paperskyline.org}"; [ "${f%/}" = "$f" ] && f="${f}.html" || f="${f}index.html"
     [ "$f" = "./index.html" ] || [ -f "$f" ] || { err "$sm" "no page for $u"; continue; }
     grep -q 'name="robots" content="noindex' "$f" && err "$sm" "noindex page listed: $u"
   done < <(grep -oE '<loc>[^<]+' "$sm" | sed 's/<loc>//')
