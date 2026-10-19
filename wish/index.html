@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-6WC77UO/cD5K5gcPQtxlLbiPmWTldkPzfEY1kIc9uDU=' 'sha256-er9xVZqiz8e5c1cluMTpeX60U/PWnT9N5VaAz6pmQAE=' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://paperskyline-stats.paperskyline-stats.workers.dev">
+<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-1R4lmtHGQBZfeuGQXCBx98XHcFiBVIlXY0Rrccgj3aA=' 'sha256-er9xVZqiz8e5c1cluMTpeX60U/PWnT9N5VaAz6pmQAE=' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://paperskyline-stats.paperskyline-stats.workers.dev">
 <title>Wish for the next city | Paper Skyline</title>
 <meta name="description" content="Vote for the next city in Paper Skyline, the paper plane game: 80 planned cities, from Athens to Mohenjo-daro.">
 <meta name="robots" content="noindex,follow">
@@ -146,7 +146,7 @@
         <li data-city="mumbai" data-name="Mumbai"><span class="wish-name">Mumbai, India</span> <span class="wish-count" id="n-mumbai" data-count></span> <button type="button" aria-label="I want Mumbai" aria-describedby="n-mumbai" hidden>I want it</button></li>
         <li data-city="shanghai" data-name="Shanghai"><span class="wish-name">Shanghai, China</span> <span class="wish-count" id="n-shanghai" data-count></span> <button type="button" aria-label="I want Shanghai" aria-describedby="n-shanghai" hidden>I want it</button></li>
         <li data-city="kyoto" data-name="Kyoto"><span class="wish-name">Kyoto, Japan</span> <span class="wish-count" id="n-kyoto" data-count></span> <button type="button" aria-label="I want Kyoto" aria-describedby="n-kyoto" hidden>I want it</button></li>
-        <li data-city="jerusalem" data-name="Jerusalem"><span class="wish-name">Jerusalem, None</span> <span class="wish-count" id="n-jerusalem" data-count></span> <button type="button" aria-label="I want Jerusalem" aria-describedby="n-jerusalem" hidden>I want it</button></li>
+        <li data-city="jerusalem" data-name="Jerusalem"><span class="wish-name">Jerusalem</span> <span class="wish-count" id="n-jerusalem" data-count></span> <button type="button" aria-label="I want Jerusalem" aria-describedby="n-jerusalem" hidden>I want it</button></li>
         <li data-city="delhi" data-name="Delhi"><span class="wish-name">Delhi, India</span> <span class="wish-count" id="n-delhi" data-count></span> <button type="button" aria-label="I want Delhi" aria-describedby="n-delhi" hidden>I want it</button></li>
         <li data-city="tbilisi" data-name="Tbilisi"><span class="wish-name">Tbilisi, Georgia</span> <span class="wish-count" id="n-tbilisi" data-count></span> <button type="button" aria-label="I want Tbilisi" aria-describedby="n-tbilisi" hidden>I want it</button></li>
         <li data-city="hanoi" data-name="Hanoi"><span class="wish-name">Hanoi, Vietnam</span> <span class="wish-count" id="n-hanoi" data-count></span> <button type="button" aria-label="I want Hanoi" aria-describedby="n-hanoi" hidden>I want it</button></li>
@@ -271,7 +271,7 @@
   });
   var ids = rows.map(function (li) { return li.getAttribute('data-city'); });
   for (var i = 0; i < ids.length; i += 60) {
-    fetch(api + '/votes?cities=' + ids.slice(i, i + 60).join(','), { credentials: 'omit', referrerPolicy: 'no-referrer' })
+    fetch(api + '/votes?cities=' + ids.slice(i, i + 60).join(','), { cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer' })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
       .then(function (d) { for (var k in d) counts[k] = Number(d[k]) || 0; rows.forEach(show); rank(); })
       .catch(function () {});

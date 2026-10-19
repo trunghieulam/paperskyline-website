@@ -49,7 +49,7 @@
   });
   var ids = rows.map(function (li) { return li.getAttribute('data-city'); });
   for (var i = 0; i < ids.length; i += 60) {
-    fetch(api + '/votes?cities=' + ids.slice(i, i + 60).join(','), { credentials: 'omit', referrerPolicy: 'no-referrer' })
+    fetch(api + '/votes?cities=' + ids.slice(i, i + 60).join(','), { cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer' })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
       .then(function (d) { for (var k in d) counts[k] = Number(d[k]) || 0; rows.forEach(show); rank(); })
       .catch(function () {});

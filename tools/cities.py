@@ -699,7 +699,7 @@ def planned():
 def wish_row(x, t):
     n = f'n-{x["id"]}'
     return (f'\n        <li data-city="{x["id"]}" data-name="{esc(x["name"])}">'
-            f'<span class="wish-name">{esc(t["place"](x["name"], x["country"]))}</span> '
+            f'<span class="wish-name">{esc(t["place"](x["name"], x["country"]) if x["country"] else x["name"])}</span> '
             f'<span class="wish-count" id="{n}" data-count></span> '
             f'<button type="button" aria-label="I want {esc(x["name"])}" aria-describedby="{n}" hidden>I want it</button></li>')
 
