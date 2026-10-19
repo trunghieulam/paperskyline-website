@@ -86,7 +86,8 @@ GitHub Pages, from the default branch root:
 1. **Contact.** Every page's mailto is the owner's address (user, 2026-09-28); it must receive mail
    before publishing, since store reviewers do check.
 2. **Store links.** Google Play is linked (package `paperskyline.org`); `check.sh` fails any
-   `store-link` that points elsewhere. The App Store badge stays an unlinked `<span class="badge">`
+   `store-link` that points elsewhere, and any Play link without the referrer
+   `utm_source=site, utm_medium=<page>, utm_campaign=<slot>`. The App Store badge stays an unlinked `<span class="badge">`
    until the iPhone version ships, and `check.sh` fails it if it becomes a link.
 3. **Developer and law.** The developer is "THLab (Trung Hieu Lam)", and the terms are governed by
    Vietnamese law (user, 2026-09-28).

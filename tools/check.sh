@@ -33,8 +33,11 @@ for p in "${pages[@]}"; do
 
   # Google Play is live; the App Store badge stays an unlinked placeholder until iOS ships.
   grep -qE '<a[^>]*class="badge"' "$p" && err "$p" "App Store badge links before the iPhone version is published"
-  grep -oE '<a[^>]*class="store-link"[^>]*>' "$p" | grep -vqF 'href="https://play.google.com/store/apps/details?id=paperskyline.org"' \
+  grep -oE '<a[^>]*class="store-link"[^>]*>' "$p" | grep -vqF 'href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer=' \
     && err "$p" "store link that is not the Play listing"
+  # Play Console counts the site's installs per page and slot only through this referrer.
+  grep -oE '<a[^>]*href="https://play\.google\.com[^"]*"' "$p" | grep -vqE 'href="https://play\.google\.com/store/apps/details\?id=paperskyline\.org&amp;referrer=utm_source%3Dsite%26utm_medium%3D[a-z_]+%26utm_campaign%3D[a-z0-9_]+"$' \
+    && err "$p" "Play link without the UTM referrer (utm_source=site, utm_medium=<page>, utm_campaign=<slot>)"
 
   # Claims the copy may not make until they are real (design spec §5).
   grep -qiE 'free to play|no purchases ever|launches (in|on) ' "$p" && err "$p" "price or release-date claim"
