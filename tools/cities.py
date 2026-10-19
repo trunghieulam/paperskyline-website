@@ -447,6 +447,71 @@ def hub(cities, lang):
 ''' + foot(c, t)
 
 
+def home(cities, lang):
+    """/<lang>/: the home page in the listing's own words, then every city; English keeps the hand-written index.html."""
+    t, h, p, c = T[lang], T[lang]['homepage'], prefix(lang), '../'
+    srcset = lambda e: ', '.join(f'{c}img/hero-paris-{w}.{e} {w}w' for w in (640, 1024, 1600))
+    cards = ''.join(f'''
+        <div class="card">
+          <h3>{esc(n)}</h3>
+          <p>{esc(d)}</p>
+        </div>''' for n, d in h['cards'])
+    tiles = ''.join(city_card(x, c, t, f'cities/{x["id"]}/') for x in cities)
+    top, switch = head(c, t, lang, h['title'], h['desc'], '', 'brand/og-image-1200x630.jpg', True)
+    return top + f'''
+<main id="main">
+  <div class="wrap topbar">
+{switch}  </div>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-scene">
+      <picture>
+        <source type="image/avif" srcset="{srcset('avif')}" sizes="100vw">
+        <source type="image/webp" srcset="{srcset('webp')}" sizes="100vw">
+        <img srcset="{srcset('jpg')}" sizes="100vw" src="{c}img/hero-paris-1024.jpg" width="1600" height="533" alt="{esc(h['alt'])}" fetchpriority="high">
+      </picture>
+      <h1 id="hero-title" class="hero-title" lang="en"><span>Paper</span> <span>Skyline</span></h1>
+    </div>
+    <div class="wrap hero-copy">
+      <div>
+        <span class="eyebrow">{h["eyebrow"]}</span>
+        <p class="hero-tag">{esc(h["tag"])}</p>
+        <p class="lede">{esc(h["lede"])}</p>
+      </div>
+      <ul class="badges">
+        <li>{play(c, lang, "home", "badge")}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="play-title">
+    <div class="wrap">
+      <span class="eyebrow">{h["play_eb"]}</span>
+      <h2 id="play-title">{h["play_h2"]}</h2>
+      <div class="plainly">{cards}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" aria-labelledby="cities-title">
+    <div class="wrap">
+      <span class="eyebrow">{t["n_cities"](len(cities))}</span>
+      <h2 id="cities-title">{t["hub_h1"]}</h2>
+      <ul class="city-links">
+        <li><a href="world/">{h["by_cont"]}</a></li>
+        <li><a href="cities/">{h["all_cities"]}</a></li>
+      </ul>
+      <ul class="keeper-grid">{tiles}
+      </ul>
+      <ul class="badges more">
+        <li>{play(c, lang, "home", "cities")}</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+''' + foot(c, t)
+
+
 def city_card(x, c, t, href):
     keeper = lambda role: pic(c, f'keeper-{x["slug"]}-{role}', 'png', x['beats'][f'{role}.name'],
                               *keeper_size(x['slug'], role), ' loading="lazy" decoding="async"')
@@ -621,6 +686,8 @@ def build(cities, atlas, lang):
         if index:
             city_urls.append(f'{p}cities/{x["id"]}/')
     write(f'{p}cities/', hub(cities, lang))
+    if lang != 'en':
+        write(p, home(cities, lang))
 
     by_cont, by_code = {}, {}
     for x in cities:
@@ -648,7 +715,7 @@ def main():
             sitemap('sitemap-cities.xml', city_urls)
             sitemap('sitemap-world.xml', world_urls)
         else:
-            sitemap(f'sitemap-{lang.lower()}.xml', city_urls + world_urls)
+            sitemap(f'sitemap-{lang.lower()}.xml', [prefix(lang)] + city_urls + world_urls)
 
 
 if __name__ == '__main__':

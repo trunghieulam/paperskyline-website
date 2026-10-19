@@ -110,6 +110,12 @@ strong { font-weight: 700; color: var(--hot); }
   gap: .6rem 1rem; padding-top: 1.1rem; padding-bottom: 1.1rem;
 }
 @media (max-width: 37.5rem) { .site-header .wrap { flex-direction: column; align-items: flex-start; } }
+/* Phones: the brand already links home, which leaves room for the longer id and vi labels on one line */
+@media (max-width: 37.5rem) {
+  .site-header .site-nav { gap: .15rem; margin-left: -.55rem; }
+  .site-header .site-nav a { padding: .45rem .55rem; }
+  .site-header .site-nav a:first-child { display: none; }
+}
 .brand {
   display: inline-flex; align-items: center; gap: .65rem;
   font: 800 1.75rem/1 var(--display); color: inherit; text-decoration: none;
@@ -426,7 +432,7 @@ strong { font-weight: 700; color: var(--hot); }
 .topbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1.5rem; padding-block: .9rem; }
 .crumbs, .langs { font-size: .95rem; color: var(--ink-faint); }
 .crumbs a { font-weight: 600; }
-.langs { display: flex; flex-wrap: wrap; gap: .3rem .9rem; }
+.langs { display: flex; flex-wrap: wrap; gap: .3rem .9rem; margin-left: auto; }
 .langs [aria-current] { font-weight: 700; color: var(--ink-soft); }
 .section .eyebrow + h2 + p, .section h2 + .lede { margin-top: .2rem; }
 .section .wrap > .eyebrow:not(:first-child) { margin-top: 1.5rem; }

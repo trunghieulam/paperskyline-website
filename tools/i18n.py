@@ -106,6 +106,17 @@ T = {
         cont_desc='Paper Skyline 的 {total} 座城市里，有 {n} 座在{cont}，分布在 {countries}：{cities}。',
         world_title='Paper Skyline 的世界 | 纸飞机游戏',
         world_desc='按大洲和国家，列出 Paper Skyline 的每一座城市：共 {total} 座，从{first}到{last}。',
+        homepage=dict(  # from the approved zh-CN Play listing, docs/store/google-play/1.9.0/listings.json
+            title='Paper Skyline | 纸飞机游戏', desc='驾驶纸飞机飞越世界各地的城市，每次飞行后升级，飞得更远。',
+            alt='水墨和水彩画出的巴黎日落天空，屋顶上飘着桃色的云，远处是埃菲尔铁塔',
+            eyebrow='Android 手机和平板', tag='让心愿起飞。',
+            lede='一个暂时还不能出门旅行的男孩，把心愿写在笔记本的一页上，折成纸飞机，从窗口放飞。你来驾驶这架纸飞机，飞过用墨线和水彩画出的真实城市。',
+            play_eb='玩法', play_h2='升级你的纸飞机',
+            cards=[('每一次，都飞得更远一点', '掠过屋顶，看看自己能飞多远。距离、高度、速度和飞行时间，都会变成下一次飞行的资金。在工坊里升级发射器、机翼、机身、引擎和油箱。'),
+                   ('挑战城市守护者', '找到弱点，看准时机，撞出关键的一击。下一段天空正在等你。'),
+                   ('收集新外观', '每天飞一飞，打开礼物，为你的纸飞机收集外观。'),
+                   ('15 座城市等你去', '从巴黎、东京到里约和多伦多。把古物和明信片收进图集，任何城市都能用简单、普通或困难模式再玩一次。')],
+            by_cont='按大洲浏览', all_cities='所有城市'),
     ),
     'id': dict(
         name='Bahasa Indonesia', og_locale='id_ID', sp=' ', skip='Langsung ke konten', langs='Bahasa', crumbs='Navigasi',
@@ -147,5 +158,19 @@ T = {
         cont_desc='{n} dari {total} kota di Paper Skyline ada di {cont}, tersebar di {countries}: {cities}.',
         world_title='Dunia Paper Skyline | game pesawat kertas',
         world_desc='Setiap kota di Paper Skyline menurut benua dan negara: {total} kota, dari {first} sampai {last}.',
+        homepage=dict(  # drafted from the en-US Play listing, in the game's own words, for the City Writer to check
+            title='Paper Skyline | game pesawat kertas',
+            desc='Terbangkan pesawat kertas melintasi kota-kota di seluruh dunia, dan tingkatkan setelah setiap penerbangan.',
+            alt='Langit Paris saat matahari terbenam dalam tinta dan cat air, dengan awan jingga di atas atap dan Menara Eiffel',
+            eyebrow='Ponsel dan tablet Android', tag='Lipat sebuah keinginan. Terbangkan ke sana.',
+            lede=('Seorang anak laki-laki yang belum bisa bepergian menulis keinginannya di selembar halaman buku catatan, '
+                  'melipatnya menjadi pesawat kertas, lalu melemparnya dari jendela. Kini kamu menerbangkannya di atas '
+                  'kota-kota nyata yang dilukis dengan tinta dan cat air.'),
+            play_eb='Cara bermain', play_h2='Bangun pesawat yang lebih baik',
+            cards=[('Setiap kali, terbang sedikit lebih jauh', 'Meluncurlah di atas atap dan lihat seberapa jauh kamu bisa terbang. Jarak, tinggi, kecepatan, dan waktu di udara membayar penerbangan berikutnya. Tingkatkan peluncur, sayap, badan, mesin, dan tangki BBM di Bengkel.'),
+                   ('Lewati para penjaga kota', 'Setiap kota punya Penjaga Elite dan Penjaga Boss. Kenai titik lemahnya untuk BONK! besar, atau bangun pesawat yang lebih kuat dan lewati mereka dengan pukulan biasa. Berikan pukulan terakhir untuk KO!'),
+                   ('Kumpulkan tampilan baru', 'Terbanglah setiap hari, buka hadiah, dan kumpulkan tampilan untuk pesawat kertasmu.'),
+                   ('15 kota menunggumu', 'Dari Paris dan Tokyo sampai Rio dan Toronto. Simpan jimat dan kartu pos di Atlas, dan mainkan lagi kota mana pun di tingkat Mudah, Sedang, atau Sulit.')],
+            by_cont='Jelajahi menurut benua', all_cities='Semua kota'),
     ),
 }
