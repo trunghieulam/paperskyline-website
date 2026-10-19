@@ -51,6 +51,7 @@ The step glyphs and the blueprint elevation are still inline `<svg>`.
 `tools/cities.py` writes `cities/<id>/` and `world/<continent>/<country>/` from the city graph and the Atlas text (#96); never edit them by hand.
 A page is indexed and listed in its sitemap only with 300+ words of its own verified text (450+ Han characters in zh-Hans); below that it gets `noindex,follow`.
 The zh-Hans and id pages take every city, keeper and country line from the game's locale packs; the page strings live in `tools/i18n.py`.
+Extra verified text from `design/web-text/{cities,countries}/<key>.<lang>.md` in the game repo renders as one H2 per `##` section and counts toward the rule.
 Every page lists all its languages as `hreflang` alternates, and `check.sh` fails any set that is not reciprocal.
 
 ## Copy

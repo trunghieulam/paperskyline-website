@@ -20,6 +20,8 @@ from i18n import T
 SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 GAME = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(SITE, '..', 'game-paper-flights'))
 PACKS = os.path.join(GAME, 'Assets/Content/Locale/packs')
+# The City Writer's verified extra text; WEB_TEXT points a preview build at an unmerged branch's checkout
+TEXT = os.environ.get('WEB_TEXT', os.path.join(GAME, 'design/web-text'))
 ORIGIN = 'https://paperskyline.org'
 LANGS = ['en', 'zh-Hans', 'id']
 # The #96 rule: index a page only with this much verified text of its own, plus its own image.
@@ -101,6 +103,39 @@ def localize(cities, atlas, lang):
         y['country'] = at['countries'][x['code']]['name']
         out.append(y)
     return out, at
+
+
+def extra(kind, key, lang):
+    """The "## heading" sections of design/web-text/<kind>/<key>.<lang>.md as (heading, [paragraphs]), or []."""
+    f = os.path.join(TEXT, kind, f'{key}.{lang}.md')
+    if not os.path.exists(f):
+        return []
+    out = []
+    for block in re.split(r'\n\s*\n', open(f, encoding='utf-8').read().strip()):
+        block = ' '.join(block.split())
+        if re.search(r'\]\(|^[-*>#]|\*\*', re.sub(r'^## ', '', block)):
+            sys.exit(f'{f}: only "## heading" and plain paragraphs are rendered: {block[:60]}')
+        if block.startswith('## '):
+            out.append((block[3:], []))
+        elif out:
+            out[-1][1].append(block)
+        else:
+            sys.exit(f'{f}: text before the first "## heading"')
+    return out
+
+
+def extra_html(secs, id_):
+    """One section holding every extra heading and its paragraphs."""
+    if not secs:
+        return ''
+    body = ''.join(f'\n      <h2 id="{id_}-{i}">{esc(h)}</h2>' + ''.join(f'\n      <p>{esc(p)}</p>' for p in ps)
+                   for i, (h, ps) in enumerate(secs, 1))
+    return f'''  <section class="section extra" aria-labelledby="{id_}-1">
+    <div class="wrap">{body}
+    </div>
+  </section>
+
+'''
 
 
 def slugify(s):
@@ -290,6 +325,8 @@ def city_page(x, by_id, total, lang):
     for role in ('elite', 'boss'):
         body += [b[f'{role}.{k}'] for k in ('name', 'subtitle', 'legend', 'wake', 'crack', 'break', 'mine')]
     body += [f'{r[0]} {r[1]}' for r in x['relics'].values()]
+    secs = extra('cities', x['id'], lang)
+    body += [h for h, _ in secs] + [p for _, ps in secs for p in ps]
     n_words = words(lang, *body)
     index = n_words >= MIN_WORDS[lang]
     rel = f'cities/{x["id"]}/'
@@ -339,7 +376,7 @@ def city_page(x, by_id, total, lang):
     </div>
   </section>
 
-  <section class="section alt" aria-labelledby="keepers-title">
+{extra_html(secs, "about")}  <section class="section alt" aria-labelledby="keepers-title">
     <div class="wrap">
       <span class="eyebrow">{t["two_keepers"]}</span>
       <h2 id="keepers-title">{t["keepers_h2"].format(name=esc(x["name"]))}</h2>
@@ -434,7 +471,8 @@ def country_page(code, cs, atlas, conts, lang):
     t, p = T[lang], prefix(lang)
     k, x0 = atlas['countries'][code], cs[0]
     c, rel, cont = '../../../' + '../' * (lang != 'en'), x0['country_path'], x0['cont']
-    n_words = words(lang, k['intro'], k['idLine'], *k['facts'])
+    secs = extra('countries', code, lang)
+    n_words = words(lang, k['intro'], k['idLine'], *k['facts'], *(h for h, _ in secs), *(p for _, ps in secs for p in ps))
     index = n_words >= MIN_WORDS[lang]
     title = t['country_title'].format(name=k['name'])
     desc = t['country_desc'].format(cities=t['join']([x['name'] for x in cs]), country=t['country_in'](code, k['name']))
@@ -465,7 +503,7 @@ def country_page(code, cs, atlas, conts, lang):
     </div>
   </section>
 
-  <section class="section alt" aria-labelledby="cities-title">
+{extra_html(secs, "about")}  <section class="section alt" aria-labelledby="cities-title">
     <div class="wrap">
       <span class="eyebrow">{t["in_game"](len(cs))}</span>
       <h2 id="cities-title">{esc(t["fly_over"].format(country=t["country_in"](code, k["name"])))}</h2>
