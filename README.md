@@ -75,7 +75,7 @@ Run it on game main's changelog via `git show`, with the `google-play/whats-new-
 
 ## Shipping a city
 
-A city is published only once its version is on Play production (HCMC, Amsterdam and Singapore wait for 1.9.4).
+A city is published only once its version is on Play production (HCMC, Amsterdam and Singapore wait for 1.9.5; 1.9.4 was skipped).
 Add its keepers to `CITIES` in `tools/art.py` (plus `NAMES`/`IDS` if its slug differs), then run `tools/art.py`, `tools/cities.py`, and `tools/news.py` with `LIVE` raised.
 Then run `tools/check.sh`; country pages that fall under the word rule stay `noindex` until the City Writer adds verified text.
 
