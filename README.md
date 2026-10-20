@@ -36,8 +36,8 @@ stickers on a deep navy night.
 
 ## The art is the game's own
 
-The hero and the social card use the game's Paris painting, and the keepers section shows all thirty
-keepers of the fifteen shipped cities, each on a strip of its city's painting. `tools/art.py` reads them from the game repo and writes
+The hero and the social card use the game's Paris painting, and the keepers section shows all thirty-six
+keepers of the eighteen shipped cities, each on a strip of its city's painting. `tools/art.py` reads them from the game repo and writes
 `img/` and `brand/`, so re-run it after the game's art changes rather than editing images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
 (paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 
@@ -75,7 +75,7 @@ Run it on game main's changelog via `git show`, with the `google-play/whats-new-
 
 ## Shipping a city
 
-A city is published only once its version is on Play production (HCMC, Amsterdam and Singapore wait for 1.9.5; 1.9.4 was skipped).
+A city is published only once its version is on Play production.
 Add its keepers to `CITIES` in `tools/art.py` (plus `NAMES`/`IDS` if its slug differs), then run `tools/art.py`, `tools/cities.py`, and `tools/news.py` with `LIVE` raised.
 Then run `tools/check.sh`; country pages that fall under the word rule stay `noindex` until the City Writer adds verified text.
 

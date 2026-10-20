@@ -36,6 +36,11 @@ CITIES = [
     ('hong-kong', ('hong-kong-elite-neon-master', 'hong_kong_neon_state1'),
      ('hong-kong-boss-pirate', 'hong_kong_pirate_state1')),
     ('toronto', ('toronto-elite-moose', 'toronto_moose_state1'), ('toronto-boss-raccoon', 'toronto_raccoon_state1')),
+    ('ho-chi-minh-city', ('ho-chi-minh-city-elite-courier', 'hcmc_courier_state1'),
+     ('ho-chi-minh-city-boss-cyclo', 'hcmc_cyclo_state1')),
+    ('amsterdam', ('amsterdam-elite-heron', 'amsterdam_heron_state1'), ('amsterdam-boss-windmill', 'amsterdam_windmill_state1')),
+    ('singapore', ('singapore-elite-hornbill', 'singapore_hornbill_state1'),
+     ('singapore-boss-harbour-elder', 'singapore_harbour_elder_state1')),
 ]
 # Display names and city ids where the art slug is not the city's
 NAMES = {'rio': 'Rio de Janeiro'}
