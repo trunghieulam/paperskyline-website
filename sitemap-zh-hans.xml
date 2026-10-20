@@ -16,6 +16,7 @@
   <url><loc>https://paperskyline.org/zh-Hans/cities/barcelona/</loc></url>
   <url><loc>https://paperskyline.org/zh-Hans/cities/hong-kong/</loc></url>
   <url><loc>https://paperskyline.org/zh-Hans/cities/toronto/</loc></url>
+  <url><loc>https://paperskyline.org/zh-Hans/world/</loc></url>
   <url><loc>https://paperskyline.org/zh-Hans/world/europe/france/</loc></url>
   <url><loc>https://paperskyline.org/zh-Hans/world/north-america/united-states/</loc></url>
   <url><loc>https://paperskyline.org/zh-Hans/world/asia/japan/</loc></url>
@@ -30,4 +31,10 @@
   <url><loc>https://paperskyline.org/zh-Hans/world/europe/spain/</loc></url>
   <url><loc>https://paperskyline.org/zh-Hans/world/asia/hong-kong/</loc></url>
   <url><loc>https://paperskyline.org/zh-Hans/world/north-america/canada/</loc></url>
+  <url><loc>https://paperskyline.org/zh-Hans/world/europe/</loc></url>
+  <url><loc>https://paperskyline.org/zh-Hans/world/asia/</loc></url>
+  <url><loc>https://paperskyline.org/zh-Hans/world/africa/</loc></url>
+  <url><loc>https://paperskyline.org/zh-Hans/world/north-america/</loc></url>
+  <url><loc>https://paperskyline.org/zh-Hans/world/south-america/</loc></url>
+  <url><loc>https://paperskyline.org/zh-Hans/world/oceania/</loc></url>
 </urlset>

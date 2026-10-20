@@ -472,6 +472,29 @@ strong { font-weight: 700; color: var(--hot); }
 .country-head .wrap > div { display: grid; gap: .6rem; justify-items: start; }
 .country-head picture img { width: min(18rem, 70vw); }
 @media (prefers-color-scheme: dark) { .country-head picture img { filter: drop-shadow(0 0 1px #fffaf2); } }
+/* a country's cities: the painting strip and its keepers beside the postcard and the map ties */
+.city-rows { display: grid; gap: 1.75rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
+.city-row {
+  max-width: none; display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden;
+  background: var(--paper); border: 3px solid var(--edge); border-radius: 26px; box-shadow: var(--sticker);
+}
+.city-row .keepers {
+  position: relative; display: flex; justify-content: space-evenly; align-items: flex-end; gap: .75rem;
+  height: 12rem; padding: .6rem .9rem .4rem; border-bottom: 3px solid var(--edge);
+}
+.city-row > div:last-child { display: grid; gap: .5rem; align-content: start; justify-items: start; padding: 1.1rem 1.3rem 1.3rem; }
+.city-row p { margin: 0; color: var(--ink-soft); }
+.city-row .sub { font-weight: 600; color: var(--ink-faint); }
+.city-row h3 { margin: 0; }
+.city-row h3 a { text-decoration: none; }
+@media (min-width: 44rem) {
+  .city-row { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  .city-row .keepers { height: auto; min-height: 14rem; border-bottom: 0; border-right: 3px solid var(--edge); }
+}
+/* planned cities: named on the map, no page yet */
+.city-links.later span {
+  display: block; padding: .45rem .9rem; border: 3px dashed var(--line); border-radius: 999px; color: var(--ink-faint);
+}
 /* /wish/: one row per planned city; vote.js reveals the button and the count */
 .wish-list { display: grid; gap: .6rem; margin: .9rem 0 0; padding: 0; list-style: none; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
 .wish-list li {

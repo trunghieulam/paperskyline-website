@@ -125,6 +125,9 @@ SHOTS = ['wish', 'workshop', 'keepers', 'daily', 'looks']
 
 
 def shots():
+    # The game moved its store captures to paper-skyline-local-media; without them keep the committed exports
+    if not os.path.exists(game(STORE, f'01-{SHOTS[0]}-en-US.jpg')):
+        return print(f'{STORE} absent: shot-* kept as committed')
     for slug in SHOTS:
         src = Image.open(game(STORE, f'0{SHOTS.index(slug) + 1}-{slug}-en-US.jpg')).convert('RGB').crop(STORE_CROP)
         for w in (800, 1600):

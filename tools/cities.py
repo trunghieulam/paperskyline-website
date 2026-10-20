@@ -260,9 +260,19 @@ def play(c, lang, medium, campaign):
             '        </a>')
 
 
-def names(t, ids, by_id):
-    xs = [f'<a href="../{i}/">{esc(by_id[i]["name"])}</a>' for i in ids if i in by_id]
+def names(t, ids, by_id, base='../'):
+    xs = [f'<a href="{base}{i}/">{esc(by_id[i]["name"])}</a>' for i in ids if i in by_id]
     return t['join'](xs) if xs else ''
+
+
+def route(t, x, by_id, base='../'):
+    """Where the plane reaches the city from and where clearing it leads: the city's ties on the map."""
+    out = [t['route_from'].format(name=esc(x['name']), cities=names(t, x['parents'], by_id, base)) if x['parents']
+           else t['route_start'].format(name=esc(x['name']))]
+    nxt = [i for i in x['children'] if i in by_id]
+    if nxt:
+        out.append(t['route_next'].format(cities=names(t, nxt, by_id, base)))
+    return out
 
 
 def keeper_size(slug, role):
@@ -326,17 +336,10 @@ def city_page(x, by_id, total, lang):
     elite, boss = b['elite.name'], b['boss.name']
     hero = 'hero-paris' if x['slug'] == 'paris' else f'city-{x["slug"]}'
     srcset = lambda e: ', '.join(f'{c}img/{hero}-{w}.{e} {w}w' for w in (640, 1024, 1600))
-    route = []
-    if x['parents']:
-        route.append(t['route_from'].format(name=esc(x['name']), cities=names(t, x['parents'], by_id)))
-    else:
-        route.append(t['route_start'].format(name=esc(x['name'])))
-    nxt = [i for i in x['children'] if i in by_id]
-    if nxt:
-        route.append(t['route_next'].format(cities=names(t, nxt, by_id)))
+    ties = route(t, x, by_id)
     for look in x['looks']:
         kind = t['kinds'].get(json.loads(look['props']).get('lookKind'), t['kinds']['style'])
-        route.append(t['route_look'].format(look=esc(look['label']), kind=kind))
+        ties.append(t['route_look'].format(look=esc(look['label']), kind=kind))
     journal = ''.join(f'\n          <li>{esc(b[k])}</li>' for k in ('journal[0]', 'journal[1]') if k in b)
     body = [wish, b['preflight.goal'], a['historyTitle'], a['history'], a['historyIdLine'], a['landmarkTitle'],
             a['landmark'], b['clear'], *(b[k] for k in ('journal[0]', 'journal[1]') if k in b)]
@@ -412,7 +415,7 @@ def city_page(x, by_id, total, lang):
       <h2 id="journal-title">{esc(b["clear"])}</h2>
       <ul class="journal">{journal}
       </ul>
-      <p>{t["sp"].join(route)}</p>
+      <p>{t["sp"].join(ties)}</p>
       <ul class="badges">
         <li>{play(c, lang, "city", x["id"] + "_end")}</li>
       </ul>
@@ -547,6 +550,31 @@ def city_card(x, c, t, href):
         </li>'''
 
 
+def city_row(x, c, t, href, by_id, total):
+    """A country page's section for one of its cities: the painting and keepers beside its postcard and map ties."""
+    keeper = lambda role: pic(c, f'keeper-{x["slug"]}-{role}', 'png', x['beats'][f'{role}.name'],
+                              *keeper_size(x['slug'], role), ' loading="lazy" decoding="async"')
+    keepers = t['keepers_line'].format(keepers=esc(t['join']([x['beats']['elite.name'], t['the'](x['beats']['boss.name'])])))
+    ties = t['sp'].join(route(t, x, by_id, href.rsplit('/', 2)[0] + '/'))
+    return f'''
+        <li class="city-row">
+          <div class="keepers">
+            {pic(c, f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
+            {keeper('elite')}
+            {keeper('boss')}
+          </div>
+          <div>
+            <span class="eyebrow">{t["city_eb"].format(n=x["n"], total=total)}</span>
+            <h3 id="city-{x["id"]}"><a href="{href}">{esc(x["name"])}</a></h3>
+            <p class="sub">{esc(x["atlas"]["landmarkTitle"])}</p>
+            <blockquote class="mine"><p>&ldquo;{esc(x["atlas"]["postcard"])}&rdquo;</p></blockquote>
+            <p>{esc(x["atlas"]["landmarkIdLine"])}{t["sp"]}{keepers}</p>
+            <p>{ties}</p>
+            <p><a href="{href}">{esc(t["city_more"].format(name=x["name"]))}</a></p>
+          </div>
+        </li>'''
+
+
 def wish_more(c, t, lang):
     return '' if lang != 'en' else f'''
       <h3>{t["wish_h3"]}</h3>
@@ -558,18 +586,20 @@ def links(c, items):
     return ''.join(f'\n        <li><a href="{c}{h}">{esc(n)}</a></li>' for n, h in items)
 
 
-def country_page(code, cs, atlas, conts, lang):
+def country_page(code, cs, atlas, conts, by_id, lang):
     t, p = T[lang], prefix(lang)
     k, x0 = atlas['countries'][code], cs[0]
     c, rel, cont = '../../../' + '../' * (lang != 'en'), x0['country_path'], x0['cont']
     secs = extra('countries', code, lang)
-    n_words = words(lang, k['intro'], k['idLine'], *k['facts'], *(h for h, _ in secs), *(p for _, ps in secs for p in ps))
+    # The postcard and landmark line appear on no other page, so they count; the route repeats the city page's
+    own = [s for x in cs for s in (x['atlas']['postcard'], x['atlas']['landmarkIdLine'])]
+    n_words = words(lang, k['intro'], k['idLine'], *k['facts'], *own, *(h for h, _ in secs), *(p for _, ps in secs for p in ps))
     index = n_words >= MIN_WORDS[lang]
     title = t['country_title'].format(name=k['name'])
     desc = t['country_desc'].format(cities=t['join']([x['name'] for x in cs]), country=t['country_in'](code, k['name']))
     trail = [(t['home'], p), (t['continents'][cont], f'{p}world/{cont}/'), (k['name'], p + rel)]
     facts = ''.join(f'\n        <li>{esc(f)}</li>' for f in k['facts'])
-    cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
+    rows = ''.join(city_row(x, c, t, f'{c}{p}cities/{x["id"]}/', by_id, len(by_id)) for x in cs)
     near = [(n, p + h) for n, h in conts[cont] if h != rel]
     more = (f'''
       <h3>{t["more_of"].format(cont=t["continents"][cont])}</h3>
@@ -598,7 +628,7 @@ def country_page(code, cs, atlas, conts, lang):
     <div class="wrap">
       <span class="eyebrow">{t["in_game"](len(cs))}</span>
       <h2 id="cities-title">{esc(t["fly_over"].format(country=t["country_in"](code, k["name"])))}</h2>
-      <ul class="keeper-grid">{cards}
+      <ul class="city-rows">{rows}
       </ul>
       <ul class="badges more">
         <li>{play(c, lang, "country", code.lower())}</li>
@@ -621,7 +651,16 @@ def country_page(code, cs, atlas, conts, lang):
     return p + rel, page, n_words, index
 
 
-def continent_page(cont, cs, conts, total, lang):
+def later_html(t, cont, later):
+    """The planned cities of one continent as plain chips: named on the map, no page of their own yet."""
+    xs = [n for k, n in later if k == cont]
+    return (f'''
+      <h3>{t["planned_h3"].format(cont=t["continents"][cont])}</h3>
+      <ul class="city-links later">{''.join(f'<li><span>{esc(n)}</span></li>' for n in xs)}
+      </ul>''' if xs else '')
+
+
+def continent_page(cont, cs, conts, total, later, lang):
     t, p = T[lang], prefix(lang)
     c, rel = '../../' + '../' * (lang != 'en'), f'world/{cont}/'
     name = t['continents'][cont]
@@ -631,7 +670,7 @@ def continent_page(cont, cs, conts, total, lang):
                                  cities=t['join']([x['name'] for x in cs]))
     trail = [(t['home'], p), (name, p + rel)]
     cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
-    top, switch = head(c, t, lang, title, desc, rel, og(cs[0]["slug"], lang), False,
+    top, switch = head(c, t, lang, title, desc, rel, og(cs[0]["slug"], lang), True,
                        page_ld(lang, rel, title, desc, trail, {'@type': 'Continent', 'name': name}))
     page = top + f'''
 <main id="main">
@@ -650,9 +689,10 @@ def continent_page(cont, cs, conts, total, lang):
   <section class="section alt" aria-labelledby="more-title">
     <div class="wrap">
       <span class="eyebrow">{t["the_world"]}</span>
-      <h2 id="more-title">{t["fly_on"]}</h2>
+      <h2 id="more-title">{t["fly_on"]}</h2>{later_html(t, cont, later)}
+      <h3>{t["every_cont"]}</h3>
       <ul class="city-links">{links(c, [(t["continents"][k], f'{p}world/{k}/') for k in conts if k != cont])}
-      </ul>
+      </ul>{wish_more(c, t, lang)}
     </div>
   </section>
 </main>
@@ -661,7 +701,7 @@ def continent_page(cont, cs, conts, total, lang):
     return p + rel, page
 
 
-def world_page(by_cont, conts, cities, lang):
+def world_page(by_cont, conts, cities, later, lang):
     t, p = T[lang], prefix(lang)
     c, rel = '../' + '../' * (lang != 'en'), 'world/'
     title = t['world_title']
@@ -670,8 +710,8 @@ def world_page(by_cont, conts, cities, lang):
     blocks = ''.join(f'''
       <h2><a href="{c}{p}world/{k}/">{t["continents"][k]}</a></h2>
       <ul class="city-links">{links(c, [(t['place'](x['name'], x['country']), f'{p}cities/{x["id"]}/') for x in by_cont[k]])}
-      </ul>''' for k in conts)
-    top, switch = head(c, t, lang, title, desc, rel, 'brand/og-image-1200x630.jpg', False,
+      </ul>{later_html(t, k, later)}''' for k in conts)
+    top, switch = head(c, t, lang, title, desc, rel, 'brand/og-image-1200x630.jpg', True,
                        page_ld(lang, rel, title, desc, trail))
     page = top + f'''
 <main id="main">
@@ -749,9 +789,11 @@ def sitemap(name, urls):
         f'{rows}</urlset>\n')
 
 
-def build(cities, atlas, lang):
+def build(cities, atlas, lang, planned_rows):
     """Writes one language's pages; returns the indexable city and country paths."""
     p = prefix(lang)
+    ui = json.load(open(os.path.join(PACKS, lang, f'{lang}.json'), encoding='utf-8')) if lang != 'en' else {}
+    later = [(r['cont'], ui.get(f'city.{r["id"]}.name', r['name'])) for r in planned_rows]
     by_id = {x['id']: x for x in cities}
     city_urls, world_urls = [], []
     for x in cities:
@@ -771,14 +813,18 @@ def build(cities, atlas, lang):
     order = [k for k in T['en']['continents'] if k in by_cont]
     conts = {k: sorted({(x['country'], x['country_path']) for x in by_cont[k]}) for k in order}
     for code, cs in by_code.items():
-        path, page, n, index = country_page(code, cs, atlas, conts, lang)
+        path, page, n, index = country_page(code, cs, atlas, conts, by_id, lang)
         write(path, page)
         print(f'{lang:8} {path:44} {n:4} words  {"index" if index else "noindex"}')
         if index:
             world_urls.append(path)
     for k in order:
-        write(*continent_page(k, by_cont[k], conts, len(cities), lang))
-    write(*world_page(by_cont, order, cities, lang))
+        path, page = continent_page(k, by_cont[k], conts, len(cities), later, lang)
+        write(path, page)
+        world_urls.append(path)
+    path, page = world_page(by_cont, order, cities, later, lang)
+    write(path, page)
+    world_urls.insert(0, path)
     return city_urls, world_urls
 
 
@@ -845,14 +891,15 @@ def stamp_geo():
 def main():
     cities, atlas = load()
     stamp(cities)
+    rows = planned()
     for lang in LANGS:
-        city_urls, world_urls = build(*localize(cities, atlas, lang), lang)
+        city_urls, world_urls = build(*localize(cities, atlas, lang), lang, rows)
         if lang == 'en':
             sitemap('sitemap-cities.xml', city_urls)
             sitemap('sitemap-world.xml', world_urls)
         else:
             sitemap(f'sitemap-{lang.lower()}.xml', [prefix(lang)] + city_urls + world_urls)
-    write(*wish_page(planned()))
+    write(*wish_page(rows))
     stamp_geo()
 
 

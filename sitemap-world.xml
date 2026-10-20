@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://paperskyline.org/world/</loc></url>
   <url><loc>https://paperskyline.org/world/europe/france/</loc></url>
   <url><loc>https://paperskyline.org/world/north-america/united-states/</loc></url>
   <url><loc>https://paperskyline.org/world/asia/japan/</loc></url>
@@ -14,4 +15,10 @@
   <url><loc>https://paperskyline.org/world/europe/spain/</loc></url>
   <url><loc>https://paperskyline.org/world/asia/hong-kong/</loc></url>
   <url><loc>https://paperskyline.org/world/north-america/canada/</loc></url>
+  <url><loc>https://paperskyline.org/world/europe/</loc></url>
+  <url><loc>https://paperskyline.org/world/asia/</loc></url>
+  <url><loc>https://paperskyline.org/world/africa/</loc></url>
+  <url><loc>https://paperskyline.org/world/north-america/</loc></url>
+  <url><loc>https://paperskyline.org/world/south-america/</loc></url>
+  <url><loc>https://paperskyline.org/world/oceania/</loc></url>
 </urlset>
