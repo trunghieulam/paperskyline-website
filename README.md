@@ -66,7 +66,7 @@ GitHub Pages always serves `{"vn":false}`; a Cloudflare rewrite of `/geo.json` t
 ## Structured data (#91)
 
 Home: VideoGame + MobileApplication, Organization, WebSite. City, country, hub and localized home pages: WebPage, BreadcrumbList, and a City or Country `about`.
-Open: Google's Software App result also wants `offers` and a rating; price is left out on purpose, so that waits on the user.
+The game node carries `offers` at price 0 (user OK, 2026-10-20). Google's Software App result also wants a rating; none is on the site, so that result stays ineligible.
 
 ## Discord
 

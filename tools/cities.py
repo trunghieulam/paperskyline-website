@@ -303,7 +303,8 @@ def keeper_card(c, t, x, role):
 
 GAME_LD = {'@type': ['VideoGame', 'MobileApplication'], '@id': f'{ORIGIN}/#game', 'name': 'Paper Skyline',
            'applicationCategory': 'GameApplication', 'operatingSystem': 'Android', 'gamePlatform': 'Android',
-           'installUrl': 'https://play.google.com/store/apps/details?id=paperskyline.org', 'url': f'{ORIGIN}/'}
+           'installUrl': 'https://play.google.com/store/apps/details?id=paperskyline.org', 'url': f'{ORIGIN}/',
+           'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'}}
 
 
 def crumbs_html(c, t, trail, switch):
