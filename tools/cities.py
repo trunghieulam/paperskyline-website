@@ -478,7 +478,11 @@ def home(cities, lang):
           <p>{esc(d)}</p>
         </div>''' for n, d in h['cards']).replace('{n}', str(len(cities)))
     tiles = ''.join(city_card(x, c, t, f'cities/{x["id"]}/') for x in cities)
-    top, switch = head(c, t, lang, h['title'], h['desc'], '', 'brand/og-image-1200x630.jpg', True)
+    url = f'{ORIGIN}/{p}'
+    ld = {'@context': 'https://schema.org', '@graph': [
+        {'@type': 'WebPage', '@id': url, 'url': url, 'name': h['title'], 'description': h['desc'], 'inLanguage': lang,
+         'about': {'@id': f'{ORIGIN}/#game'}}, GAME_LD]}
+    top, switch = head(c, t, lang, h['title'], h['desc'], '', 'brand/og-image-1200x630.jpg', True, ld)
     return top + f'''
 <main id="main">
   <div class="wrap topbar">

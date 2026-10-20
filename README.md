@@ -63,6 +63,11 @@ Every page carries `tools/geo.js` inline: it fetches same-origin `/geo.json` and
 GitHub Pages always serves `{"vn":false}`; a Cloudflare rewrite of `/geo.json` to `/geo-vn.json` for Vietnamese visitors turns the banner on. Any error means no banner.
 `tools/cities.py` stamps it and each page's CSP, which allows exactly that page's inline scripts; re-run it after editing any of them.
 
+## Structured data (#91)
+
+Home: VideoGame + MobileApplication, Organization, WebSite. City, country, hub and localized home pages: WebPage, BreadcrumbList, and a City or Country `about`.
+Open: Google's Software App result also wants `offers` and a rating; price is left out on purpose, so that waits on the user.
+
 ## Discord
 
 The invite lives in one constant, `DISCORD` in `tools/i18n.py`; after a swap, re-run `tools/cities.py`. `check.sh` fails any page whose footer lacks it.
