@@ -5,9 +5,37 @@
   <id>https://paperskyline.org/devlog.html</id>
   <link rel="self" type="application/atom+xml" href="https://paperskyline.org/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog.html"/>
-  <updated>2026-10-17T10:50:05+07:00</updated>
+  <updated>2026-10-21T07:08:49+07:00</updated>
   <author><name>THLab</name><uri>https://paperskyline.org/</uri></author>
   <icon>https://paperskyline.org/favicon-32.png</icon>
+  <entry>
+    <title>Paper Skyline 2.0.1</title>
+    <id>https://paperskyline.org/devlog/2-0-1/</id>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-1/"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;h3&gt;The Story of the Melancholy Melody&lt;/h3&gt;&lt;p&gt;The Unfinished Song is now The Story of the Melancholy Melody, with a story card, a Finale card and an Events book.&lt;/p&gt;&lt;h3&gt;Chat with residents&lt;/h3&gt;&lt;p&gt;Chat with residents you have met from the city card.&lt;/p&gt;&lt;h3&gt;Missions in three tabs&lt;/h3&gt;&lt;p&gt;Missions has Main Quests, Daily and Sign-in tabs. Tap a row to act.&lt;/p&gt;&lt;h3&gt;A new app icon and logo&lt;/h3&gt;&lt;p&gt;Paper Skyline has a new app icon and logo, and Back in the Workshop returns to your flight.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Paper Skyline 2.0.0</title>
+    <id>https://paperskyline.org/devlog/2-0-0/</id>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-0/"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;h3&gt;Three Stages in every city&lt;/h3&gt;&lt;p&gt;Every city now has three Stages, each with tougher keepers. Your Easy, Medium and Hard clears count as Stage 1 done.&lt;/p&gt;&lt;h3&gt;Émile, Imani and Hana&lt;/h3&gt;&lt;p&gt;Meet Émile in Paris, Imani in New York and Hana in Tokyo. Their quests open Stages 2 and 3 and change their cities.&lt;/p&gt;&lt;h3&gt;The Unfinished Song&lt;/h3&gt;&lt;p&gt;Play The Unfinished Song across Paris and New York.&lt;/p&gt;&lt;h3&gt;Menus as notebook pages&lt;/h3&gt;&lt;p&gt;Menus are notebook pages. The Chapter page paints each city as you go, and Missions lists tasks for every city.&lt;/p&gt;&lt;h3&gt;Relics from quests&lt;/h3&gt;&lt;p&gt;Relics now come from quests, and the globe shows how ready your plane is for each city.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Paper Skyline 1.9.6</title>
+    <id>https://paperskyline.org/devlog/1-9-6/</id>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-6/"/>
+    <updated>2026-10-21T07:08:49+07:00</updated>
+    <content type="html">&lt;h3&gt;A head start for new pilots&lt;/h3&gt;&lt;p&gt;New pilots start with a $20 bonus, enough for a first upgrade after one flight.&lt;/p&gt;&lt;h3&gt;Choose your language&lt;/h3&gt;&lt;p&gt;New installs start in English; choose your language any time in Settings or with the flag on the title screen. Indonesian text fixes too.&lt;/p&gt;&lt;h3&gt;A $20 bonus for new pilots&lt;/h3&gt;&lt;p&gt;New pilots start with a $20 bonus, enough for a first upgrade after one flight.&lt;/p&gt;&lt;h3&gt;English first, your language in Settings&lt;/h3&gt;&lt;p&gt;New installs start in English. Choose your language any time in Settings or with the flag on the title screen.&lt;/p&gt;&lt;h3&gt;Indonesian text fixes&lt;/h3&gt;&lt;p&gt;Fixes for Indonesian text.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Paper Skyline 1.9.5</title>
+    <id>https://paperskyline.org/devlog/1-9-5/</id>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-5/"/>
+    <updated>2026-10-20T08:11:33+07:00</updated>
+    <content type="html">&lt;h3&gt;Five new cities&lt;/h3&gt;&lt;p&gt;Five new cities join the campaign. In Berlin, the Traffic-Light Man checks his pocket watch.&lt;/p&gt;&lt;h3&gt;Terraced streets&lt;/h3&gt;&lt;p&gt;Nine cities get new terraced streets, row on row of shopfronts.&lt;/p&gt;&lt;h3&gt;Sharper look previews&lt;/h3&gt;&lt;p&gt;Plane look previews stay sharp, rewarded ads no longer crash the game on some phones, and Indonesian and Chinese text fits its cards.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>Paper Skyline 1.9.3</title>
     <id>https://paperskyline.org/devlog/1-9-3/</id>
