@@ -190,21 +190,14 @@ strong { font-weight: 700; color: var(--hot); }
 .hero-tag { font: 800 clamp(1.9rem, 4.6vw, 2.9rem)/1.05 var(--display); margin: .2rem 0 0; }
 .hero-copy .lede { max-width: 46ch; margin: 0; }
 
-/* Google Play is Google's own badge, linked; the App Store stays a drawn, unlinked placeholder
-   until the iPhone version ships (check.sh enforces both). */
+/* Apple's and Google's own badges, unmodified and linked (check.sh enforces both). Google's PNG
+   pads 41 of its 250 px each side, so Apple's matches the 168 px of Google's art inside it. */
 .badges { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin: 0; padding: 0; list-style: none; }
 .store-link { display: block; margin: -.9rem -.75rem; }
 .store-link img { height: 5.4rem; width: auto; }
+.app-store { display: block; }
+.app-store img { display: block; height: calc(5.4rem * 168 / 250); width: auto; }
 .badges li { max-width: none; }
-.badge {
-  display: inline-flex; align-items: center; gap: .6rem;
-  border: 3px solid var(--edge); border-radius: 20px; background: var(--paper); color: var(--ink);
-  padding: .5rem .9rem; text-decoration: none;
-}
-.badge svg { width: 1.8rem; height: 1.8rem; flex: none; }
-.badge-text > b { display: block; font: 800 1.2rem/1 var(--display); }
-.badge-text > span { display: block; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
-.badge[aria-disabled="true"] { opacity: .7; border-style: dashed; }
 .discord { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; }
 .discord svg { width: 1.3em; height: 1.3em; flex: none; fill: currentColor; }
 .discord.join {
@@ -212,7 +205,6 @@ strong { font-weight: 700; color: var(--hot); }
   padding: .7rem 1rem; text-decoration: none;
 }
 .discord.join svg { fill: #5865f2; }
-@media (prefers-color-scheme: dark) { .badge svg path { stroke: #fffaf2; } }
 
 /* three steps */
 .steps { display: grid; gap: 2.25rem 1.75rem; grid-template-columns: minmax(0, 1fr); margin-top: 2.25rem; }

@@ -51,8 +51,11 @@ for p in "${pages[@]}"; do
   sed -n '/<footer class="site-footer">/,/<\/footer>/p' "$p" | grep -qF "href=\"$discord\"" \
     || err "$p" "footer without the Discord link (tools/i18n.py DISCORD; re-run tools/cities.py after a swap)"
 
-  # Google Play is live; the App Store badge stays an unlinked placeholder until iOS ships.
-  grep -qE '<a[^>]*class="badge"' "$p" && err "$p" "App Store badge links before the iPhone version is published"
+  # Both stores are live: every Play badge has Apple's badge beside it, linked to the listing.
+  app_store='<a class="app-store" href="https://apps.apple.com/us/app/paper-skyline/id6818770594">'
+  grep -oE '<a[^>]*class="app-store"[^>]*>' "$p" | grep -vqxF "$app_store" && err "$p" "App Store link that is not the listing"
+  [ "$(grep -cF 'brand/google-play-badge.png' "$p")" -eq "$(grep -A1 -F "$app_store" "$p" | grep -cF 'brand/app-store-badge.svg')" ] \
+    || err "$p" "a Play badge without a linked App Store badge beside it"
   grep -oE '<a[^>]*class="store-link"[^>]*>' "$p" | grep -vqF 'href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer=' \
     && err "$p" "store link that is not the Play listing"
   # Play Console counts the site's installs per page and slot only through this referrer.

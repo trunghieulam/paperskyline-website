@@ -8,7 +8,7 @@ toolchain moved on.
 
 ## Why it exists
 
-Paper Skyline is on Google Play; the site says what it is and links there. It also carries the
+Paper Skyline is on Google Play and the App Store; the site says what it is and links to both. It also carries the
 privacy policy and terms the store listings point at.
 
 ## Structure
@@ -43,7 +43,7 @@ keepers of the twenty-one shipped cities, each on a strip of its city's painting
 
 "In the game" shows the five 1.9.0 Play captures from `docs/store/google-play/1.9.0/en-US/`, caption
 band cropped, at 800 and 1600 px. `img/shot-paris-*` (business.html) is a frozen 1.3 export.
-`brand/google-play-badge.png` is Google's official badge, used unmodified.
+`brand/google-play-badge.png` is Google's official badge and `brand/app-store-badge.svg` Apple's black one (from Apple's marketing tools), both used unmodified.
 
 The step glyphs and the blueprint elevation are still inline `<svg>`.
 
@@ -98,7 +98,7 @@ One language per page: English at the root, zh-Hans and id generated under their
 Run before every commit:
 
 ```bash
-tools/check.sh                        # every page: validity, links, zero-JS, unlinked badges, alt/width/height
+tools/check.sh                        # every page: validity, links, zero-JS, store badges, alt/width/height
 tools/shots.sh index.html privacy.html  # 500/768/1280 px, light + dark, for a visual read
 tools/art.py                          # re-export the paintings, keepers, social card and icons
 ```
@@ -134,8 +134,8 @@ GitHub Pages, from the default branch root:
    before publishing, since store reviewers do check.
 2. **Store links.** Google Play is linked (package `paperskyline.org`); `check.sh` fails any
    `store-link` that points elsewhere, and any Play link without the referrer
-   `utm_source=site, utm_medium=<page>, utm_campaign=<slot>`. The App Store badge stays an unlinked `<span class="badge">`
-   until the iPhone version ships, and `check.sh` fails it if it becomes a link.
+   `utm_source=site, utm_medium=<page>, utm_campaign=<slot>`. The App Store is linked too (owner, 2026-10-23):
+   `check.sh` fails any page whose Play badge lacks Apple's badge linked to the listing, `APP_STORE` in `tools/cities.py`.
 3. **Developer and law.** The developer is "THLab (Trung Hieu Lam)", and the terms are governed by
    Vietnamese law (user, 2026-09-28).
 4. **Two claims are absent on purpose**: price and a release date. The city count is stated, stamped by `tools/cities.py`.

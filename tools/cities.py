@@ -25,6 +25,7 @@ PACKS = os.path.join(GAME, 'Assets/Content/Locale/packs')
 # The City Writer's verified extra text; WEB_TEXT points a preview build at an unmerged branch's checkout
 TEXT = os.environ.get('WEB_TEXT', os.path.join(GAME, 'design/web-text'))
 ORIGIN = 'https://paperskyline.org'
+APP_STORE = 'https://apps.apple.com/us/app/paper-skyline/id6818770594'
 LANGS = ['en', 'zh-Hans', 'id']
 # The #96 rule: index a page only with this much verified text of its own, plus its own image.
 # Chinese counts Han characters; 450 is the usual 1.5 characters per English word.
@@ -258,6 +259,14 @@ def play(c, lang, medium, campaign):
             '        </a>')
 
 
+def stores(c, lang, medium, campaign):
+    # Apple's guidelines put the App Store badge first in a lineup
+    alt = '' if lang == 'en' else ' lang="en"'
+    return (f'<li><a class="app-store" href="{APP_STORE}">\n'
+            f'          <img src="{c}brand/app-store-badge.svg" width="120" height="40" alt="Download on the App Store"{alt}>\n'
+            f'        </a></li>\n        <li>{play(c, lang, medium, campaign)}</li>')
+
+
 def names(t, ids, by_id, base='../'):
     xs = [f'<a href="{base}{i}/">{esc(by_id[i]["name"])}</a>' for i in ids if i in by_id]
     return t['join'](xs) if xs else ''
@@ -300,8 +309,8 @@ def keeper_card(c, t, x, role):
 
 
 GAME_LD = {'@type': ['VideoGame', 'MobileApplication'], '@id': f'{ORIGIN}/#game', 'name': 'Paper Skyline',
-           'applicationCategory': 'GameApplication', 'operatingSystem': 'Android', 'gamePlatform': 'Android',
-           'installUrl': 'https://play.google.com/store/apps/details?id=paperskyline.org', 'url': f'{ORIGIN}/',
+           'applicationCategory': 'GameApplication', 'operatingSystem': 'Android, iOS', 'gamePlatform': 'Android, iOS',
+           'installUrl': ['https://play.google.com/store/apps/details?id=paperskyline.org', APP_STORE], 'url': f'{ORIGIN}/',
            'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'}}
 
 
@@ -379,7 +388,7 @@ def city_page(x, by_id, total, lang):
         <p class="lede">{esc(b["preflight.goal"])}</p>
       </div>
       <ul class="badges">
-        <li>{play(c, lang, "city", x["id"])}</li>
+        {stores(c, lang, "city", x["id"])}
       </ul>
     </div>
   </section>
@@ -416,7 +425,7 @@ def city_page(x, by_id, total, lang):
       </ul>
       <p>{t["sp"].join(ties)}</p>
       <ul class="badges">
-        <li>{play(c, lang, "city", x["id"] + "_end")}</li>
+        {stores(c, lang, "city", x["id"] + "_end")}
       </ul>
     </div>
   </section>
@@ -502,7 +511,7 @@ def home(cities, lang):
         <p class="lede">{esc(h["lede"])}</p>
       </div>
       <ul class="badges">
-        <li>{play(c, lang, "home", "badge")}</li>
+        {stores(c, lang, "home", "badge")}
         <li>{discord(t, "discord join")}</li>
       </ul>
     </div>
@@ -528,7 +537,7 @@ def home(cities, lang):
       <ul class="keeper-grid">{tiles}
       </ul>
       <ul class="badges more">
-        <li>{play(c, lang, "home", "cities")}</li>
+        {stores(c, lang, "home", "cities")}
       </ul>
     </div>
   </section>
@@ -634,7 +643,7 @@ def country_page(code, cs, atlas, conts, by_id, lang):
       <ul class="city-rows">{rows}
       </ul>
       <ul class="badges more">
-        <li>{play(c, lang, "country", code.lower())}</li>
+        {stores(c, lang, "country", code.lower())}
       </ul>
     </div>
   </section>
