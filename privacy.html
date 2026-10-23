@@ -45,7 +45,7 @@
 <main id="main">
   <div class="wrap page-head">
     <h1>Privacy policy</h1>
-    <p class="updated">Version 5.10 &middot; 20 October 2026 &middot; Paper Skyline for Android, iPhone and iPad</p>
+    <p class="updated">Version 5.11 &middot; 23 October 2026 &middot; Paper Skyline for Android, iPhone and iPad</p>
   </div>
   <div class="wrap legal">
       <nav class="toc" aria-label="On this page">
@@ -125,6 +125,9 @@
           has no such button.</li>
         <li>On Wi-Fi, reaching a city fetches the next one in the background. On mobile data the game shows the
           size and asks before downloading.</li>
+        <li>From Paper Skyline 2.0.4, a city you have moved on from stays on your device for up to 30 days after you
+          last played it, within about 120 MB for all such cities together, so going back does not download it
+          again. The oldest goes first. These limits can change without an app update.</li>
         <li>Every request uses HTTPS and asks only for a file. It carries no account, name, advertising ID, device
           identifier, save data, or anything about how you play.</li>
       </ul>
@@ -198,6 +201,11 @@
         <li><b>City content.</b> From Paper Skyline 1.2: which version of each downloaded city's content is on your
           device, and whether it was just downloaded or already saved (for example v3:1a2b3c4d:cache). It says which
           content you have, not who you are.</li>
+        <li><b>City files.</b> From Paper Skyline 2.0.4, when a city's files finish downloading, fail to download, or
+          are removed to save space: which city's files, their size, how long the download took, and why a download
+          failed or the files were removed (for example, too old or over the space limit), with how many days since
+          that city was last played. Each launch record also says how much space the downloaded cities use and which
+          version of the keep-and-remove rules the game follows. None of this identifies you.</li>
         <li><b>Install code.</b> From Paper Skyline 1.4, a random code (a UUID) that the game makes on your device the first
           time it starts. It is not made from your account, your device's identifiers or any advertising or app set ID, and it is
           never given to Google's ad software. The game never shows it, and we have no way to match it to a person.</li>
@@ -291,10 +299,14 @@
         privacy go to the address under <a href="#contact">Contact</a>.</p>
 
       <h2 id="changes">Changes to this policy</h2>
-      <p>This is version 5.10. If a future version adds anything that touches your
+      <p>This is version 5.11. If a future version adds anything that touches your
         data, such as an account, a leaderboard or personalised ads, this page is updated and dated first, and the
         version number goes up.</p>
       <dl class="history">
+        <dt>Version 5.11 &middot; 23 October 2026</dt>
+        <dd>Gameplay statistics: from Paper Skyline 2.0.4, a record when city files download, fail or are removed,
+          and how much space downloaded cities use. Cities you have moved on from now stay on your device for a while
+          instead of being removed at once.</dd>
         <dt>Version 5.10 &middot; 20 October 2026</dt>
         <dd>Gameplay statistics: from Paper Skyline 1.9.5, a record of which relics drop after an Elite or Boss
           strike-out, and of each relic merge. Nothing else is new.</dd>
