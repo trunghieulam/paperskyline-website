@@ -36,8 +36,8 @@ stickers on a deep navy night.
 
 ## The art is the game's own
 
-The hero and the social card use the game's Paris painting, and the keepers section shows all thirty-six
-keepers of the eighteen shipped cities, each on a strip of its city's painting. `tools/art.py` reads them from the game repo and writes
+The hero and the social card use the game's Paris painting under the 2.0 wordmark, and the keepers section shows all forty-two
+keepers of the twenty-one shipped cities, each on a strip of its city's painting. `tools/art.py` reads them from the game repo and writes
 `img/` and `brand/`, so re-run it after the game's art changes rather than editing images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
 (paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 
@@ -138,7 +138,7 @@ GitHub Pages, from the default branch root:
    until the iPhone version ships, and `check.sh` fails it if it becomes a link.
 3. **Developer and law.** The developer is "THLab (Trung Hieu Lam)", and the terms are governed by
    Vietnamese law (user, 2026-09-28).
-4. **Two claims are absent on purpose**: price and a release date. The city count (ten) is stated.
+4. **Two claims are absent on purpose**: price and a release date. The city count is stated, stamped by `tools/cities.py`.
 
 ## Keeping the policy honest
 
@@ -151,12 +151,13 @@ so keep `privacy.html` at that path. Any change to the game's data flow bumps th
 
 ## Brand exports
 
-`tools/art.py` makes every icon from the game's painted app icon ("Dusk over Paris") and composes
-the social card from the Paris preflight painting and the five Bosses.
+`tools/art.py` takes every icon and both marks from the game's V-D216 2.0 launch set
+(`design/art-source/branding-2-0/export/`), and composes the social card from the Paris painting, the wordmark and three Bosses.
 
 | File | Feeds |
 | :--- | :--- |
 | `brand/app-icon-1024.jpg` | The JSON-LD `image` and `logo`, and the manifest |
 | `brand/og-image-1200x630.jpg` | `og:image` on every page |
-| `favicon-32.png`, `apple-touch-icon.png` | Browser tab and iOS home screen |
-| `img/mark-96.*` | The header and footer mark |
+| `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png` | Browser tab and iOS home screen |
+| `img/mark-128.*` | The header and footer mark (its alt text is the site name) |
+| `img/wordmark-480.*`, `img/wordmark-960.*` | The home hero title, plane-less PAPER / SKYLINE |

@@ -19,7 +19,7 @@ OUT = os.path.join(SITE, 'news', 'out')
 GAME = os.path.join(SITE, '..', 'game-paper-flights')
 ORIGIN = 'https://paperskyline.org'
 # The newest version on Play production: nothing after it is published here, whatever the changelog holds
-LIVE = '2.0.1'
+LIVE = '2.0.2'
 PLAY_LIMIT = 500
 # The next release while it is on a test track: (version, lines), shown above the shipped ones
 COMING = None

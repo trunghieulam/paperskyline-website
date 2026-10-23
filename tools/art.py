@@ -41,6 +41,11 @@ CITIES = [
     ('amsterdam', ('amsterdam-elite-heron', 'amsterdam_heron_state1'), ('amsterdam-boss-windmill', 'amsterdam_windmill_state1')),
     ('singapore', ('singapore-elite-hornbill', 'singapore_hornbill_state1'),
      ('singapore-boss-harbour-elder', 'singapore_harbour_elder_state1')),
+    ('dubai', ('dubai-elite-oryx', 'dubai_oryx_state1'), ('dubai-boss-pearl-diver', 'dubai_pearl_diver_state1')),
+    ('berlin', ('berlin-elite-bear-dj', 'berlin_bear_dj_state1'),
+     ('berlin-boss-traffic-light-man', 'berlin_traffic_light_man_state1')),
+    ('athens', ('athens-elite-bronze-griffin', 'athens_bronze_griffin_state1'),
+     ('athens-boss-erechtheion-serpent', 'athens_erechtheion_serpent_state1')),
 ]
 # Display names and city ids where the art slug is not the city's
 NAMES = {'rio': 'Rio de Janeiro'}
@@ -49,6 +54,8 @@ IDS = {'rio': 'rio-de-janeiro'}
 CJK = ('https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/SubsetOTF/SC/NotoSansSC-Black.otf',
        'ccb496022356b7dd14d117538a472ae40feff8f6e8f3fe8bffc5616785d2f3f9')
 STORE = 'docs/store/google-play/1.9.0/en-US'
+# The V-D216 2.0 launch set: icons, the header mark and the plane-less wordmark
+BRAND = 'design/art-source/branding-2-0/export'
 # The 1.9.0 store frames carry a caption band above the game; content starts at y 192
 STORE_CROP = (0, 192, 1920, 1080)
 
@@ -139,17 +146,20 @@ def shots():
             save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
-def og(src=None, title='Paper Skyline', ks=None, out='brand/og-image-1200x630.jpg', font=None):
+def og(src=None, title=None, ks=None, out='brand/og-image-1200x630.jpg', font=None):
     W, H = 1200, 630
     src = (src or hero_src()).convert('RGBA')
     s = max(W / src.width, H / src.height)
     bg = fit(src, round(src.width * s), round(src.height * s))
     card = bg.crop(((bg.width - W) // 2, 0, (bg.width - W) // 2 + W, H))
-    font = font or ImageFont.truetype(game('Assets/Fonts/Baloo2-ExtraBold.ttf'), 128)
-    ImageDraw.Draw(card).text((52, 44), title, font=font, fill=NAVY + (180,),
-                              stroke_width=12, stroke_fill=NAVY + (180,))
-    ImageDraw.Draw(card).text((44, 34), title, font=font, fill=NAVY + (255,),
-                              stroke_width=12, stroke_fill=(255, 255, 255, 255))
+    if title is None:
+        card.alpha_composite(fit(Image.open(game(BRAND, 'title/wordmark.png')).convert('RGBA'), h=340), (28, 16))
+    else:
+        font = font or ImageFont.truetype(game('Assets/Fonts/Baloo2-ExtraBold.ttf'), 128)
+        ImageDraw.Draw(card).text((52, 44), title, font=font, fill=NAVY + (180,),
+                                  stroke_width=12, stroke_fill=NAVY + (180,))
+        ImageDraw.Draw(card).text((44, 34), title, font=font, fill=NAVY + (255,),
+                                  stroke_width=12, stroke_fill=(255, 255, 255, 255))
     ks = ks or [sprite(kit, mid) for _, _, (kit, mid) in CITIES[:4:3] + CITIES[1:2]]
     ks = [fit(k, h=230) if k.width * 230 <= k.height * 420 else fit(k, w=420) for k in ks]
     x = W - 36 - sum(k.width - 8 for k in ks)
@@ -192,12 +202,19 @@ def countries():
 
 
 def icons():
-    src = Image.open(game('Assets/Branding/app-icon.png')).convert('RGB')
-    # JPEG: the painted icon is ~1.9 MB as PNG, and nothing here needs its (absent) alpha
+    src = Image.open(game(BRAND, 'icon/app-icon-1024.png')).convert('RGB')
+    # JPEG: the painted icon is ~1.4 MB as PNG, and nothing here needs its (absent) alpha
     src.save(os.path.join(SITE, 'brand/app-icon-1024.jpg'), quality=85, optimize=True, progressive=True)
-    fit(src, 180).save(os.path.join(SITE, 'apple-touch-icon.png'), optimize=True)
-    fit(src, 32).save(os.path.join(SITE, 'favicon-32.png'), optimize=True)
-    save(fit(src, 96), 'mark-96', 'png')
+    for name, out in (('apple-touch-icon-180.png', 'apple-touch-icon.png'), ('favicon-32.png', 'favicon-32.png')):
+        Image.open(game(BRAND, 'web', name)).save(os.path.join(SITE, out), optimize=True)
+    with open(game(BRAND, 'web/favicon.ico'), 'rb') as f, open(os.path.join(SITE, 'favicon.ico'), 'wb') as o:
+        o.write(f.read())
+    save(Image.open(game(BRAND, 'web/header-mark-128.png')).convert('RGBA'), 'mark-128', 'png')
+    word = Image.open(game(BRAND, 'title/wordmark.png')).convert('RGBA')
+    for w in (480, 960):
+        save(fit(word, w), f'wordmark-{w}', 'png')
+        # The PNG is only the no-AVIF/WebP fallback; a 256-colour palette cuts it to a sixth
+        fit(word, w).quantize(256, method=Image.Quantize.FASTOCTREE).save(os.path.join(IMG, f'wordmark-{w}.png'), optimize=True)
 
 
 def main():

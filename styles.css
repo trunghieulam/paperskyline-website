@@ -121,7 +121,7 @@ strong { font-weight: 700; color: var(--hot); }
   font: 800 1.75rem/1 var(--display); color: inherit; text-decoration: none;
 }
 .brand picture { flex: none; }
-.brand img { width: 2.5rem; height: 2.5rem; border: 3px solid var(--navy); border-radius: 12px; box-shadow: 2px 3px 0 var(--drop); }
+.brand img { width: auto; height: 3.5rem; display: block; }
 .site-nav { display: flex; flex-wrap: wrap; gap: .4rem; font: 600 .98rem/1 var(--body); }
 .site-nav a {
   color: inherit; text-decoration: none; padding: .5rem .8rem; border-radius: 999px; border: 2px solid transparent;
@@ -133,7 +133,6 @@ strong { font-weight: 700; color: var(--hot); }
 .site-footer .wrap { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
 @media (min-width: 48rem) { .site-footer .wrap { grid-template-columns: 1fr auto; align-items: start; } }
 .site-footer .brand { color: #fffaf2; }
-.site-footer .brand img { border-color: #fffaf2; }
 .site-footer a { color: #fffaf2; }
 .site-footer .site-nav a[aria-current="page"] { color: var(--navy); }
 .site-footer p { margin: .6rem 0 0; font-size: .98rem; }
@@ -176,6 +175,9 @@ strong { font-weight: 700; color: var(--hot); }
   background: #fffaf2; color: #1d1f4f; box-shadow: var(--sticker); transform: rotate(-3deg);
 }
 .hero-title span + span { background: var(--yellow); transform: rotate(2deg); margin-left: .5em; }
+/* the 2.0 wordmark (V-D216) carries its own cloud and shadow */
+.hero-mark { top: clamp(.5rem, 2.5vw, 2rem); }
+.hero-scene .hero-mark img { width: clamp(11rem, 38vw, 28rem); height: auto; object-fit: contain; }
 .hero-copy {
   display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr);
   padding-top: 2.25rem; align-items: end;

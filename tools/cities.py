@@ -201,8 +201,7 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None, langs=LANGS, csp=N
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="{c}{prefix(lang)}">
-      <picture><source type="image/avif" srcset="{c}img/mark-96.avif"><source type="image/webp" srcset="{c}img/mark-96.webp"><img src="{c}img/mark-96.png" width="96" height="96" alt=""></picture>
-      Paper Skyline
+      <picture><source type="image/avif" srcset="{c}img/mark-128.avif"><source type="image/webp" srcset="{c}img/mark-128.webp"><img src="{c}img/mark-128.png" width="141" height="128" alt="Paper Skyline"></picture>
     </a>
     <nav class="site-nav" aria-label="Site">{nav}
     </nav>
@@ -217,8 +216,7 @@ def foot(c, t, lang):
   <div class="wrap">
     <div>
       <a class="brand" href="{c}{prefix(lang)}">
-        <picture><source type="image/avif" srcset="{c}img/mark-96.avif"><source type="image/webp" srcset="{c}img/mark-96.webp"><img src="{c}img/mark-96.png" width="96" height="96" alt=""></picture>
-        Paper Skyline
+        <picture><source type="image/avif" srcset="{c}img/mark-128.avif"><source type="image/webp" srcset="{c}img/mark-128.webp"><img src="{c}img/mark-128.png" width="141" height="128" alt="Paper Skyline"></picture>
       </a>
       <p>{t["tagline"]}</p>
       <p>{discord(t)}</p>
@@ -488,14 +486,14 @@ def home(cities, lang):
 <main id="main">
   <div class="wrap topbar">
 {switch}  </div>
-  <section class="hero" aria-labelledby="hero-title">
+  <section class="hero" aria-label="Paper Skyline">
     <div class="hero-scene">
       <picture>
         <source type="image/avif" srcset="{srcset('avif')}" sizes="100vw">
         <source type="image/webp" srcset="{srcset('webp')}" sizes="100vw">
         <img srcset="{srcset('jpg')}" sizes="100vw" src="{c}img/hero-paris-1024.jpg" width="1600" height="533" alt="{esc(h['alt'])}" fetchpriority="high">
       </picture>
-      <h1 id="hero-title" class="hero-title" lang="en"><span>Paper</span> <span>Skyline</span></h1>
+      <h1 id="hero-title" class="hero-title hero-mark" lang="en"><picture><source type="image/avif" srcset="{c}img/wordmark-480.avif 480w, {c}img/wordmark-960.avif 960w" sizes="(min-width: 64rem) 28rem, 38vw"><source type="image/webp" srcset="{c}img/wordmark-480.webp 480w, {c}img/wordmark-960.webp 960w" sizes="(min-width: 64rem) 28rem, 38vw"><img srcset="{c}img/wordmark-480.png 480w, {c}img/wordmark-960.png 960w" sizes="(min-width: 64rem) 28rem, 38vw" src="{c}img/wordmark-960.png" width="960" height="596" alt="Paper Skyline"></picture></h1>
     </div>
     <div class="wrap hero-copy">
       <div>
@@ -849,8 +847,9 @@ def stamp(cities):
         s = open(path, encoding='utf-8').read()
         new = re.sub(r'https://discord\.gg/[A-Za-z0-9]+', DISCORD, s)
         if f == 'index.html':
-            new = re.sub(rf'\b({num})(?= (painted )?cities)', NUMS[n], new)
-            new = re.sub(rf'\b({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
+            # Not \b: it would match "one" inside an already stamped "Twenty-one"
+            new = re.sub(rf'(?<![\w-])({num})(?= (painted )?cities)', NUMS[n], new)
+            new = re.sub(rf'(?<![\w-])({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
         if f == 'support.html':
             listed = T['en']['join']([x['name'] for x in cities])
             new = re.sub(r'(<summary>Which cities can I fly\?</summary>\s*<p>)[^<]*(</p>)', rf'\g<1>{NUMS[n].capitalize()}: {listed}.\2', new)

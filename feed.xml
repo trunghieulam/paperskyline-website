@@ -9,6 +9,13 @@
   <author><name>THLab</name><uri>https://paperskyline.org/</uri></author>
   <icon>https://paperskyline.org/favicon-32.png</icon>
   <entry>
+    <title>Paper Skyline 2.0.2</title>
+    <id>https://paperskyline.org/devlog/2-0-2/</id>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-2/"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;h3&gt;Stage 2 and 3 quests start again&lt;/h3&gt;&lt;p&gt;Stage 2 and 3 quests now start in every city with a resident.&lt;/p&gt;&lt;h3&gt;Residents speak&lt;/h3&gt;&lt;p&gt;Émile, Imani and Hana now speak when you talk with them, in English voices.&lt;/p&gt;&lt;h3&gt;One city page with Stage pips&lt;/h3&gt;&lt;p&gt;Each city has one page, with pips for its Stages. A Story or Practice card comes before each flight.&lt;/p&gt;&lt;h3&gt;The Travel journal&lt;/h3&gt;&lt;p&gt;Open the Travel journal from Menu.&lt;/p&gt;&lt;h3&gt;Reward icons and keeper touches&lt;/h3&gt;&lt;p&gt;Reward icons, a note on keepers you haven&amp;#x27;t beaten yet, a lamp in Toronto and new idle moves for the keepers.&lt;/p&gt;</content>
+  </entry>
+  <entry>
     <title>Paper Skyline 2.0.1</title>
     <id>https://paperskyline.org/devlog/2-0-1/</id>
     <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-1/"/>
