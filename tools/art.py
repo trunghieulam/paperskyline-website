@@ -146,28 +146,39 @@ def shots():
             save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
-# The press kit (#214): the six 1.9.6 App Store iPhone frames, the 2.0 residents, and full-size downloads in press/
+# The press kit (#214, light since 2026-10-24): the six 1.9.6 App Store iPhone frames and the 2.0 logos, 1600 px at most
 PRESS_SHOTS = 'docs/store/app-store/screenshots/iphone'
-RESIDENTS = ['emile', 'imani', 'hana']
+
+
+def mark(im):
+    """The "© Paper Skyline" corner mark on the press kit's logos (terms #fair-use); screenshots go unmarked."""
+    font = ImageFont.truetype(game('Assets/Fonts/BeVietnamPro-SemiBold.ttf'), max(13, im.width // 55))
+    text = '\u00a9 Paper Skyline'
+    layer = Image.new('RGBA', im.size)
+    d = ImageDraw.Draw(layer)
+    l, t, r, b = d.textbbox((0, 0), text, font=font, stroke_width=2)
+    pad = max(6, im.width // 120)
+    d.text((im.width - r - pad, im.height - b - pad), text, font=font, fill=NAVY + (190,), stroke_width=2,
+           stroke_fill=(255, 255, 255, 170))
+    return Image.alpha_composite(im.convert('RGBA'), layer)
 
 
 def press():
     out = os.path.join(SITE, 'press')
     os.makedirs(out, exist_ok=True)
     for f in sorted(os.listdir(game(PRESS_SHOTS))):
-        if not f.endswith('.png'):
-            continue
-        src = Image.open(game(PRESS_SHOTS, f)).convert('RGB')
-        slug = f[3:-4]
-        for w in (800, 1600):
-            save(fit(src, w), f'press-{slug}-{w}', 'jpg')
-        # Downloads sit outside img/ and its weight budget: press wants the full frame
-        src.save(os.path.join(out, f'paper-skyline-{slug}.jpg'), quality=88, optimize=True, progressive=True)
-    for n in RESIDENTS:
-        save(fit(Image.open(game(f'design/art-source/{n}-portrait-rig/{n}-c-portrait.png')).convert('RGB'), 360),
-             f'resident-{n}', 'jpg')
+        if f.endswith('.png'):
+            src = Image.open(game(PRESS_SHOTS, f)).convert('RGB')
+            for w in (800, 1600):
+                save(fit(src, w), f'press-{f[3:-4]}-{w}', 'jpg')
     for name in ('logo-stacked-full', 'logo-title-full'):
-        Image.open(game(BRAND, name + '.png')).save(os.path.join(out, f'paper-skyline-{name[5:-5]}-logo.png'), optimize=True)
+        logo = mark(Image.open(game(BRAND, name + '.png')).convert('RGBA'))
+        logo.save(os.path.join(out, f'paper-skyline-{name[5:-5]}-logo.png'), optimize=True)
+        if name == 'logo-title-full':
+            for w in (480, 960):
+                small = mark(fit(Image.open(game(BRAND, name + '.png')).convert('RGBA'), w))
+                save(small, f'press-logo-{w}', 'png')
+                small.quantize(256, method=Image.Quantize.FASTOCTREE).save(os.path.join(IMG, f'press-logo-{w}.png'), optimize=True)
 
 
 def og(src=None, title=None, ks=None, out='brand/og-image-1200x630.jpg', font=None):

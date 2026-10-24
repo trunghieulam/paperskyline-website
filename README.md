@@ -80,7 +80,8 @@ Run it on game main's changelog via `git show`, with the `google-play/whats-new-
 
 ## Press kit (#214)
 
-`press/index.html` is hand-written; `tools/art.py` exports its shots, portraits and the full-size downloads in `press/`, and `tools/cities.py` stamps its city list and count.
+`press/index.html` is hand-written and kept light (user, 2026-10-24): facts, six screenshots, the logo and a contact, no character or keeper art.
+`tools/art.py` exports every image at 1600 px at most and marks the logos, not the screenshots, with "© Paper Skyline"; `tools/cities.py` stamps its city list and count.
 Every footer and the press Contact section link Discord, TikTok and YouTube (`tools/i18n.py`). Every App Store link carries `?pt=129553639&ct=site-<page type>&mt=8` for App Analytics > Campaigns; `check.sh` rejects a badge without it.
 
 ## Shipping a city
