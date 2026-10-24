@@ -52,9 +52,10 @@ for p in "${pages[@]}"; do
     || err "$p" "footer without the Discord link (tools/i18n.py DISCORD; re-run tools/cities.py after a swap)"
 
   # Both stores are live: every Play badge has Apple's badge beside it, linked to the listing.
-  app_store='<a class="app-store" href="https://apps.apple.com/us/app/paper-skyline/id6818770594">'
-  grep -oE '<a[^>]*class="app-store"[^>]*>' "$p" | grep -vqxF "$app_store" && err "$p" "App Store link that is not the listing"
-  [ "$(grep -cF 'brand/google-play-badge.png' "$p")" -eq "$(grep -A1 -F "$app_store" "$p" | grep -cF 'brand/app-store-badge.svg')" ] \
+  # pt is App Store Connect's provider token, ct the page type (cities.py APP_STORE_PT).
+  app_store='<a class="app-store" href="https://apps\.apple\.com/us/app/paper-skyline/id6818770594\?pt=129553639&amp;ct=site-[a-z]+&amp;mt=8">'
+  grep -oE '<a[^>]*class="app-store"[^>]*>' "$p" | grep -vqxE "$app_store" && err "$p" "App Store link that is not the listing with the campaign token"
+  [ "$(grep -cF 'brand/google-play-badge.png' "$p")" -eq "$(grep -A1 -E "$app_store" "$p" | grep -cF 'brand/app-store-badge.svg')" ] \
     || err "$p" "a Play badge without a linked App Store badge beside it"
   grep -oE '<a[^>]*class="store-link"[^>]*>' "$p" | grep -vqF 'href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer=' \
     && err "$p" "store link that is not the Play listing"

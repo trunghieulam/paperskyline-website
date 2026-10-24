@@ -4,6 +4,8 @@ it comes from the game's packs. zh-Hans and id were drafted by the Web Engineer 
 
 # The Paper Skyline server's permanent invite; to change it, edit here and re-run tools/cities.py.
 DISCORD = 'https://discord.gg/MApRvYQu5g'
+TIKTOK = 'https://www.tiktok.com/@paperskyline'
+YOUTUBE = 'https://www.youtube.com/@paper-skyline'
 
 
 def _en_the(name):

@@ -81,7 +81,7 @@ Run it on game main's changelog via `git show`, with the `google-play/whats-new-
 ## Press kit (#214)
 
 `press/index.html` is hand-written; `tools/art.py` exports its shots, portraits and the full-size downloads in `press/`, and `tools/cities.py` stamps its city list and count.
-Still to add once the user sends them: YouTube and TikTok links beside Discord, and `?pt=<provider>&ct=site-home&mt=8` on the home App Store badge (check.sh's `app_store` must then accept it).
+Every footer and the press Contact section link Discord, TikTok and YouTube (`tools/i18n.py`). Every App Store link carries `?pt=129553639&ct=site-<page type>&mt=8` for App Analytics > Campaigns; `check.sh` rejects a badge without it.
 
 ## Shipping a city
 

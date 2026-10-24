@@ -198,13 +198,15 @@ strong { font-weight: 700; color: var(--hot); }
 .app-store { display: block; }
 .app-store img { display: block; height: calc(5.4rem * 168 / 250); width: auto; }
 .badges li { max-width: none; }
-.discord { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; }
-.discord svg { width: 1.3em; height: 1.3em; flex: none; fill: currentColor; }
-.discord.join {
+.discord, .tiktok, .youtube { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; }
+.discord svg, .tiktok svg, .youtube svg { width: 1.3em; height: 1.3em; flex: none; fill: currentColor; }
+.socials { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.discord.join, .tiktok.join, .youtube.join {
   border: 3px solid var(--edge); border-radius: 20px; background: var(--paper); color: var(--ink);
   padding: .7rem 1rem; text-decoration: none;
 }
 .discord.join svg { fill: #5865f2; }
+.youtube.join svg { fill: #ff0000; }
 
 /* three steps */
 .steps { display: grid; gap: 2.25rem 1.75rem; grid-template-columns: minmax(0, 1fr); margin-top: 2.25rem; }
