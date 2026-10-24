@@ -146,6 +146,30 @@ def shots():
             save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
+# The press kit (#214): the six 1.9.6 App Store iPhone frames, the 2.0 residents, and full-size downloads in press/
+PRESS_SHOTS = 'docs/store/app-store/screenshots/iphone'
+RESIDENTS = ['emile', 'imani', 'hana']
+
+
+def press():
+    out = os.path.join(SITE, 'press')
+    os.makedirs(out, exist_ok=True)
+    for f in sorted(os.listdir(game(PRESS_SHOTS))):
+        if not f.endswith('.png'):
+            continue
+        src = Image.open(game(PRESS_SHOTS, f)).convert('RGB')
+        slug = f[3:-4]
+        for w in (800, 1600):
+            save(fit(src, w), f'press-{slug}-{w}', 'jpg')
+        # Downloads sit outside img/ and its weight budget: press wants the full frame
+        src.save(os.path.join(out, f'paper-skyline-{slug}.jpg'), quality=88, optimize=True, progressive=True)
+    for n in RESIDENTS:
+        save(fit(Image.open(game(f'design/art-source/{n}-portrait-rig/{n}-c-portrait.png')).convert('RGB'), 360),
+             f'resident-{n}', 'jpg')
+    for name in ('logo-stacked-full', 'logo-title-full'):
+        Image.open(game(BRAND, name + '.png')).save(os.path.join(out, f'paper-skyline-{name[5:-5]}-logo.png'), optimize=True)
+
+
 def og(src=None, title=None, ks=None, out='brand/og-image-1200x630.jpg', font=None):
     W, H = 1200, 630
     src = (src or hero_src()).convert('RGBA')
@@ -223,6 +247,7 @@ def main():
     keepers()
     skies()
     shots()
+    press()
     og()
     cities()
     countries()

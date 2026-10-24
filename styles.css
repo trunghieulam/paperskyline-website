@@ -306,7 +306,7 @@ strong { font-weight: 700; color: var(--hot); }
 }
 @media (min-width: 48rem) { .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .shots li { max-width: none; }
-@media (min-width: 48rem) { .shots li:first-child { grid-column: 1 / -1; } }
+@media (min-width: 48rem) { .shots:not(.even) li:first-child { grid-column: 1 / -1; } }
 .shot { margin: 0; }
 .shot-frame {
   aspect-ratio: 1920 / 888; border: 3px solid var(--edge); border-radius: 26px;
@@ -448,6 +448,9 @@ strong { font-weight: 700; color: var(--hot); }
 .keeper-card p { margin: 0; color: var(--ink-soft); }
 .keeper-card .sub { font-weight: 600; color: var(--ink-faint); }
 .keeper-card h3 a { text-decoration: none; }
+/* the press kit's residents: a painted portrait on cream in place of the city strip */
+.keeper-card .portrait { display: block; margin: 0 -1.3rem .35rem; border-bottom: 3px solid var(--edge); background: #efe9dc; }
+.keeper-card .portrait img { display: block; width: 100%; height: 20rem; max-width: none; object-fit: cover; object-position: 50% 0; }
 .mine, .mine-line { margin: 0; font: 800 1.2rem/1.25 var(--display); color: var(--hot); }
 .mine-line { margin-bottom: 1rem; }
 .relic { border-top: 2px dashed var(--line); padding-top: .6rem; }

@@ -212,7 +212,7 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None, langs=LANGS, csp=N
 
 
 def foot(c, t, lang):
-    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], [prefix(lang), 'business.html', 'support.html', 'privacy.html', 'terms.html']))
+    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], [prefix(lang), 'business.html', 'press/', 'support.html', 'privacy.html', 'terms.html']))
     return f'''<footer class="site-footer">
   <div class="wrap">
     <div>
@@ -846,19 +846,21 @@ NUMS = ('zero one two three four five six seven eight nine ten eleven twelve thi
 
 
 def stamp(cities):
-    """Keeps the hand-written pages current: the Discord invite everywhere, the city count on index and support."""
+    """Keeps the hand-written pages current: the Discord invite everywhere, the city count on index, support and press."""
     num = '|'.join(sorted(NUMS, key=len, reverse=True))
     n = len(cities)
-    for f in sorted(os.listdir(SITE)):
-        if not f.endswith('.html'):
-            continue
+    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html']:
         path = os.path.join(SITE, f)
         s = open(path, encoding='utf-8').read()
         new = re.sub(r'https://discord\.gg/[A-Za-z0-9]+', DISCORD, s)
-        if f == 'index.html':
+        if f in ('index.html', 'press/index.html'):
             # Not \b: it would match "one" inside an already stamped "Twenty-one"
             new = re.sub(rf'(?<![\w-])({num})(?= (painted )?cities)', NUMS[n], new)
             new = re.sub(rf'(?<![\w-])({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
+        if f == 'press/index.html':
+            links = ''.join(f'\n        <li><a href="../cities/{x["id"]}/">{esc(x["name"])}</a></li>' for x in cities)
+            new = re.sub(r'(<ul class="city-links" id="press-cities">).*?(\n      </ul>)', rf'\g<1>{links}\2', new, flags=re.S)
+            new = re.sub(r'<span class="eyebrow">\d+ cities</span>', f'<span class="eyebrow">{n} cities</span>', new)
         if f == 'support.html':
             listed = T['en']['join']([x['name'] for x in cities])
             new = re.sub(r'(<summary>Which cities can I fly\?</summary>\s*<p>)[^<]*(</p>)', rf'\g<1>{NUMS[n].capitalize()}: {listed}.\2', new)
@@ -868,7 +870,7 @@ def stamp(cities):
 
 
 STATS = 'https://paperskyline-stats.paperskyline-stats.workers.dev'
-PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'zh-Hans', 'id']
+PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'press', 'zh-Hans', 'id']
 
 
 def csp_for(page):

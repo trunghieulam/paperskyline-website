@@ -78,6 +78,11 @@ The invite lives in one constant, `DISCORD` in `tools/i18n.py`; after a swap, re
 Nothing newer than `LIVE` in news.py is published, so raise it only once that version is on Play production.
 Run it on game main's changelog via `git show`, with the `google-play/whats-new-*.txt` files beside it, never on a checkout's working copy.
 
+## Press kit (#214)
+
+`press/index.html` is hand-written; `tools/art.py` exports its shots, portraits and the full-size downloads in `press/`, and `tools/cities.py` stamps its city list and count.
+Still to add once the user sends them: YouTube and TikTok links beside Discord, and `?pt=<provider>&ct=site-home&mt=8` on the home App Store badge (check.sh's `app_store` must then accept it).
+
 ## Shipping a city
 
 A city is published only once its version is on Play production.
