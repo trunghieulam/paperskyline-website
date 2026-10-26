@@ -480,10 +480,13 @@ def hub(cities, lang):
     desc = t['hub_desc'].format(n=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
     p = prefix(lang)
     trail = [(t['home'], p), (t['hub_title'].split(' | ')[0], p + 'cities/')]
-    index = words(lang, desc, cards) >= MIN_WORDS[lang]
+    secs = extra('hub', 'cities', lang)
+    # Unescaped, or each &middot; would count as a word
+    n_words = words(lang, desc, html.unescape(cards), *(h for h, _ in secs), *(p for _, ps in secs for p in ps))
+    index = n_words >= MIN_WORDS[lang]
     top, switch = head(c, t, lang, t['hub_title'], desc, 'cities/', 'brand/og-image-1200x630.jpg', index,
                        page_ld(lang, 'cities/', t['hub_title'], desc, trail))
-    return index, top + f'''
+    return index, n_words, top + f'''
 <main id="main">
 {crumbs_html(c, t, trail, switch)}  <section class="section" aria-labelledby="cities-title">
     <div class="wrap">
@@ -494,7 +497,8 @@ def hub(cities, lang):
       </ul>
     </div>
   </section>
-</main>
+
+{extra_html(secs, "intro")}</main>
 
 ''' + foot(c, t, lang, 'cities')
 
@@ -839,8 +843,9 @@ def build(cities, atlas, lang, planned_rows):
         print(f'{lang:8} {x["id"]:16} {n:4} words  {"index" if index else "noindex"}')
         if index:
             city_urls.append(f'{p}cities/{x["id"]}/')
-    index, page = hub(cities, lang)
+    index, n, page = hub(cities, lang)
     write(f'{p}cities/', page)
+    print(f'{lang:8} {"cities/":16} {n:4} words  {"index" if index else "noindex"}')
     if index:
         city_urls.insert(0, f'{p}cities/')
     if lang != 'en':

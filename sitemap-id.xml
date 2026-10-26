@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://paperskyline.org/id/</loc></url>
+  <url><loc>https://paperskyline.org/id/cities/</loc></url>
   <url><loc>https://paperskyline.org/id/cities/paris/</loc></url>
   <url><loc>https://paperskyline.org/id/cities/new-york/</loc></url>
   <url><loc>https://paperskyline.org/id/cities/tokyo/</loc></url>
@@ -40,6 +41,9 @@
   <url><loc>https://paperskyline.org/id/world/asia/vietnam/</loc></url>
   <url><loc>https://paperskyline.org/id/world/europe/netherlands/</loc></url>
   <url><loc>https://paperskyline.org/id/world/asia/singapore/</loc></url>
+  <url><loc>https://paperskyline.org/id/world/asia/united-arab-emirates/</loc></url>
+  <url><loc>https://paperskyline.org/id/world/europe/germany/</loc></url>
+  <url><loc>https://paperskyline.org/id/world/europe/greece/</loc></url>
   <url><loc>https://paperskyline.org/id/world/europe/</loc></url>
   <url><loc>https://paperskyline.org/id/world/asia/</loc></url>
   <url><loc>https://paperskyline.org/id/world/africa/</loc></url>
