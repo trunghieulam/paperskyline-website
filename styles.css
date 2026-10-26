@@ -110,11 +110,9 @@ strong { font-weight: 700; color: var(--hot); }
   gap: .6rem 1rem; padding-top: 1.1rem; padding-bottom: 1.1rem;
 }
 @media (max-width: 37.5rem) { .site-header .wrap { flex-direction: column; align-items: flex-start; } }
-/* Phones: the brand already links home, which leaves room for the longer id and vi labels on one line */
 @media (max-width: 37.5rem) {
   .site-header .site-nav { gap: .15rem; margin-left: -.55rem; }
   .site-header .site-nav a { padding: .45rem .55rem; }
-  .site-header .site-nav a:first-child { display: none; }
 }
 .brand {
   display: inline-flex; align-items: center; gap: .65rem;
@@ -317,6 +315,14 @@ strong { font-weight: 700; color: var(--hot); }
 .shot-frame picture { display: block; height: 100%; }
 .shot-frame img { width: 100%; height: 100%; object-fit: cover; }
 .shot figcaption { margin-top: 1.1rem; font: 800 1.3rem/1.1 var(--display); }
+/* gameplay frames from the phone captures run a little wider than the store shots */
+.shot-frame.wide { aspect-ratio: 20 / 9; }
+.games p { margin: .5rem 0 0; color: var(--ink-soft); }
+.games .game-meta { font-weight: 600; color: var(--ink-faint); }
+.lead-frame { margin-top: 1.5rem; max-width: 44rem; }
+.shot.thanks { margin-top: 2.5rem; }
+@media (min-width: 64rem) { .steps.four { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.step .shot-frame { margin-bottom: .4rem; }
 
 /* the parents' feedback form: plain HTML controls in Paper Pop */
 .form { margin-bottom: 1.75rem; }

@@ -55,10 +55,12 @@
       "name": "THLab",
       "founder": {"@type": "Person", "name": "Trung Hieu Lam"},
       "url": "https://paperskyline.org/",
-      "logo": "https://paperskyline.org/brand/app-icon-1024.jpg"
+      "logo": "https://paperskyline.org/brand/app-icon-1024.jpg",
+      "sameAs": ["https://discord.gg/MApRvYQu5g", "https://www.tiktok.com/@paperskyline", "https://www.youtube.com/@paper-skyline", "https://play.google.com/store/apps/details?id=paperskyline.org", "https://apps.apple.com/us/app/paper-skyline/id6818770594"]
     },
     {
       "@type": "WebSite",
+      "@id": "https://paperskyline.org/#site",
       "name": "Paper Skyline",
       "url": "https://paperskyline.org/",
       "inLanguage": "en",
@@ -76,11 +78,12 @@
       <picture><source type="image/avif" srcset="img/mark-128.avif"><source type="image/webp" srcset="img/mark-128.webp"><img src="img/mark-128.png" width="141" height="128" alt="Paper Skyline"></picture>
     </a>
     <nav class="site-nav" aria-label="Site">
-      <a href="/" aria-current="page">Home</a>
-      <a href="business.html">Business</a>
+      <a href="#play">Play</a>
+      <a href="cities/">Cities</a>
+      <a href="minigames/">Minigames</a>
+      <a href="devlog.html">News</a>
+      <a href="press/">Press</a>
       <a href="support.html">Support</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
     </nav>
   </div>
 </header>
@@ -109,7 +112,7 @@
           <span class="gift-text"><b>A red Paper Dragon for our first flyers</b><span class="gift-line" data-gift-line aria-live="polite">Free while gifts last</span></span>
         </a>
       </div>
-      <ul class="badges">
+      <ul class="badges" id="play">
         <li><a class="app-store" href="https://apps.apple.com/us/app/paper-skyline/id6818770594?pt=129553639&amp;ct=site-home&amp;mt=8">
           <img src="brand/app-store-badge.svg" width="120" height="40" alt="Download on the App Store">
         </a></li>
@@ -121,6 +124,40 @@
     </div>
   </section>
 
+  <section class="section" aria-labelledby="flight-title">
+    <div class="wrap">
+      <span class="eyebrow">How it plays</span>
+      <h2 id="flight-title">Throw, fly, upgrade, meet the residents.</h2>
+      <p class="lede">Every flight pays for the next one, and every upgrade takes you farther across the city.</p>
+      <div class="steps four">
+        <div class="step">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-flight-480.avif 480w, img/frame-flight-900.avif 900w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-flight-480.webp 480w, img/frame-flight-900.webp 900w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-flight-480.jpg 480w, img/frame-flight-900.jpg 900w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw" src="img/frame-flight-900.jpg" width="900" height="405" alt="Paris at sunset before a throw: the paper plane on its launcher by the river, the Eiffel Tower behind, with Settings, Workshop and Menu buttons" loading="lazy" decoding="async"></picture></div>
+          <span class="num">1.</span>
+          <h3>Draw back and let go</h3>
+          <p>Drag back from the launcher and release. How far you drag sets the power, and the angle sets the launch.</p>
+        </div>
+        <div class="step">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/shot-paris-800.avif 800w, img/shot-paris-1600.avif 1600w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/shot-paris-800.webp 800w, img/shot-paris-1600.webp 1600w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><img srcset="img/shot-paris-800.jpg 800w, img/shot-paris-1600.jpg 1600w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw" src="img/shot-paris-800.jpg" width="1600" height="740" alt="The paper plane in flight over Paris at sunset, the Eiffel Tower ahead, with distance, altitude and speed gauges along the top" loading="lazy" decoding="async"></picture></div>
+          <span class="num">2.</span>
+          <h3>Climb, dive, boost</h3>
+          <p>Two thumbs steer the plane. Glide as far as the air will hold it, catch the coins along the way, and get past each keeper with a BONK!</p>
+        </div>
+        <div class="step">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-tally-480.avif 480w, img/frame-tally-900.avif 900w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-tally-480.webp 480w, img/frame-tally-900.webp 900w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-tally-480.jpg 480w, img/frame-tally-900.jpg 900w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw" src="img/frame-tally-900.jpg" width="900" height="405" alt="The landing card for Paris, Stage 2: distance, altitude, duration and top speed each pay coins, and the flight earned $15, beside an Open the workshop button" loading="lazy" decoding="async"></picture></div>
+          <span class="num">3.</span>
+          <h3>Land, then upgrade</h3>
+          <p>The landing card shows what the flight earned, row by row. Spend it on the next step of a part in the Workshop, then throw again, a little farther than before.</p>
+        </div>
+        <div class="step">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-resident-480.avif 480w, img/frame-resident-960.avif 960w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-resident-480.webp 480w, img/frame-resident-960.webp 960w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-resident-480.jpg 480w, img/frame-resident-960.jpg 960w" sizes="(min-width: 64rem) 16rem, (min-width: 48rem) 34rem, 100vw" src="img/frame-resident-960.jpg" width="960" height="442" alt="Émile, an old violinist in a scarf, talks over Paris's city card: “There is writing on your wings. A wish, I think.”" loading="lazy" decoding="async"></picture></div>
+          <span class="num">4.</span>
+          <h3>Meet the residents</h3>
+          <p>Émile in Paris, Imani in New York and Hana in Tokyo have stories of their own. Their quests open Stages 2 and 3, and they speak in English voices.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="story-title">
     <div class="wrap">
       <span class="eyebrow">The story</span>
@@ -128,7 +165,7 @@
       <p class="lede">A boy by the window writes a wish on a notebook page, folds it into a paper plane and lets it go. The glass melts into ink and watercolour, and suddenly the plane is over Paris.</p>
       <p>Glide it past rooftops and clouds for as long as the air will hold it, then build a better plane in the Workshop: a stronger launcher, wider wings, a tougher hull, a tiny engine. Every upgrade carries the wish a little farther.</p>
       <p>And somewhere along the way, each city's keeper wakes: a stone gargoyle above Paris, a yellow taxi tearing down a New York avenue, the Sphinx rising from the sand. Each one introduces itself the first time you meet. Hit its weak points for a big BONK!, land the last blow for a KO!, and it grins and takes a bow.</p>
-      <p>Every city has three Stages, each with tougher keepers. In Paris, New York and Tokyo you meet Émile, Imani and Hana. Talk with them, in English voices, and their quests open Stages 2 and 3. Follow The Story of the Melancholy Melody across Paris and New York, and open the Travel journal from Menu.</p>
+      <p>Every city has three Stages, each with tougher keepers. In Paris, New York and Tokyo you meet Émile, Imani and Hana. Talk with them, in English voices, and their quests open Stages 2 and 3. Follow The Unfinished Song across Paris and New York, and open the Travel journal from Menu.</p>
     </div>
   </section>
 
@@ -145,7 +182,7 @@
     <div class="wrap">
       <span class="eyebrow">Twenty-one cities, forty-two keepers</span>
       <h2 id="keepers-title">Every city keeps its wish behind a keeper.</h2>
-      <p class="lede">Each keeper comes from its city's history, legends and streets. An Elite wakes first; the Boss guards the wish itself. Nobody gets hurt: each one gives way, grins and takes a bow. <a href="cities/">Read every city's story</a>, or <a href="world/">find them by continent</a>.</p>
+      <p class="lede">Each keeper comes from its city's history, legends and streets. An Elite wakes first; the Boss guards the wish itself. Nobody gets hurt: each one gives way with a grin, and five of them ask for a hand instead, with <a href="minigames/">a minigame of their own</a>. <a href="cities/">Read every city's story</a>, or <a href="world/">find them by continent</a>.</p>
       <ul class="keeper-grid">
         <li class="keeper-card">
           <div class="keepers">
@@ -696,67 +733,6 @@
       </ul>
     </div>
   </section>
-  <section class="section" aria-labelledby="flight-title">
-    <div class="wrap">
-      <span class="eyebrow">How a flight goes</span>
-      <h2 id="flight-title">Throw, fly, upgrade.</h2>
-      <p class="lede">Every flight pays for the next one, and every upgrade takes you farther across the city.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="glyph tilt">
-            <svg viewBox="0 0 200 130" width="200" height="130" role="img" aria-label="A finger dragging back from the plane, with the aim arc showing where the throw will go">
-              <title>A finger dragging back from the plane, with the aim arc showing where the throw will go</title>
-              <path d="M28 104 Q92 34 180 22" fill="none" stroke="#1d1f4f" stroke-width="2.5" stroke-dasharray="7 9" opacity=".5"/>
-              <g stroke="#1d1f4f" stroke-width="2.5" stroke-linejoin="round"><path d="M22 88 L66 106 L36 108 Z" fill="#ffffff"/><path d="M36 108 L66 106 L24 122 Z" fill="#cbd4de"/></g>
-              <circle cx="96" cy="86" r="15" fill="none" stroke="#ff4f8b" stroke-width="3"/>
-              <path d="M96 86 L42 102" stroke="#ff4f8b" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <span class="num">1.</span>
-          <h3>Draw back and let go</h3>
-          <p>Drag back from the launcher and release. How far you drag sets the power, and the angle sets the launch.</p>
-        </div>
-        <div class="step">
-          <div class="glyph">
-            <svg viewBox="0 0 200 130" width="200" height="130" role="img" aria-label="The plane flying low over a rooftop, with the coins the flight earns called out above it">
-              <title>The plane flying low over a rooftop, with the coins the flight earns called out above it</title>
-              <rect x="12" y="96" width="176" height="30" fill="#ffe2b8" stroke="#1d1f4f" stroke-width="2.5"/>
-              <path d="M40 96 v-12 M34 84 h12" fill="none" stroke="#1d1f4f" stroke-width="2.5"/>
-              <g stroke="#1d1f4f" stroke-width="2.5" stroke-linejoin="round"><path d="M72 62 L134 80 L98 82 Z" fill="#ffffff"/><path d="M98 82 L134 80 L76 96 Z" fill="#cbd4de"/></g>
-              <path d="M12 90 h176" fill="none" stroke="#ff4f8b" stroke-width="2" stroke-dasharray="6 7"/>
-              <text x="140" y="46" font-family="'Baloo 2', sans-serif" font-size="34" font-weight="800" fill="#2f56e0">+$9</text>
-              <circle cx="52" cy="40" r="11" fill="#ffd23a" stroke="#1d1f4f" stroke-width="2.5"/>
-              <circle cx="92" cy="28" r="11" fill="#ffd23a" stroke="#1d1f4f" stroke-width="2.5"/>
-            </svg>
-          </div>
-          <span class="num">2.</span>
-          <h3>Climb, dive, boost</h3>
-          <p>Two thumbs steer the plane. Glide as far as the air will hold it, catch the coins along the way, and every flight pays out when it lands.</p>
-        </div>
-        <div class="step">
-          <div class="glyph tilt-r">
-            <svg viewBox="0 0 200 130" width="200" height="130" role="img" aria-label="A grid of Workshop parts with one selected and its price beneath it">
-              <title>A grid of Workshop parts with one selected and its price beneath it</title>
-              <rect x="8" y="8" width="184" height="114" fill="#2f56e0"/>
-              <g fill="none" stroke="#e8eef7" stroke-width="2" opacity=".75">
-                <rect x="22" y="22" width="30" height="30"/><rect x="62" y="22" width="30" height="30"/>
-                <rect x="102" y="22" width="30" height="30"/><rect x="142" y="22" width="30" height="30"/>
-                <rect x="62" y="66" width="30" height="30"/><rect x="102" y="66" width="30" height="30"/>
-                <rect x="142" y="66" width="30" height="30"/>
-              </g>
-              <rect x="22" y="66" width="30" height="30" fill="none" stroke="#ffd23a" stroke-width="3.5"/>
-              <path d="M30 88 l7 -14 l7 14" fill="none" stroke="#ffd23a" stroke-width="2.5"/>
-              <text x="74" y="118" font-family="'Baloo 2', sans-serif" font-size="26" font-weight="800" fill="#ffd23a">$95</text>
-            </svg>
-          </div>
-          <span class="num">3.</span>
-          <h3>Land, then upgrade</h3>
-          <p>The landing card shows what the flight earned, row by row. Spend it on the next step of a part in the Workshop, then throw again, a little farther than before.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="section blueprint" aria-labelledby="shop-title">
     <div class="wrap">
       <div class="blueprint-fig">
@@ -817,6 +793,37 @@
           <p>Relics come from quests. Collect them, and a postcard from every city, for your Atlas.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section alt" aria-labelledby="mini-title">
+    <div class="wrap">
+      <span class="eyebrow">New in 2.0.5</span>
+      <h2 id="mini-title">Five keepers, five minigames.</h2>
+      <p class="lede">In New York, Hong Kong, Barcelona, Toronto and Ho Chi Minh City the keeper asks for a hand: solve its puzzle to get past, and it thanks you. Each game then joins the Minigames page, with 30 levels, up to three stars a level and a ranking.</p>
+      <ul class="shots">
+        <li><a href="minigames/#gridlock"><figure class="shot">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-gridlock-480.avif 480w, img/frame-gridlock-960.avif 960w" sizes="(min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-gridlock-480.webp 480w, img/frame-gridlock-960.webp 960w" sizes="(min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-gridlock-480.jpg 480w, img/frame-gridlock-960.jpg 960w" sizes="(min-width: 48rem) 34rem, 100vw" src="img/frame-gridlock-960.jpg" width="960" height="432" alt="The Gridlock board: a New York intersection jammed with cars, a van and a bus, the yellow taxi boxed in" loading="lazy" decoding="async"></picture></div>
+          <figcaption>Gridlock, New York</figcaption>
+        </figure></a></li>
+        <li><a href="minigames/#neonflow"><figure class="shot">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-neonflow-480.avif 480w, img/frame-neonflow-900.avif 900w" sizes="(min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-neonflow-480.webp 480w, img/frame-neonflow-900.webp 900w" sizes="(min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-neonflow-480.jpg 480w, img/frame-neonflow-900.jpg 900w" sizes="(min-width: 48rem) 34rem, 100vw" src="img/frame-neonflow-900.jpg" width="900" height="405" alt="Neon Flow: glowing tubes join pairs of coloured ends to light a steamed-bun sign" loading="lazy" decoding="async"></picture></div>
+          <figcaption>Neon Flow, Hong Kong</figcaption>
+        </figure></a></li>
+        <li><a href="minigames/#paradeline"><figure class="shot">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-paradeline-480.avif 480w, img/frame-paradeline-960.avif 960w" sizes="(min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-paradeline-480.webp 480w, img/frame-paradeline-960.webp 960w" sizes="(min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-paradeline-480.jpg 480w, img/frame-paradeline-960.jpg 960w" sizes="(min-width: 48rem) 34rem, 100vw" src="img/frame-paradeline-960.jpg" width="960" height="432" alt="Parade Line: the Gegant Queen walks a flower-lined route with drums and cheering neighbours" loading="lazy" decoding="async"></picture></div>
+          <figcaption>Parade Line, Barcelona</figcaption>
+        </figure></a></li>
+        <li><a href="minigames/#rink"><figure class="shot">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-rink-480.avif 480w, img/frame-rink-900.avif 900w" sizes="(min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-rink-480.webp 480w, img/frame-rink-900.webp 900w" sizes="(min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-rink-480.jpg 480w, img/frame-rink-900.jpg 900w" sizes="(min-width: 48rem) 34rem, 100vw" src="img/frame-rink-900.jpg" width="900" height="405" alt="Rink Shootout: two skater kids with the puck and the Goalie Moose guarding the net" loading="lazy" decoding="async"></picture></div>
+          <figcaption>Rink Shootout, Toronto</figcaption>
+        </figure></a></li>
+        <li><a href="minigames/#scooterflow"><figure class="shot">
+          <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-scooterflow-480.avif 480w, img/frame-scooterflow-584.avif 584w" sizes="(min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-scooterflow-480.webp 480w, img/frame-scooterflow-584.webp 584w" sizes="(min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-scooterflow-480.jpg 480w, img/frame-scooterflow-584.jpg 584w" sizes="(min-width: 48rem) 34rem, 100vw" src="img/frame-scooterflow-584.jpg" width="584" height="268" alt="Scooter Flow: loaded scooters queue by a loop road around striped market stalls" loading="lazy" decoding="async"></picture></div>
+          <figcaption>Scooter Flow, Ho Chi Minh City</figcaption>
+        </figure></a></li>
+      </ul>
+      <p class="more"><a href="minigames/">See all five minigames</a></p>
     </div>
   </section>
 
@@ -898,19 +905,23 @@
   <section class="section alt" aria-labelledby="new-title">
     <div class="wrap">
       <span class="eyebrow">What's new</span>
-      <h2 id="new-title">New in 2.0</h2>
+      <h2 id="new-title">New in 2.0.5</h2>
       <div class="card tilt changes-card">
         <ul class="changes">
-          <li>Three Stages in every city, each with tougher keepers</li>
-          <li>Meet Émile, Imani and Hana; their quests open Stages 2 and 3</li>
-          <li>Residents speak when you talk with them, in English voices</li>
-          <li>The Story of the Melancholy Melody, across Paris and New York</li>
-          <li>Athens joins the map: twenty-one cities in all</li>
-          <li>One city page with Stage pips, and a Story or Practice card before each flight</li>
-          <li>The Travel journal opens from Menu</li>
-          <li>A new app icon and logo</li>
+          <li>Five keeper minigames: Gridlock, Neon Flow, Parade Line, Rink Shootout and Scooter Flow</li>
+          <li>A Minigames page on the title, with 30 levels a game and a ranking by nickname</li>
+          <li>Friends you help say thank you at the end</li>
+          <li>Each city card shows its Stages as a trail, with the plane on the one you are flying</li>
+          <li>Pick a trail for the plane, like Sakura Petals or Carnival Confetti</li>
+          <li>Émile, Imani and Hana: residents with stories, quests and voices</li>
+          <li>The Unfinished Song, across Paris and New York</li>
+          <li>Twenty-one cities, three Stages each</li>
         </ul>
       </div>
+      <figure class="shot thanks">
+        <div class="shot-frame wide"><picture><source type="image/avif" srcset="img/frame-trail-480.avif 480w, img/frame-trail-960.avif 960w" sizes="(min-width: 48rem) 34rem, 100vw"><source type="image/webp" srcset="img/frame-trail-480.webp 480w, img/frame-trail-960.webp 960w" sizes="(min-width: 48rem) 34rem, 100vw"><img srcset="img/frame-trail-480.jpg 480w, img/frame-trail-960.jpg 960w" sizes="(min-width: 48rem) 34rem, 100vw" src="img/frame-trail-960.jpg" width="960" height="443" alt="The Stage trail on a city card: a stop for each Stage, the plane on the current one and the waiting city in a picture" loading="lazy" decoding="async"></picture></div>
+        <figcaption>A stop for each Stage, and a star when all are flown.</figcaption>
+      </figure>
       <p class="more"><a href="devlog.html">Every version in the devlog</a></p>
     </div>
   </section>
@@ -943,16 +954,27 @@
 <footer class="site-footer">
   <div class="wrap">
     <div>
-      <a class="brand" href="/">
+      <a class="brand" href="">
         <picture><source type="image/avif" srcset="img/mark-128.avif"><source type="image/webp" srcset="img/mark-128.webp"><img src="img/mark-128.png" width="141" height="128" alt="Paper Skyline"></picture>
       </a>
       <p>One sheet of paper, one city at a time.</p>
+      <ul class="badges">
+        <li><a class="app-store" href="https://apps.apple.com/us/app/paper-skyline/id6818770594?pt=129553639&amp;ct=site-home&amp;mt=8">
+          <img src="brand/app-store-badge.svg" width="120" height="40" alt="Download on the App Store">
+        </a></li>
+        <li><a class="store-link" href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer=utm_source%3Dsite%26utm_medium%3Dhome%26utm_campaign%3Dfooter">
+          <img src="brand/google-play-badge.png" width="646" height="250" alt="Get it on Google Play">
+        </a></li>
+      </ul>
       <p class="socials"><a class="discord" href="https://discord.gg/MApRvYQu5g"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>Join us on Discord</a><a class="tiktok" href="https://www.tiktok.com/@paperskyline"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>TikTok</a><a class="youtube" href="https://www.youtube.com/@paper-skyline"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a></p>
       <p>&copy; 2026 THLab &middot; paperskyline.org</p>
       <p class="fine">App Store is a trademark of Apple Inc. Google Play and the Google Play logo are trademarks of Google LLC.</p>
     </div>
     <nav class="site-nav" aria-label="Footer">
-      <a href="/">Home</a>
+      <a href="">Home</a>
+      <a href="cities/">Cities</a>
+      <a href="minigames/">Minigames</a>
+      <a href="devlog.html">News</a>
       <a href="business.html">For businesses</a>
       <a href="press/">Press</a>
       <a href="support.html">Support</a>

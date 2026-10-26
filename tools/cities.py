@@ -73,7 +73,8 @@ def load():
         place = json.loads(kg(f"SELECT props FROM nodes WHERE key='place:{level['place']}'")[0]['props'])
         relics = {json.loads(r['props'])['keeper']: (r['label'], json.loads(r['props'])['reason'])
                   for r in kg(f"SELECT label, props FROM nodes WHERE kind='relic' "
-                              f"AND json_extract(props,'$.city')='{cid}' AND json_extract(props,'$.shipped')=1")}
+                              f"AND json_extract(props,'$.city')='{cid}' AND json_extract(props,'$.shipped')=1 "
+                              f"AND json_extract(props,'$.keeper') IS NOT NULL")}
         keepers = {json.loads(r['props'])['role']: r['dst'].split(':', 1)[1]
                    for r in kg(f"SELECT dst, props FROM edges WHERE src='level:{cid}' AND kind='has_keeper'")}
         parents = [r['dst'].split(':', 1)[1] for r in kg(f"SELECT dst FROM edges WHERE src='level:{cid}' AND kind='parent'")]
@@ -173,7 +174,7 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None, langs=LANGS, csp=N
     alts, switch = hreflang(c, rel, lang, t, langs)
     csp = f'<meta http-equiv="Content-Security-Policy" content="{csp}">\n' if csp else ''
     path = f'/{prefix(lang)}{rel}'
-    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['nav'], [prefix(lang), 'business.html', 'support.html', 'privacy.html', 'terms.html']))
+    nav = site_nav(c, t, lang, rel)
     return f'''<!doctype html>
 <html lang="{lang}">
 <head>
@@ -215,8 +216,16 @@ def head(c, t, lang, title, desc, rel, image, index, ld=None, langs=LANGS, csp=N
 ''', switch
 
 
-def foot(c, t, lang):
-    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], [prefix(lang), 'business.html', 'press/', 'support.html', 'privacy.html', 'terms.html']))
+def site_nav(c, t, lang, rel):
+    """The header links, the same on every page; rel marks the current one."""
+    hrefs = [prefix(lang) + '#play', prefix(lang) + 'cities/', 'minigames/', 'devlog.html', 'press/', 'support.html']
+    cur = (rel, prefix(lang) + rel)
+    return ''.join(f'\n      <a href="{c}{h}"' + (' aria-current="page"' if h in cur else '') + f'>{n}</a>' for n, h in zip(t['nav'], hrefs))
+
+
+def foot(c, t, lang, medium):
+    hrefs = [prefix(lang), prefix(lang) + 'cities/', 'minigames/', 'devlog.html', 'business.html', 'press/', 'support.html', 'privacy.html', 'terms.html']
+    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], hrefs))
     return f'''<footer class="site-footer">
   <div class="wrap">
     <div>
@@ -224,6 +233,9 @@ def foot(c, t, lang):
         <picture><source type="image/avif" srcset="{c}img/mark-128.avif"><source type="image/webp" srcset="{c}img/mark-128.webp"><img src="{c}img/mark-128.png" width="141" height="128" alt="Paper Skyline"></picture>
       </a>
       <p>{t["tagline"]}</p>
+      <ul class="badges">
+        {stores(c, lang, medium, 'footer')}
+      </ul>
       <p class="socials">{socials(t)}</p>
       <p>&copy; 2026 THLab &middot; paperskyline.org</p>
       <p class="fine">{t["trademark"]}</p>
@@ -449,7 +461,7 @@ def city_page(x, by_id, total, lang):
   </section>
 </main>
 
-''' + foot(c, t, lang)
+''' + foot(c, t, lang, 'city')
     return page, n_words, index
 
 
@@ -466,12 +478,14 @@ def hub(cities, lang):
           <p>{esc(t["join"]([x["beats"]["elite.name"], t["the"](x["beats"]["boss.name"])]))}</p>
         </li>''' for x in cities)
     desc = t['hub_desc'].format(n=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
-    top, switch = head(c, t, lang, t['hub_title'], desc, 'cities/', 'brand/og-image-1200x630.jpg', False)
-    return top + f'''
+    p = prefix(lang)
+    trail = [(t['home'], p), (t['hub_title'].split(' | ')[0], p + 'cities/')]
+    index = words(lang, desc, cards) >= MIN_WORDS[lang]
+    top, switch = head(c, t, lang, t['hub_title'], desc, 'cities/', 'brand/og-image-1200x630.jpg', index,
+                       page_ld(lang, 'cities/', t['hub_title'], desc, trail))
+    return index, top + f'''
 <main id="main">
-  <div class="wrap topbar">
-{switch}  </div>
-  <section class="section" aria-labelledby="cities-title">
+{crumbs_html(c, t, trail, switch)}  <section class="section" aria-labelledby="cities-title">
     <div class="wrap">
       <span class="eyebrow">{t["n_cities"](len(cities))}</span>
       <h1 id="cities-title">{t["hub_h1"]}</h1>
@@ -482,7 +496,7 @@ def hub(cities, lang):
   </section>
 </main>
 
-''' + foot(c, t, lang)
+''' + foot(c, t, lang, 'cities')
 
 
 def home(cities, lang):
@@ -519,7 +533,7 @@ def home(cities, lang):
         <p class="hero-tag">{esc(h["tag"])}</p>
         <p class="lede">{esc(h["lede"])}</p>
       </div>
-      <ul class="badges">
+      <ul class="badges" id="play">
         {stores(c, lang, "home", "badge")}
         <li>{discord(t, "discord join")}</li>
       </ul>
@@ -552,7 +566,7 @@ def home(cities, lang):
   </section>
 </main>
 
-''' + foot(c, t, lang)
+''' + foot(c, t, lang, 'home')
 
 
 def city_card(x, c, t, href):
@@ -616,7 +630,9 @@ def country_page(code, cs, atlas, conts, by_id, lang):
     own = [s for x in cs for s in (x['atlas']['postcard'], x['atlas']['landmarkIdLine'])]
     n_words = words(lang, k['intro'], k['idLine'], *k['facts'], *own, *(h for h, _ in secs), *(p for _, ps in secs for p in ps))
     index = n_words >= MIN_WORDS[lang]
-    title = t['country_title'].format(name=k['name'])
+    # Hong Kong and Singapore are a city and a country; the continent keeps the two titles apart
+    name = f"{k['name']} · {t['continents'][cont]}" if k['name'] in (x['name'] for x in cs) else k['name']
+    title = t['country_title'].format(name=name)
     desc = t['country_desc'].format(cities=t['join']([x['name'] for x in cs]), country=t['country_in'](code, k['name']))
     trail = [(t['home'], p), (t['continents'][cont], f'{p}world/{cont}/'), (k['name'], p + rel)]
     facts = ''.join(f'\n        <li>{esc(f)}</li>' for f in k['facts'])
@@ -668,7 +684,7 @@ def country_page(code, cs, atlas, conts, by_id, lang):
   </section>
 </main>
 
-''' + foot(c, t, lang)
+''' + foot(c, t, lang, 'country')
     return p + rel, page, n_words, index
 
 
@@ -718,7 +734,7 @@ def continent_page(cont, cs, conts, total, later, lang):
   </section>
 </main>
 
-''' + foot(c, t, lang)
+''' + foot(c, t, lang, 'continent')
     return p + rel, page
 
 
@@ -745,7 +761,7 @@ def world_page(by_cont, conts, cities, later, lang):
   </section>
 </main>
 
-''' + foot(c, t, lang)
+''' + foot(c, t, lang, 'world')
     return p + rel, page
 
 
@@ -794,7 +810,7 @@ def wish_page(wishes):
 <script>{js}</script>
 <script src="{TURNSTILE}/turnstile/v0/api.js?render=explicit&amp;onload=psVoteCheck" async defer></script>
 
-''' + foot(c, t, 'en')
+''' + foot(c, t, 'en', 'wish')
     return rel, page
 
 
@@ -823,7 +839,10 @@ def build(cities, atlas, lang, planned_rows):
         print(f'{lang:8} {x["id"]:16} {n:4} words  {"index" if index else "noindex"}')
         if index:
             city_urls.append(f'{p}cities/{x["id"]}/')
-    write(f'{p}cities/', hub(cities, lang))
+    index, page = hub(cities, lang)
+    write(f'{p}cities/', page)
+    if index:
+        city_urls.insert(0, f'{p}cities/')
     if lang != 'en':
         write(p, home(cities, lang))
 
@@ -878,8 +897,28 @@ def stamp(cities):
             print(f'stamped  {f}')
 
 
+# Hand-written pages and their footer badge medium (ct=site-<medium>, so letters only)
+HAND = {'index.html': 'home', '404.html': 'notfound', 'press/index.html': 'press', 'minigames/index.html': 'minigames'}
+
+
+def stamp_chrome():
+    """The hand-written pages take the generated header links and footer, so every page shares one nav."""
+    t = T['en']
+    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'minigames/index.html']:
+        path = os.path.join(SITE, f)
+        s = open(path, encoding='utf-8').read()
+        # 404.html is served at any depth, so its links are root-relative
+        c = '/' if f == '404.html' else '../' * f.count('/')
+        rel = '' if f == 'index.html' else f.replace('index.html', '')
+        new = re.sub(r'(<nav class="site-nav" aria-label="Site">).*?(\n    </nav>)', lambda m: m.group(1) + site_nav(c, t, 'en', rel) + m.group(2), s, count=1, flags=re.S)
+        new = re.sub(r'<footer class="site-footer">.*?</footer>\n', lambda m: foot(c, t, 'en', HAND.get(f, f[:-5])).split('</body>')[0], new, count=1, flags=re.S)
+        if new != s:
+            open(path, 'w', encoding='utf-8').write(new)
+            print(f'chrome   {f}')
+
+
 STATS = 'https://paperskyline-stats.paperskyline-stats.workers.dev'
-PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'press', 'zh-Hans', 'id']
+PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'press', 'minigames', 'zh-Hans', 'id']
 
 
 def csp_for(page):
@@ -915,6 +954,7 @@ def stamp_geo():
 def main():
     cities, atlas = load()
     stamp(cities)
+    stamp_chrome()
     rows = planned()
     for lang in LANGS:
         city_urls, world_urls = build(*localize(cities, atlas, lang), lang, rows)

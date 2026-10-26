@@ -9,6 +9,20 @@
   <author><name>THLab</name><uri>https://paperskyline.org/</uri></author>
   <icon>https://paperskyline.org/favicon-32.png</icon>
   <entry>
+    <title>Paper Skyline 2.0.5</title>
+    <id>https://paperskyline.org/devlog/2-0-5/</id>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-5/"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;h3&gt;Five minigames&lt;/h3&gt;&lt;p&gt;Gridlock in New York, Neon Flow in Hong Kong, Parade Line in Barcelona, a rink shootout in Toronto and Scooter Flow in Ho Chi Minh City.&lt;/p&gt;&lt;h3&gt;The Minigames page&lt;/h3&gt;&lt;p&gt;Beat a minigame keeper and its game joins the Minigames page: 30 levels each, up to three stars a level, and a ranking under a nickname if you pick one.&lt;/p&gt;&lt;h3&gt;Friends say thank you&lt;/h3&gt;&lt;p&gt;The friends you help in a minigame say thank you at the end, while their neighbours cheer.&lt;/p&gt;&lt;h3&gt;The Flight trail&lt;/h3&gt;&lt;p&gt;Stage progress is a Flight trail: one stop per Stage, your plane on the current one and a star when every Stage is flown.&lt;/p&gt;&lt;h3&gt;Plane trails&lt;/h3&gt;&lt;p&gt;Pick a trail for your plane, like Sakura Petals or Carnival Confetti.&lt;/p&gt;&lt;h3&gt;New looks for each Stage&lt;/h3&gt;&lt;p&gt;Each Stage has new looks, and a Stage reset card starts one again.&lt;/p&gt;&lt;h3&gt;Keepers crack with gold&lt;/h3&gt;&lt;p&gt;Keepers wind up before they strike, and crack with gold kintsugi when you get past.&lt;/p&gt;&lt;h3&gt;An Illustrated Paper look&lt;/h3&gt;&lt;p&gt;Menus, the map and the Atlas have an Illustrated Paper look.&lt;/p&gt;&lt;h3&gt;Fewer crashes on long trips&lt;/h3&gt;&lt;p&gt;Fewer crashes and less memory use on long trips.&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Paper Skyline 2.0.4</title>
+    <id>https://paperskyline.org/devlog/2-0-4/</id>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-4/"/>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <content type="html">&lt;h3&gt;A Story button and stamp trail&lt;/h3&gt;&lt;p&gt;A Story button on the title, a stamp trail in the Journal and a Contents page for Main Quests.&lt;/p&gt;&lt;h3&gt;Go there opens the city card&lt;/h3&gt;&lt;p&gt;Go there opens the city&amp;#x27;s card, with a travel page while the city downloads.&lt;/p&gt;&lt;h3&gt;Residents&amp;#x27; mouths follow their voices&lt;/h3&gt;&lt;p&gt;Émile, Imani and Hana move their mouths in time with their voices.&lt;/p&gt;&lt;h3&gt;Smaller city downloads&lt;/h3&gt;&lt;p&gt;City downloads are smaller. Cities you have flown stay for 30 days (up to 120 MB), and stalled downloads recover.&lt;/p&gt;&lt;h3&gt;See a new look in flight&lt;/h3&gt;&lt;p&gt;Gifts reveal your new plane look in flight.&lt;/p&gt;&lt;h3&gt;Menu buttons and volume sliders&lt;/h3&gt;&lt;p&gt;Menu and Missions buttons, volume sliders, and Back closes the top layer first.&lt;/p&gt;</content>
+  </entry>
+  <entry>
     <title>Paper Skyline 2.0.2</title>
     <id>https://paperskyline.org/devlog/2-0-2/</id>
     <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-2/"/>

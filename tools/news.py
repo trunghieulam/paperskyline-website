@@ -19,7 +19,7 @@ OUT = os.path.join(SITE, 'news', 'out')
 GAME = os.path.join(SITE, '..', 'game-paper-flights')
 ORIGIN = 'https://paperskyline.org'
 # The newest version on Play production: nothing after it is published here, whatever the changelog holds
-LIVE = '2.0.2'
+LIVE = '2.0.5'
 PLAY_LIMIT = 500
 # The next release while it is on a test track: (version, lines), shown above the shipped ones
 COMING = None
@@ -137,8 +137,8 @@ def posted(releases, v):
     return out[0]
 
 
-def template(title, desc, url, depth):
-    """support.html's chrome with this page's head; depth re-roots its relative links."""
+def template(title, desc, url, depth, trail):
+    """support.html's chrome with this page's head and breadcrumb; depth re-roots its relative links."""
     src = open(os.path.join(SITE, 'support.html'), encoding='utf-8').read()
     old_desc = re.search(r'<meta name="description" content="([^"]*)"', src).group(1)
     page = (src.replace('<title>Support | Paper Skyline</title>', f'<title>{title}</title>')
@@ -146,7 +146,12 @@ def template(title, desc, url, depth):
             .replace('https://paperskyline.org/support.html', url)
             .replace('content="Support | Paper Skyline"', f'content="{title}"')
             .replace('<a href="support.html" aria-current="page">Support</a>', '<a href="support.html">Support</a>')
+            .replace('<a href="devlog.html">News</a>', '<a href="devlog.html" aria-current="page">News</a>', 1)
+            .replace('utm_medium%3Dsupport%26', 'utm_medium%3Ddevlog%26').replace('ct=site-support&', 'ct=site-devlog&')
             .replace('<link rel="canonical"', '<link rel="alternate" type="application/atom+xml" title="Paper Skyline devlog" href="/feed.xml">\n<link rel="canonical"'))
+    crumbs = {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+        {'@type': 'ListItem', 'position': i, 'name': n, 'item': u} for i, (n, u) in enumerate(trail, 1)]}
+    page = re.sub(r'\{"@context": "https://schema.org", "@type": "BreadcrumbList".*', lambda m: json.dumps(crumbs, ensure_ascii=False), page, count=1)
     up = '../' * depth
     if up:
         page = re.sub(r'((?:href|src|srcset)=")(?!https?:|/|#|mailto:)', rf'\g<1>{up}', page)
@@ -168,7 +173,8 @@ def release_page(v, items, newer, older):
     entries = ', '.join(e['title'] for e in items[:-1]) + (' and ' if len(items) > 1 else '') + items[-1]['title']
     title = f'Version {v} | Paper Skyline devlog'
     desc = html.escape(f"What's new in Paper Skyline {v}: {entries}.", quote=True)
-    page = template(title, desc, f'{ORIGIN}/devlog/{slug(v)}/', 2)
+    page = template(title, desc, f'{ORIGIN}/devlog/{slug(v)}/', 2,
+                    [('Home', f'{ORIGIN}/'), ('News', f'{ORIGIN}/devlog.html'), (f'Version {v}', f'{ORIGIN}/devlog/{slug(v)}/')])
     cards_ = '\n'.join(f'''        <article class="card">
           <span class="pill">{'Fix' if e.get('kind') == 'fix' else 'New'}</span>
           <h3>{html.escape(e['title'])}</h3>
@@ -224,7 +230,8 @@ def feed(releases, entries, versions):
 
 
 def devlog(releases, entries):
-    page = template('Devlog | Paper Skyline', "What's new in each version of Paper Skyline.", f'{ORIGIN}/devlog.html', 0)
+    page = template('Devlog | Paper Skyline', "What's new in each version of Paper Skyline.", f'{ORIGIN}/devlog.html', 0,
+                    [('Home', f'{ORIGIN}/'), ('News', f'{ORIGIN}/devlog.html')])
     # Only shipped versions go on the public page; soon entries stay in news.json for the game.
     soon = []
     parts = ['''<main id="main">

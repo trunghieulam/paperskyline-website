@@ -34,8 +34,8 @@ _THE = {'US', 'GB', 'NL'}
 T = {
     'en': dict(
         name='English', og_locale='en_US', sp=' ', skip='Skip to content', langs='Language', crumbs='Breadcrumb',
-        nav=['Home', 'Business', 'Support', 'Privacy', 'Terms'],
-        foot_nav=['Home', 'For businesses', 'Press', 'Support', 'Privacy policy', 'Terms of use'],
+        nav=['Play', 'Cities', 'Minigames', 'News', 'Press', 'Support'],
+        foot_nav=['Home', 'Cities', 'Minigames', 'News', 'For businesses', 'Press', 'Support', 'Privacy policy', 'Terms of use'],
         tagline='One sheet of paper, one city at a time.', discord='Join us on Discord',
         trademark='App Store is a trademark of Apple Inc. Google Play and the Google Play logo are trademarks of Google LLC.',
         home='Home', world='World',
@@ -82,8 +82,8 @@ T = {
     ),
     'zh-Hans': dict(
         name='简体中文', og_locale='zh_CN', sp='', skip='跳到正文', langs='语言', crumbs='当前位置',
-        nav=['首页', '商务合作', '帮助', '隐私', '条款'],
-        foot_nav=['首页', '商务合作', '媒体资料', '帮助', '隐私政策', '使用条款'],
+        nav=['下载', '城市', '小游戏', '新闻', '媒体资料', '帮助'],
+        foot_nav=['首页', '城市', '小游戏', '新闻', '商务合作', '媒体资料', '帮助', '隐私政策', '使用条款'],
         tagline='一张纸，一座城市接着一座城市。', discord='加入我们的 Discord',
         trademark='App Store 是 Apple Inc. 的商标。Google Play 和 Google Play 徽标是 Google LLC 的商标。',
         home='首页', world='世界',
@@ -134,8 +134,8 @@ T = {
     ),
     'id': dict(
         name='Bahasa Indonesia', og_locale='id_ID', sp=' ', skip='Langsung ke konten', langs='Bahasa', crumbs='Navigasi',
-        nav=['Beranda', 'Bisnis', 'Bantuan', 'Privasi', 'Ketentuan'],
-        foot_nav=['Beranda', 'Untuk bisnis', 'Pers', 'Bantuan', 'Kebijakan privasi', 'Ketentuan penggunaan'],
+        nav=['Main', 'Kota', 'Minigame', 'Berita', 'Pers', 'Bantuan'],
+        foot_nav=['Beranda', 'Kota', 'Minigame', 'Berita', 'Untuk bisnis', 'Pers', 'Bantuan', 'Kebijakan privasi', 'Ketentuan penggunaan'],
         tagline='Selembar kertas, satu demi satu kota.', discord='Gabung di Discord kami',
         trademark='App Store adalah merek dagang Apple Inc. Google Play dan logo Google Play adalah merek dagang Google LLC.',
         home='Beranda', world='Dunia',

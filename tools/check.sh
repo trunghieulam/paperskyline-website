@@ -3,7 +3,7 @@
 set -o nounset
 cd "$(dirname "$0")/.."
 pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html world/index.html world/*/index.html world/*/*/index.html
-  devlog/*/index.html wish/index.html press/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
+  devlog/*/index.html wish/index.html press/index.html minigames/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
 fail=0
 discord=$(python3 -c "import sys; sys.path.insert(0, 'tools'); from i18n import DISCORD; print(DISCORD)")
 err() { echo "FAIL $1: $2"; fail=1; }
@@ -46,6 +46,7 @@ for p in "${pages[@]}"; do
   python3 -c 'import json,re,sys; [json.loads(b) for b in re.findall(r"<script type=\"application/ld\+json\">(.*?)</script>", open(sys.argv[1], encoding="utf-8").read(), re.S)]' "$p" 2>/dev/null \
     || err "$p" "JSON-LD that does not parse"
   grep -qiE 'lorem|TODO|TBD' "$p" && err "$p" "placeholder text"
+  [ "$(grep -o '<h1[ >]' "$p" | wc -l)" -eq 1 ] || err "$p" "a page needs exactly one <h1>"
   grep -q '—' "$p" && err "$p" "em dash in copy: use a period, comma, colon or | instead"
   grep -qE 'https://www\.paperskyline\.org' "$p" && err "$p" "www host — the apex is canonical"
   sed -n '/<footer class="site-footer">/,/<\/footer>/p' "$p" | grep -qF "href=\"$discord\"" \
@@ -110,6 +111,22 @@ for p in sys.argv[1:]:
         if back != a:
             print(f'FAIL {p}: hreflang {lang} page {u} does not list the same alternates back'); bad = 1
 sys.exit(bad)
+PY
+
+# Search engines want a title and description of the page's own.
+python3 - "${pages[@]}" <<'PY' || fail=1
+import collections, re, sys
+seen = collections.defaultdict(list)
+for p in sys.argv[1:]:
+    s = open(p, encoding='utf-8').read()
+    if 'name="robots" content="noindex' in s:
+        continue
+    for k, rx in (('title', r'<title>(.*?)</title>'), ('description', r'<meta name="description" content="([^"]*)"')):
+        seen[k, re.search(rx, s, re.S).group(1)].append(p)
+dupes = [(k, ps) for (k, _), ps in seen.items() if len(ps) > 1]
+for k, ps in dupes:
+    print(f'FAIL {ps[0]}: same {k} as {", ".join(ps[1:])}')
+sys.exit(bool(dupes))
 PY
 
 # sitemap.xml is an index of one sitemap per page type; every row must be a live, indexable page.

@@ -4,8 +4,10 @@ Usage: tools/art.py [path to game-paper-flights]   (default: ../game-paper-fligh
 Opaque paintings fall back to JPEG, cut-out keepers to PNG; AVIF and WebP carry the weight.
 """
 import hashlib
+import io
 import json
 import os
+import subprocess
 import sys
 import urllib.request
 
@@ -146,6 +148,38 @@ def shots():
             save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
+# 2.0.5 gameplay frames from game main's docs/validation/: (name, capture, crop box or None)
+VALIDATION = 'docs/validation/2026-10-'
+FRAMES = [
+    ('flight', '25-1041-phone/paris-stage2-preflight.jpg', None),
+    ('tally', '25-1041-phone/paris-stage2-tally.jpg', None),
+    ('resident', '23-paris-ny-journey/12-paris-card-before-ny-emile-talk.png', None),
+    ('trail', '25-stage-trail/card-s2-en@1169.jpg', (0, 546, 1169, 1086)),
+    ('gridlock', '25-1040-minigames/gridlock-hard-honk.jpg', None),
+    ('neonflow', '25-1041-phone/neonflow-l4-play.jpg', None),
+    ('paradeline', '25-1040-minigames/paradeline-easy.jpg', None),
+    ('rink', '25-1041-phone/rink-l4.jpg', None),
+    ('scooterflow', '25-minigame-ui-polish/panel-scooterflow.jpg', (0, 0, 584, 268)),
+    ('minigames', '25-minigame-ui-polish/page-list.jpg', (0, 0, 702, 324)),
+    ('thanks', '25-minigame-thanks/scooterflow-farewell-1169-720.jpg', (0, 0, 1386, 640)),
+]
+
+
+def frames():
+    for name, path, box in FRAMES:
+        blob = subprocess.run(['git', '-C', GAME, 'show', f'origin/main:{VALIDATION}{path}'], capture_output=True, check=True).stdout
+        src = Image.open(io.BytesIO(blob)).convert('RGB')
+        src = src.crop(box) if box else src
+        if name == 'resident':
+            # The dev build's faint DBG button sits in the sky right of Émile's cap; paint it over from the sky beside it
+            for y in range(84, 134):
+                c = src.getpixel((880, y))
+                for x in range(856, 876):
+                    src.putpixel((x, y), c)
+        for w in sorted({min(480, src.width), min(960, src.width)}):
+            save(fit(src, w), f'frame-{name}-{w}', 'jpg')
+
+
 # The press kit (#214, light since 2026-10-24): the six 1.9.6 App Store iPhone frames and the 2.0 logos, 1600 px at most
 PRESS_SHOTS = 'docs/store/app-store/screenshots/iphone'
 
@@ -258,6 +292,7 @@ def main():
     keepers()
     skies()
     shots()
+    frames()
     press()
     og()
     cities()
