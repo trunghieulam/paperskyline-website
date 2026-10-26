@@ -42,6 +42,7 @@ keepers of the twenty-one shipped cities, each on a strip of its city's painting
 `img/` and `brand/`, so re-run it after the game's art changes rather than editing images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
 (paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 The gameplay frames (`img/frame-*`, `FRAMES` in `tools/art.py`) are cropped from captures in the game's `docs/validation/` on origin/main; pick captures without debug overlays.
+Pending: once the Gridlock redesign (Toy Diorama, no drivers) lands in the game, swap `frame-gridlock` for the new look on `/minigames/` and the home page.
 
 "In the game" shows the five 1.9.0 Play captures from `docs/store/google-play/1.9.0/en-US/`, caption
 band cropped, at 800 and 1600 px. `img/shot-paris-*` (business.html) is a frozen 1.3 export.
@@ -113,7 +114,8 @@ tools/art.py                          # re-export the paintings, keepers, social
 ```
 
 500 px is the narrowest width this machine's headless Chrome will lay out, so mobile breakpoints
-are written at ≥ 500 px to stay checkable here.
+are written at ≥ 500 px to stay checkable here. For a true phone width, load the page in a 390 px
+`<iframe>` from a same-origin page under `tools/.tmp/` and compare its `scrollWidth` with `clientWidth`.
 
 Headless Chrome has no `prefers-color-scheme` switch. `shots.sh` copies the site to `tools/.tmp/`
 and rewrites the dark media query to `@media all` for the dark run — the page itself is untouched.
