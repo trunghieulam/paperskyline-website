@@ -155,7 +155,7 @@ FRAMES = [
     ('tally', '25-1041-phone/paris-stage2-tally.jpg', None),
     ('resident', '23-paris-ny-journey/12-paris-card-before-ny-emile-talk.png', None),
     ('trail', '25-stage-trail/card-s2-en@1169.jpg', (0, 546, 1169, 1086)),
-    ('gridlock', '25-1040-minigames/gridlock-hard-honk.jpg', None),
+    ('gridlock', '26-gridlock-redesign/build-medium-1b-drag-1169-en.jpg', None),
     ('neonflow', '25-1041-phone/neonflow-l4-play.jpg', None),
     ('paradeline', '25-1040-minigames/paradeline-easy.jpg', None),
     ('rink', '25-1041-phone/rink-l4.jpg', None),
