@@ -50,7 +50,7 @@
 <main id="main">
   <div class="wrap page-head">
     <h1>Privacy policy</h1>
-    <p class="updated">Version 5.13 &middot; 26 October 2026 &middot; Paper Skyline for Android, iPhone and iPad</p>
+    <p class="updated">Version 5.14 &middot; 26 October 2026 &middot; Paper Skyline for Android, iPhone and iPad</p>
   </div>
   <div class="wrap legal">
       <nav class="toc" aria-label="On this page">
@@ -78,7 +78,7 @@
           <li>Paper Skyline is a single-player game made by THLab (Trung Hieu Lam). This policy covers the Android app, the iPhone and iPad app, and the feedback form on this website. Where the two apps differ, it says so.</li>
           <li>The game collects no personal information. There is no account, no sign-in and nothing to register.</li>
           <li>The game sends anonymous gameplay statistics, such as how far a flight went and which upgrades were bought, so that we can balance it. They carry a random install code the game makes for itself, not taken from any account, device identifier or advertising ID, and you can switch them off in Settings.</li>
-          <li>No crash reporting and no in-app purchases.</li>
+          <li>No crash reports or crash logs, and no in-app purchases. With statistics on, the game reports how smoothly each flight ran and, on Android, how the last session ended.</li>
           <li>On Android you can choose to watch a short ad from Google AdMob for bonus cash. No ad is shown unless you tap to watch one, though Google's ad software starts at launch to check consent and load one in the background. Every ad is non-personalised and treated as child-directed. The iPhone and iPad app shows no ads.</li>
           <li>Your progress and your settings are saved on your own device and stay there, apart from your device's own backup, such as iCloud or Google backup, if you use one.</li>
           <li>Paris comes with the app. The other nine cities, from New York to San Francisco, are downloaded once over HTTPS.
@@ -102,13 +102,14 @@
             <tr><td>Unsent statistics</td><td>Gameplay statistics waiting to be sent.</td><td>Yes, to our statistics server, if switched on</td></tr>
             <tr><td>Ad consent</td><td>On Android only, in the EEA and the UK, the choice you made on Google's consent form, stored on your device by Google's consent software and sent to Google with each ad request, so that Google follows it.</td><td>Yes, to Google</td></tr>
             <tr><td>Downloaded cities</td><td>The city files you downloaded, with a checksum to confirm each one arrived intact.</td><td>No</td></tr>
+            <tr><td>Last-session note</td><td>The screen that was open, the city, the flight and how long the game had been open, rewritten as you play, so the next launch can tell how the previous session ended.</td><td>On Android, the screen and flight count go inside the anonymous statistics, if they are switched on</td></tr>
           </tbody>
         </table>
       </div>
       <p>None of it identifies you. Taken together it describes a paper plane, not a person. <b>Reset everything</b>
         in Settings clears your progress and any statistics not yet sent, and keeps your install code and your choice about sharing them.
         Deleting the app removes all of it. If you back up your device, to iCloud or Google for example, the backup
-        may include your progress and settings, under Apple's or Google's terms; the game does not read it.</p>
+        may include your progress, settings and last-session note, under Apple's or Google's terms; the game does not read it.</p>
 
       <h2 id="downloads">City downloads</h2>
       <p>Paris is inside the app and plays offline from the first launch. The next four cities, New York, Tokyo,
@@ -173,9 +174,11 @@
         watched.</p>
 
       <h2 id="stats">Gameplay statistics</h2>
-      <p>So that we can tune prices, upgrades and cities from real play, and count how many players come back and on which version, the game sends short, anonymous records
-        of what happens in it. The Android app and the iPhone and iPad app send the same records.
-        Nothing is recorded before your first flight has landed or finished.</p>
+      <p>So that we can tune prices, upgrades and cities from real play, count how many players come back and on which version,
+        and to find where the game runs slowly or runs short of memory, the game sends short, anonymous records
+        of what happens in it. The Android app and the iPhone and iPad app send the same records, except how the last session
+        ended, which only Android sends. Each launch sends one record; records about how you play and how the last session ended
+        start once you have flown.</p>
       <ul>
         <li><b>In every record.</b> Your install code, how many times the game has been opened on this install, the game version, the date (UTC, with no time of day), the city, the
           difficulty, which flight of this city visit it was, how many flights you have flown in total, and your
@@ -184,6 +187,11 @@
         <li><b>After each flight.</b> Your upgrade levels, what the flight paid (for distance, height, time, speed,
           things knocked over and coins, and in total), the coins you then held, whether it landed or finished, how
           far and how high it went and how long it was in the air, seconds of engine, your strikes on each keeper, glancing hits, and the relics you wore.</li>
+        <li><b>Performance.</b> From Paper Skyline 2.0.6, after each flight: how long the game had been open, how long the flight
+          lasted, which flight of this launch it was, how smoothly it ran (frame times and slow frames), how much memory the game
+          used, whether the system warned it was low on memory or running hot, and whether it was a replay. Each launch record also
+          gives your device's memory class (for example 4 GB), graphics API (Vulkan, OpenGL ES or Metal) and screen class (for
+          example full HD), never its model, chip or operating-system version.</li>
         <li><b>Leaving the garage.</b> Your coins before and after, the upgrades you could afford, the garage's
           suggestion, what you bought, in order, and the relics you wore.</li>
         <li><b>Milestones.</b> An Elite or a Boss broken, a relic or a relic slot won, a city cleared, or bonus cash earned from an ad, with
@@ -194,6 +202,11 @@
           the catalysts and ingredients it used.</li>
         <li><b>Leaving the game.</b> Which screen was open, a flight or the garage, when the game was closed from
           the background. It is sent the next time you open the game.</li>
+        <li><b>How the last session ended.</b> From Paper Skyline 2.0.6, on Android 11 and later only: how Android says the
+          previous session ended (closed, stopped to free memory, crashed or stopped responding), its exit code or signal, whether
+          the game was on screen or in the background, how much memory it was using, which screen was open and which flight of that
+          launch, and roughly how long ago (within five minutes, an hour, a day, or longer). It is sent the next time you open the
+          game, once. It is never a crash log or stack trace, and the iPhone and iPad app does not send it.</li>
         <li><b>Missions.</b> From Paper Skyline 1.6.2, when you complete a mission: the difficulty, the
           kind of mission (distance, altitude, duration, coins, strikes, cities this week or keepers this week), its
           target, and whether it is a hard mission.</li>
@@ -216,15 +229,15 @@
           game and level, and on a clear its stars, moves, time and whether it beat your best.</li>
         <li><b>Never sent.</b> No account, device, advertising or app set ID; no time of day and no free
           text.</li>
-        <li><b>Not added.</b> The game adds no device model, operating-system version, language or region to the
-          statistics; each batch carries only the game version and the records. Like every web request, a batch
+        <li><b>Not added.</b> The game adds no device model, chip, operating-system version, language or region to the
+          statistics; the only device details are the memory, graphics-API and screen classes above, and each batch carries only the game version and the records. Like every web request, a batch
           arrives with the IP address and the standard device details, such as the device model and
           operating-system version, and our server does not keep them.</li>
       </ul>
       <p>Records from the same install share its install code, which links them to that install of the game,
         though not to a name, an account or anyone's identity. That is how we count returning players and see the
-        order in which players upgrade. On the App Store this is declared as Gameplay Content, Device ID and
-        Product Interaction, linked to you and used for analytics, and not used for tracking.</p>
+        order in which players upgrade. On the App Store this is declared as Gameplay Content, Device ID,
+        Product Interaction, Performance Data and Other Diagnostic Data, linked to you and used for analytics, and not used for tracking.</p>
       <ul>
         <li><b>Where they go.</b> Over HTTPS to our own small server, a Cloudflare Worker at
           paperskyline-stats.paperskyline-stats.workers.dev, which stores them in a Cloudflare D1 database. Cloudflare processes them for us. Our server
@@ -246,7 +259,8 @@
         <li><b>Never shown.</b> Your install code is never shown on the ranking or sent to other players.</li>
         <li><b>How long.</b> Your ranking entry and nickname are deleted 12 months after your last cleared level or nickname change.</li>
       </ul>
-      <p>We use the records only to balance Paper Skyline and to count returning players and versions, never to profile
+      <p>We use the records only to balance Paper Skyline, to count returning players and versions, and to fix slowdowns and memory
+        problems, never to profile
         anyone or for ads. We do not sell or share them, and never combine them with anything else.</p>
 
       <h2 id="feedback">Feedback</h2>
@@ -274,7 +288,7 @@
         <li>your location, precise or approximate;</li>
         <li>photographs, the camera, the microphone, or your contacts;</li>
         <li>your device's advertising identifier, or any other identifier used to track you across apps;</li>
-        <li>crash reports, or any statistics beyond the ones described above;</li>
+        <li>crash logs or stack traces, or any statistics beyond the ones described above;</li>
         <li>your save file itself, to anyone.</li>
       </ul>
       <div class="note">
@@ -316,10 +330,14 @@
         privacy go to the address under <a href="#contact">Contact</a>.</p>
 
       <h2 id="changes">Changes to this policy</h2>
-      <p>This is version 5.13. If a future version adds anything that touches your
+      <p>This is version 5.14. If a future version adds anything that touches your
         data, such as an account, a leaderboard or personalised ads, this page is updated and dated first, and the
         version number goes up.</p>
       <dl class="history">
+        <dt>Version 5.14 &middot; 26 October 2026</dt>
+        <dd>Gameplay statistics: a performance record after each flight, device memory, graphics and screen classes at launch, and
+          on Android how the last session ended. No crash logs, device model or OS version. Corrected when records start: a launch
+          record is sent from the first launch.</dd>
         <dt>Version 5.13 &middot; 26 October 2026</dt>
         <dd>Gameplay statistics: a record of minigame levels started, cleared and quit. New public minigame ranking with a nickname
           you choose, no account, deleted 12 months after you last play.</dd>
