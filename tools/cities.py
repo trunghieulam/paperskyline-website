@@ -308,7 +308,7 @@ def keeper_size(slug, role):
     return Image.open(os.path.join(SITE, 'img', f'keeper-{slug}-{role}.png')).size
 
 
-def keeper_card(c, t, x, role):
+def keeper_card(c, t, x, role, href=None):
     b = x['beats']
     name, sub = b[f'{role}.name'], b[f'{role}.subtitle']
     w, h = keeper_size(x['slug'], role)
@@ -321,7 +321,7 @@ def keeper_card(c, t, x, role):
             {pic(c, f'keeper-{x["slug"]}-{role}', 'png', t['keeper_alt'](name, sub), w, h, ' loading="lazy" decoding="async"')}
           </div>
           <span class="eyebrow">{t[role]}</span>
-          <h3>{esc(name)}</h3>
+          <h3>{f'<a href="{href}">{esc(name)}</a>' if href else esc(name)}</h3>
           <p class="sub">{esc(sub)}</p>
           <p>{esc(b[f"{role}.legend"])}</p>
           <p>{t["sp"].join(esc(b[f"{role}.{k}"]) for k in ("wake", "crack", "break"))}</p>
@@ -333,6 +333,84 @@ GAME_LD = {'@type': ['VideoGame', 'MobileApplication'], '@id': f'{ORIGIN}/#game'
            'applicationCategory': 'GameApplication', 'operatingSystem': 'Android, iOS', 'gamePlatform': 'Android, iOS',
            'installUrl': ['https://play.google.com/store/apps/details?id=paperskyline.org', APP_STORE], 'url': f'{ORIGIN}/',
            'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'}}
+
+
+def keeper_rel(x, role):
+    return f'cities/{x["id"]}/{slugify(re.sub(r"^The ", "", x["beats"][f"{role}.name"]))}/'
+
+
+def keeper_page(x, role):
+    """A keeper's own page, en only until #96's language wave; indexed once its text reaches MIN_WORDS."""
+    t, lang, c = T['en'], 'en', '../../../'
+    b, kid = x['beats'], x['keepers'][role]
+    other = 'boss' if role == 'elite' else 'elite'
+    name, sub = b[f'{role}.name'], b[f'{role}.subtitle']
+    w, h = keeper_size(x['slug'], role)
+    relic = x['relics'].get(kid)
+    secs = extra('keepers', kid, lang)
+    body = [b[f'{role}.{k}'] for k in ('name', 'subtitle', 'intro', 'legend', 'mine', 'wake', 'crack', 'break')]
+    body += list(relic or ()) + [h_ for h_, _ in secs] + [p_ for _, ps in secs for p_ in ps]
+    n_words = words(lang, *body)
+    index = n_words >= MIN_WORDS[lang]
+    rel = keeper_rel(x, role)
+    title = f'{name}, keeper of {x["name"]} | Paper Skyline'
+    desc = f'{name}, {sub.split(" · ")[0][0].lower() + sub.split(" · ")[0][1:]}, is the {role.capitalize()} of {x["name"]} in Paper Skyline. {b[f"{role}.intro"]}'
+    cont = t['continents'][x['cont']]
+    trail = [(t['home'], ''), (cont, f'world/{x["cont"]}/'), (x['country'], x['country_path']),
+             (x['name'], f'cities/{x["id"]}/'), (name, rel)]
+    image = og(x['slug'], lang)
+    about = {'@type': 'Thing', 'name': name, 'description': sub}
+    top, switch = head(c, t, lang, title, desc, rel, image, index, page_ld(lang, rel, title, desc, trail, about, image), langs=['en'])
+    relic_html = (f'\n      <p class="relic"><b>{esc(t["relic"].format(relic=relic[0]))}</b>{t["sp"]}{esc(relic[1])}</p>' if relic else '')
+    others = [(x['name'], f'cities/{x["id"]}/'), (b[f'{other}.name'], keeper_rel(x, other)), (x['country'], x['country_path'])]
+    page = top + f'''
+<main id="main">
+{crumbs_html(c, t, trail, switch)}  <section class="section keeper-head" aria-labelledby="keeper-title">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">{t[role]} of {esc(x["name"])}</span>
+        <h1 id="keeper-title">{esc(name)}</h1>
+        <p class="sub">{esc(sub)}</p>
+        <p class="lede">{esc(b[f"{role}.intro"])}</p>
+      </div>
+      <div class="keeper-card">
+        <div class="keepers">
+          {pic(c, f'sky-{x["slug"]}', 'jpg', '', 720, 240).replace('<picture>', '<picture class="sky">', 1)}
+          {pic(c, f'keeper-{x["slug"]}-{role}', 'png', t['keeper_alt'](name, sub), w, h, ' fetchpriority="high"')}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="legend-title">
+    <div class="wrap">
+      <h2 id="legend-title">The legend</h2>
+      <p class="lede">{esc(b[f"{role}.legend"])}</p>
+      <p class="mine-line">&ldquo;{esc(b[f"{role}.mine"])}&rdquo;</p>
+    </div>
+  </section>
+
+{extra_html(secs, "about")}  <section class="section alt" aria-labelledby="flight-title">
+    <div class="wrap">
+      <h2 id="flight-title">In the game</h2>
+      <p>{t["sp"].join(esc(b[f"{role}.{k}"]) for k in ("wake", "crack", "break"))}</p>{relic_html}
+      <ul class="badges">
+        {stores(c, lang, "keeper", kid)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="more-title">
+    <div class="wrap">
+      <h2 id="more-title">More of {esc(x["name"])}</h2>
+      <ul class="city-links">{links(c, others)}
+      </ul>
+    </div>
+  </section>
+</main>
+
+''' + foot(c, t, lang, 'keeper')
+    return rel, page, n_words, index
 
 
 def crumbs_html(c, t, trail, switch):
@@ -432,8 +510,8 @@ def city_page(x, by_id, total, lang):
       <h2 id="keepers-title">{t["keepers_h2"].format(name=esc(x["name"]))}</h2>
       <p class="lede">{t["keepers_lede"]}</p>
       <ul class="keeper-grid pair">
-{keeper_card(c, t, x, "elite")}
-{keeper_card(c, t, x, "boss")}
+{keeper_card(c, t, x, "elite", keeper_rel(x, "elite").split("/", 2)[2] if lang == "en" else None)}
+{keeper_card(c, t, x, "boss", keeper_rel(x, "boss").split("/", 2)[2] if lang == "en" else None)}
       </ul>
     </div>
   </section>
@@ -846,6 +924,12 @@ def build(cities, atlas, lang, planned_rows):
         print(f'{lang:8} {x["id"]:16} {n:4} words  {"index" if index else "noindex"}')
         if index:
             city_urls.append(f'{p}cities/{x["id"]}/')
+        for role in ('elite', 'boss') if lang == 'en' else ():
+            rel, page, n, index = keeper_page(x, role)
+            write(rel, page)
+            print(f'{lang:8} {rel:44} {n:4} words  {"index" if index else "noindex"}')
+            if index:
+                city_urls.append(rel)
     index, n, page = hub(cities, lang)
     write(f'{p}cities/', page)
     print(f'{lang:8} {"cities/":16} {n:4} words  {"index" if index else "noindex"}')

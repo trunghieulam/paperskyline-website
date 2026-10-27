@@ -469,6 +469,13 @@ strong { font-weight: 700; color: var(--hot); }
   background: var(--paper); color: var(--ink); text-decoration: none; box-shadow: var(--sticker-sm);
 }
 .city-links a:hover { background: var(--yellow); color: var(--navy); }
+.keeper-head .wrap { display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr); align-items: center; }
+@media (min-width: 56rem) { .keeper-head .wrap { grid-template-columns: minmax(0, 1fr) 22rem; } }
+.keeper-head .wrap > div:first-child { display: grid; gap: .6rem; justify-items: start; }
+.keeper-head .sub { margin: 0; font-weight: 600; color: var(--ink-faint); }
+.keeper-head .keeper-card { padding: 0; }
+.keeper-head .keeper-card .keepers { height: 18rem; margin: 0; border-bottom: 0; }
+.keeper-head .keepers picture:not(.sky) img { max-width: 80%; }
 .country-head .wrap { display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
 @media (min-width: 56rem) { .country-head .wrap { grid-template-columns: minmax(0, 1fr) 18rem; } }
 .country-head .wrap > div { display: grid; gap: .6rem; justify-items: start; }

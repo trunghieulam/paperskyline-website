@@ -2,7 +2,7 @@
 # Structural rules for paperskyline.org. Usage: tools/check.sh [page.html …]  (no args = every page)
 set -o nounset
 cd "$(dirname "$0")/.."
-pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html world/index.html world/*/index.html world/*/*/index.html
+pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html cities/*/*/index.html world/index.html world/*/index.html world/*/*/index.html
   devlog/*/index.html wish/index.html press/index.html minigames/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
 fail=0
 discord=$(python3 -c "import sys; sys.path.insert(0, 'tools'); from i18n import DISCORD; print(DISCORD)")
