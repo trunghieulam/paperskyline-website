@@ -474,7 +474,7 @@ def hub(cities, lang):
             {pic(c, f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
           </div>
           <h3><a href="{x["id"]}/">{esc(x["name"])}</a></h3>
-          <p class="sub">{esc(x["country"])} &middot; {esc(x["atlas"]["landmarkTitle"])}</p>
+          <p class="sub"><a href="{c}{prefix(lang)}{x["country_path"]}">{esc(x["country"])}</a> &middot; {esc(x["atlas"]["landmarkTitle"])}</p>
           <p>{esc(t["join"]([x["beats"]["elite.name"], t["the"](x["beats"]["boss.name"])]))}</p>
         </li>''' for x in cities)
     desc = t['hub_desc'].format(n=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
@@ -495,6 +495,7 @@ def hub(cities, lang):
       <p class="lede">{esc(desc)}</p>
       <ul class="keeper-grid">{cards}
       </ul>
+      <p><a href="{c}{p}world/">{t["every_cont"]}</a></p>
     </div>
   </section>
 
@@ -743,6 +744,7 @@ def continent_page(cont, cs, conts, total, later, lang):
 
 
 def world_page(by_cont, conts, cities, later, lang):
+    """conts maps each continent, in order, to its (country, path) pairs."""
     t, p = T[lang], prefix(lang)
     c, rel = '../' + '../' * (lang != 'en'), 'world/'
     title = t['world_title']
@@ -750,6 +752,7 @@ def world_page(by_cont, conts, cities, later, lang):
     trail = [(t['home'], p), (t['world'], p + rel)]
     blocks = ''.join(f'''
       <h2><a href="{c}{p}world/{k}/">{t["continents"][k]}</a></h2>
+      <p class="sub">{' &middot; '.join(f'<a href="{c}{p}{path}">{esc(n)}</a>' for n, path in conts[k])}</p>
       <ul class="city-links">{links(c, [(t['place'](x['name'], x['country']), f'{p}cities/{x["id"]}/') for x in by_cont[k]])}
       </ul>{later_html(t, k, later)}''' for k in conts)
     top, switch = head(c, t, lang, title, desc, rel, 'brand/og-image-1200x630.jpg', True,
@@ -867,7 +870,7 @@ def build(cities, atlas, lang, planned_rows):
         path, page = continent_page(k, by_cont[k], conts, len(cities), later, lang)
         write(path, page)
         world_urls.append(path)
-    path, page = world_page(by_cont, order, cities, later, lang)
+    path, page = world_page(by_cont, conts, cities, later, lang)
     write(path, page)
     world_urls.insert(0, path)
     return city_urls, world_urls
@@ -890,6 +893,10 @@ def stamp(cities):
             # Not \b: it would match "one" inside an already stamped "Twenty-one"
             new = re.sub(rf'(?<![\w-])({num})(?= (painted )?cities)', NUMS[n], new)
             new = re.sub(rf'(?<![\w-])({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
+        if f == 'index.html':
+            for x in cities:
+                sub = f'\n          <p class="sub"><a href="{x["country_path"]}">{esc(x["country"])}</a></p>'
+                new = re.sub(rf'(<h3><a href="cities/{x["id"]}/">[^<]*</a></h3>)(\n *<p class="sub">.*?</p>)?', lambda m: m.group(1) + sub, new)
         if f == 'press/index.html':
             links = ''.join(f'\n        <li><a href="../cities/{x["id"]}/">{esc(x["name"])}</a></li>' for x in cities)
             new = re.sub(r'(<ul class="city-links" id="press-cities">).*?(\n      </ul>)', rf'\g<1>{links}\2', new, flags=re.S)

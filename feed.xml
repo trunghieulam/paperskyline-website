@@ -11,238 +11,238 @@
   <entry>
     <title>Paper Skyline 2.0.5</title>
     <id>https://paperskyline.org/devlog/2-0-5/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-5/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0/#v2-0-5"/>
     <updated>2026-10-01T00:00:00Z</updated>
     <content type="html">&lt;h3&gt;Five minigames&lt;/h3&gt;&lt;p&gt;Gridlock in New York, Neon Flow in Hong Kong, Parade Line in Barcelona, a rink shootout in Toronto and Scooter Flow in Ho Chi Minh City.&lt;/p&gt;&lt;h3&gt;The Minigames page&lt;/h3&gt;&lt;p&gt;Beat a minigame keeper and its game joins the Minigames page: 30 levels each, up to three stars a level, and a ranking under a nickname if you pick one.&lt;/p&gt;&lt;h3&gt;Friends say thank you&lt;/h3&gt;&lt;p&gt;The friends you help in a minigame say thank you at the end, while their neighbours cheer.&lt;/p&gt;&lt;h3&gt;The Flight trail&lt;/h3&gt;&lt;p&gt;Stage progress is a Flight trail: one stop per Stage, your plane on the current one and a star when every Stage is flown.&lt;/p&gt;&lt;h3&gt;Plane trails&lt;/h3&gt;&lt;p&gt;Pick a trail for your plane, like Sakura Petals or Carnival Confetti.&lt;/p&gt;&lt;h3&gt;New looks for each Stage&lt;/h3&gt;&lt;p&gt;Each Stage has new looks, and a Stage reset card starts one again.&lt;/p&gt;&lt;h3&gt;Keepers crack with gold&lt;/h3&gt;&lt;p&gt;Keepers wind up before they strike, and crack with gold kintsugi when you get past.&lt;/p&gt;&lt;h3&gt;An Illustrated Paper look&lt;/h3&gt;&lt;p&gt;Menus, the map and the Atlas have an Illustrated Paper look.&lt;/p&gt;&lt;h3&gt;Fewer crashes on long trips&lt;/h3&gt;&lt;p&gt;Fewer crashes and less memory use on long trips.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 2.0.4</title>
     <id>https://paperskyline.org/devlog/2-0-4/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-4/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0/#v2-0-4"/>
     <updated>2026-10-01T00:00:00Z</updated>
     <content type="html">&lt;h3&gt;A Story button and stamp trail&lt;/h3&gt;&lt;p&gt;A Story button on the title, a stamp trail in the Journal and a Contents page for Main Quests.&lt;/p&gt;&lt;h3&gt;Go there opens the city card&lt;/h3&gt;&lt;p&gt;Go there opens the city&amp;#x27;s card, with a travel page while the city downloads.&lt;/p&gt;&lt;h3&gt;Residents&amp;#x27; mouths follow their voices&lt;/h3&gt;&lt;p&gt;Émile, Imani and Hana move their mouths in time with their voices.&lt;/p&gt;&lt;h3&gt;Smaller city downloads&lt;/h3&gt;&lt;p&gt;City downloads are smaller. Cities you have flown stay for 30 days (up to 120 MB), and stalled downloads recover.&lt;/p&gt;&lt;h3&gt;See a new look in flight&lt;/h3&gt;&lt;p&gt;Gifts reveal your new plane look in flight.&lt;/p&gt;&lt;h3&gt;Menu buttons and volume sliders&lt;/h3&gt;&lt;p&gt;Menu and Missions buttons, volume sliders, and Back closes the top layer first.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 2.0.2</title>
     <id>https://paperskyline.org/devlog/2-0-2/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-2/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0/#v2-0-2"/>
     <updated>2026-10-01T00:00:00Z</updated>
     <content type="html">&lt;h3&gt;Stage 2 and 3 quests start again&lt;/h3&gt;&lt;p&gt;Stage 2 and 3 quests now start in every city with a resident.&lt;/p&gt;&lt;h3&gt;Residents speak&lt;/h3&gt;&lt;p&gt;Émile, Imani and Hana now speak when you talk with them, in English voices.&lt;/p&gt;&lt;h3&gt;One city page with Stage pips&lt;/h3&gt;&lt;p&gt;Each city has one page, with pips for its Stages. A Story or Practice card comes before each flight.&lt;/p&gt;&lt;h3&gt;The Travel journal&lt;/h3&gt;&lt;p&gt;Open the Travel journal from Menu.&lt;/p&gt;&lt;h3&gt;Reward icons and keeper touches&lt;/h3&gt;&lt;p&gt;Reward icons, a note on keepers you haven&amp;#x27;t beaten yet, a lamp in Toronto and new idle moves for the keepers.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 2.0.1</title>
     <id>https://paperskyline.org/devlog/2-0-1/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-1/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0/#v2-0-1"/>
     <updated>2026-10-01T00:00:00Z</updated>
     <content type="html">&lt;h3&gt;The Story of the Melancholy Melody&lt;/h3&gt;&lt;p&gt;The Unfinished Song is now The Story of the Melancholy Melody, with a story card, a Finale card and an Events book.&lt;/p&gt;&lt;h3&gt;Chat with residents&lt;/h3&gt;&lt;p&gt;Chat with residents you have met from the city card.&lt;/p&gt;&lt;h3&gt;Missions in three tabs&lt;/h3&gt;&lt;p&gt;Missions has Main Quests, Daily and Sign-in tabs. Tap a row to act.&lt;/p&gt;&lt;h3&gt;A new app icon and logo&lt;/h3&gt;&lt;p&gt;Paper Skyline has a new app icon and logo, and Back in the Workshop returns to your flight.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 2.0.0</title>
     <id>https://paperskyline.org/devlog/2-0-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/2-0/#v2-0-0"/>
     <updated>2026-10-01T00:00:00Z</updated>
     <content type="html">&lt;h3&gt;Three Stages in every city&lt;/h3&gt;&lt;p&gt;Every city now has three Stages, each with tougher keepers. Your Easy, Medium and Hard clears count as Stage 1 done.&lt;/p&gt;&lt;h3&gt;Émile, Imani and Hana&lt;/h3&gt;&lt;p&gt;Meet Émile in Paris, Imani in New York and Hana in Tokyo. Their quests open Stages 2 and 3 and change their cities.&lt;/p&gt;&lt;h3&gt;The Unfinished Song&lt;/h3&gt;&lt;p&gt;Play The Unfinished Song across Paris and New York.&lt;/p&gt;&lt;h3&gt;Menus as notebook pages&lt;/h3&gt;&lt;p&gt;Menus are notebook pages. The Chapter page paints each city as you go, and Missions lists tasks for every city.&lt;/p&gt;&lt;h3&gt;Relics from quests&lt;/h3&gt;&lt;p&gt;Relics now come from quests, and the globe shows how ready your plane is for each city.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.9.6</title>
     <id>https://paperskyline.org/devlog/1-9-6/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-6/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9/#v1-9-6"/>
     <updated>2026-10-21T07:08:49+07:00</updated>
     <content type="html">&lt;h3&gt;A head start for new pilots&lt;/h3&gt;&lt;p&gt;New pilots start with a $20 bonus, enough for a first upgrade after one flight.&lt;/p&gt;&lt;h3&gt;Choose your language&lt;/h3&gt;&lt;p&gt;New installs start in English; choose your language any time in Settings or with the flag on the title screen. Indonesian text fixes too.&lt;/p&gt;&lt;h3&gt;A $20 bonus for new pilots&lt;/h3&gt;&lt;p&gt;New pilots start with a $20 bonus, enough for a first upgrade after one flight.&lt;/p&gt;&lt;h3&gt;English first, your language in Settings&lt;/h3&gt;&lt;p&gt;New installs start in English. Choose your language any time in Settings or with the flag on the title screen.&lt;/p&gt;&lt;h3&gt;Indonesian text fixes&lt;/h3&gt;&lt;p&gt;Fixes for Indonesian text.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.9.5</title>
     <id>https://paperskyline.org/devlog/1-9-5/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-5/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9/#v1-9-5"/>
     <updated>2026-10-20T08:11:33+07:00</updated>
     <content type="html">&lt;h3&gt;Five new cities&lt;/h3&gt;&lt;p&gt;Five new cities join the campaign. In Berlin, the Traffic-Light Man checks his pocket watch.&lt;/p&gt;&lt;h3&gt;Terraced streets&lt;/h3&gt;&lt;p&gt;Nine cities get new terraced streets, row on row of shopfronts.&lt;/p&gt;&lt;h3&gt;Sharper look previews&lt;/h3&gt;&lt;p&gt;Plane look previews stay sharp, rewarded ads no longer crash the game on some phones, and Indonesian and Chinese text fits its cards.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.9.3</title>
     <id>https://paperskyline.org/devlog/1-9-3/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-3/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9/#v1-9-3"/>
     <updated>2026-10-17T10:50:05+07:00</updated>
     <content type="html">&lt;h3&gt;Bahasa Indonesia&lt;/h3&gt;&lt;p&gt;The whole game now speaks Indonesian. Pick it in Settings, under Language.&lt;/p&gt;&lt;h3&gt;A big prize plane on Day 7&lt;/h3&gt;&lt;p&gt;Day 7 shows a large prize plane and names its rarity.&lt;/p&gt;&lt;h3&gt;A new Workshop layout&lt;/h3&gt;&lt;p&gt;Looks and relics sit together in a new Workshop layout.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.9.2</title>
     <id>https://paperskyline.org/devlog/1-9-2/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-2/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9/#v1-9-2"/>
     <updated>2026-10-16T08:26:23+07:00</updated>
     <content type="html">&lt;h3&gt;Four new missions&lt;/h3&gt;&lt;p&gt;Daily missions now ask you to get people to notice you, hit a top speed, fly clean without a bump, or catch coins in a row.&lt;/p&gt;&lt;h3&gt;No ad on the landed card&lt;/h3&gt;&lt;p&gt;A cleared city or a medal no longer shows an ad on its card.&lt;/p&gt;&lt;h3&gt;The landed plane sits behind the walkers&lt;/h3&gt;&lt;p&gt;After landing, the plane is drawn behind people on the street, with its trail underneath.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.9.1</title>
     <id>https://paperskyline.org/devlog/1-9-1/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-1/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9/#v1-9-1"/>
     <updated>2026-10-15T21:48:58+07:00</updated>
     <content type="html">&lt;h3&gt;Day 7 can be claimed again&lt;/h3&gt;&lt;p&gt;The Day 7 card on the Daily gifts board has its Take button back, so the seventh stamp claims its gift and a new board begins.&lt;/p&gt;&lt;h3&gt;Rockets stay in place in a dive&lt;/h3&gt;&lt;p&gt;In a nose-down roll, the plane&amp;#x27;s rockets no longer show as a flat copy over the top of the plane.&lt;/p&gt;&lt;h3&gt;Your colour on the Dragon and the Gyro&lt;/h3&gt;&lt;p&gt;The Paper Dragon and the Paper Gyro now fly in the colour shown in the Garage.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.9.0</title>
     <id>https://paperskyline.org/devlog/1-9-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-9/#v1-9-0"/>
     <updated>2026-10-15T14:29:47+07:00</updated>
     <content type="html">&lt;h3&gt;A Paper Pop look&lt;/h3&gt;&lt;p&gt;The title screen, the Workshop, the landing card, the Gifts page and the Daily gifts board wear a bright new Paper Pop look: sticker buttons, round icons and a city chip on Continue.&lt;/p&gt;&lt;h3&gt;Gifts open in colour&lt;/h3&gt;&lt;p&gt;Opening a gift fills the room with its tier&amp;#x27;s colour. Each tap can raise the tier, and a Rich gift bursts with RICH!&lt;/p&gt;&lt;h3&gt;Boss fights hit harder&lt;/h3&gt;&lt;p&gt;Weak-point strikes on a Boss land with BONK!, and the final strike freezes, bursts and ends with KO! and a dizzy keeper.&lt;/p&gt;&lt;h3&gt;Keepers introduce themselves&lt;/h3&gt;&lt;p&gt;The first time you enter an arena, its Elite or Boss introduces itself on a torn notebook page with its name and a short story.&lt;/p&gt;&lt;h3&gt;Missions on one screen&lt;/h3&gt;&lt;p&gt;Missions and Gifts fit on one screen. Accept missions before a flight, and open a finished mission&amp;#x27;s gift right from the landed card.&lt;/p&gt;&lt;h3&gt;Open one, or stop&lt;/h3&gt;&lt;p&gt;Each kind of gift on the Gifts page has its own Open 1. Taking them all opens them in turn, and Stop keeps the rest for later.&lt;/p&gt;&lt;h3&gt;Prices on every part&lt;/h3&gt;&lt;p&gt;Each Workshop part shows the price of its next step, and a red dot marks the ones you can buy now. The Workshop button before a throw carries the dot too.&lt;/p&gt;&lt;h3&gt;What the flight earned&lt;/h3&gt;&lt;p&gt;After landing, each row&amp;#x27;s pay hops into a This flight earned callout, then into your wallet. Bars show your best for the visit.&lt;/p&gt;&lt;h3&gt;Only the city you fly to downloads&lt;/h3&gt;&lt;p&gt;Choosing a city downloads that city alone, so it arrives sooner. Other cities wait until you choose them.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.8.6</title>
     <id>https://paperskyline.org/devlog/1-8-6/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-8-6/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-8/#v1-8-6"/>
     <updated>2026-10-15T08:57:47+07:00</updated>
     <content type="html">&lt;h3&gt;Records clear of their bars&lt;/h3&gt;&lt;p&gt;On tablets, the landed card&amp;#x27;s records, like best here and NEW BEST, no longer overlap their bars.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.8.5</title>
     <id>https://paperskyline.org/devlog/1-8-5/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-8-5/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-8/#v1-8-5"/>
     <updated>2026-10-14T04:03:27+07:00</updated>
     <content type="html">&lt;h3&gt;First missions&lt;/h3&gt;&lt;p&gt;Four first missions lead you to your first relics: hit a keeper in Paris, break the Neko, bring home the Koban and wear it, each for a box. Treasures now drop by chance, certain by the third break.&lt;/p&gt;&lt;h3&gt;Wind up high&lt;/h3&gt;&lt;p&gt;From Beijing on, a headwind blows above 60 m and reaches full strength at 140 m. Gusts and the odd leaf drift past, and an arrow by the dials shows its strength. Fly lower to keep your speed and fuel.&lt;/p&gt;&lt;h3&gt;Sharper planes&lt;/h3&gt;&lt;p&gt;The plane in the Garage flies a slow figure-eight, smaller and sharper, and follows every look you try, Ink included. Dressed planes look sharper in flight too.&lt;/p&gt;&lt;h3&gt;Colours on Carbon&lt;/h3&gt;&lt;p&gt;Carbon paper takes a Colour, in a deep shade that shows on the dark paper.&lt;/p&gt;&lt;h3&gt;Tidier numbers and fixes&lt;/h3&gt;&lt;p&gt;Effects read compact, such as +2s fuel. The looks grid keeps its place when you tap a tile, the reward line after landing wraps instead of being cut, and translations read better.&lt;/p&gt;&lt;h3&gt;Coloured difficulty&lt;/h3&gt;&lt;p&gt;Easy, Medium and Hard each have their own colour, green, amber and red, on the map, the city pages and the flight picker.&lt;/p&gt;&lt;h3&gt;A new city-clear card&lt;/h3&gt;&lt;p&gt;Clearing a city now shows a paper card like the landing one: what the flight earned, the reward, and one button to choose the next wish or open the Workshop.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.8.4</title>
     <id>https://paperskyline.org/devlog/1-8-4/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-8-4/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-8/#v1-8-4"/>
     <updated>2026-10-13T14:36:25+07:00</updated>
     <content type="html">&lt;h3&gt;Five new cities&lt;/h3&gt;&lt;p&gt;Fly over Istanbul, Hong Kong, Toronto, Bangkok and Barcelona. Each has its own landmark, streets, Elites and Boss, and downloads once.&lt;/p&gt;&lt;h3&gt;Looks, Relics and Properties&lt;/h3&gt;&lt;p&gt;The Garage opens on Looks, Relics and Properties. Properties shows your plane&amp;#x27;s stats at the start of a flight and at their best, the coin pickup radius, relic slots and every worn relic effect.&lt;/p&gt;&lt;h3&gt;Relics you can grow&lt;/h3&gt;&lt;p&gt;Beat a keeper again on Medium or Hard for a chance at another copy of its relic, then merge copies on the Garage bench to raise its level. Each relic shows its effect as a number.&lt;/p&gt;&lt;h3&gt;Records in the Atlas&lt;/h3&gt;&lt;p&gt;A Records page in the Atlas gathers your career totals and every city&amp;#x27;s best flight and medals, and each city page shows its medals.&lt;/p&gt;&lt;h3&gt;Richer trails&lt;/h3&gt;&lt;p&gt;Soft Rain falls as slanted rain, Confetti sheds flipping pieces and Fine Sand streams loose grains.&lt;/p&gt;&lt;h3&gt;Patterned paper fits&lt;/h3&gt;&lt;p&gt;Patterned paper lines up across the wings and fins, and shows its pattern in the Garage while it rolls.&lt;/p&gt;&lt;h3&gt;Garage crash fixed&lt;/h3&gt;&lt;p&gt;Trying on one patterned paper after another in the Garage no longer runs the phone out of memory and closes the game.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.7.4</title>
     <id>https://paperskyline.org/devlog/1-7-4/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7-4/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7/#v1-7-4"/>
     <updated>2026-10-08T12:50:05+07:00</updated>
     <content type="html">&lt;h3&gt;Continue a city you left&lt;/h3&gt;&lt;p&gt;Choosing New flight on the title no longer loses the run you were on: that city keeps its coins and parts, and its Atlas page and the globe offer Continue.&lt;/p&gt;&lt;h3&gt;No ink&lt;/h3&gt;&lt;p&gt;The Ink slot gains No ink, owned from the start, for a plane without ink lines. The default paper now reads Plain paper (default).&lt;/p&gt;&lt;h3&gt;Ten wishes at the end&lt;/h3&gt;&lt;p&gt;The end of the tour now counts ten wishes and ten cities.&lt;/p&gt;&lt;h3&gt;Event titles that fit&lt;/h3&gt;&lt;p&gt;A long event title on the title screen shrinks to fit before it is shortened, so Japanese titles read in full.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.7.3</title>
     <id>https://paperskyline.org/devlog/1-7-3/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7-3/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7/#v1-7-3"/>
     <updated>2026-10-08T00:06:47+07:00</updated>
     <content type="html">&lt;h3&gt;Smaller, livelier trails&lt;/h3&gt;&lt;p&gt;Trail pieces are smaller now. They tumble, drift and flutter behind your plane, then fade.&lt;/p&gt;&lt;h3&gt;$15 and $20 coins&lt;/h3&gt;&lt;p&gt;Coins can now be worth $8, $10, $15 or $20, and Lucky coins pay $15 or $20.&lt;/p&gt;&lt;h3&gt;Text that fits&lt;/h3&gt;&lt;p&gt;Japanese, Korean and Chinese text fits better: the title&amp;#x27;s Atlas row, Atlas cards and keeper names in the arena.&lt;/p&gt;&lt;h3&gt;A gift in every language&lt;/h3&gt;&lt;p&gt;The founder gift&amp;#x27;s banner now reads in every language the game speaks.&lt;/p&gt;&lt;h3&gt;Accept and Take&lt;/h3&gt;&lt;p&gt;Missions in Gifts start counting when you tap Accept, and a finished one pays its box when you tap Take. A finished mission stays ready to take after the daily or weekly reset.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.7.2</title>
     <id>https://paperskyline.org/devlog/1-7-2/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7-2/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7/#v1-7-2"/>
     <updated>2026-10-07T12:26:35+07:00</updated>
     <content type="html">&lt;h3&gt;The Garage&lt;/h3&gt;&lt;p&gt;Open the Garage from the title screen. It holds your two relics and every look for your plane: style, paper, color, ink, fold and trail.&lt;/p&gt;&lt;h3&gt;The Workshop&lt;/h3&gt;&lt;p&gt;The page between flights is now called the Workshop. Upgrades stay there, and a button takes you to the Garage.&lt;/p&gt;&lt;h3&gt;Plainer words&lt;/h3&gt;&lt;p&gt;The game&amp;#x27;s text is rewritten in a plainer voice, in every language. You get past each city&amp;#x27;s keepers now.&lt;/p&gt;&lt;h3&gt;A flag for every language&lt;/h3&gt;&lt;p&gt;Every language in the menu shows its flag.&lt;/p&gt;&lt;h3&gt;Steady streets up high&lt;/h3&gt;&lt;p&gt;Cars, bikes and carts now come and go beyond the edges of the screen, even when you fly high.&lt;/p&gt;&lt;h3&gt;$8 and $10 coins&lt;/h3&gt;&lt;p&gt;Coins are worth $8 or $10 in every city, and Lucky coins are $10.&lt;/p&gt;&lt;h3&gt;Every strike shows&lt;/h3&gt;&lt;p&gt;Each strike that lands on an Elite or Boss shows at once: its strike count drops and the keeper reacts.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.7.1</title>
     <id>https://paperskyline.org/devlog/1-7-1/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7-1/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7/#v1-7-1"/>
     <updated>2026-10-06T19:54:26+07:00</updated>
     <content type="html">&lt;h3&gt;Calmer streets&lt;/h3&gt;&lt;p&gt;Fewer cars, bikes and carts share the road, so every street feels relaxed and still full of life.&lt;/p&gt;&lt;h3&gt;Roll into every turn&lt;/h3&gt;&lt;p&gt;Your plane now banks visibly as you steer, rolling into each climb and dive.&lt;/p&gt;&lt;h3&gt;Trails in flight&lt;/h3&gt;&lt;p&gt;Trail cosmetics now draw behind your plane while you fly.&lt;/p&gt;&lt;h3&gt;Something new is waiting&lt;/h3&gt;&lt;p&gt;Gifts and Events shimmer with a rainbow edge when there is something new to open.&lt;/p&gt;&lt;h3&gt;Exit under Atlas&lt;/h3&gt;&lt;p&gt;Exit now sits in the menu just below Atlas.&lt;/p&gt;&lt;h3&gt;City treasures&lt;/h3&gt;&lt;p&gt;Relics are now treasures, each one found in its own city.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.7.0</title>
     <id>https://paperskyline.org/devlog/1-7-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-7/#v1-7-0"/>
     <updated>2026-10-06T19:45:53+07:00</updated>
     <content type="html">&lt;h3&gt;Busy streets&lt;/h3&gt;&lt;p&gt;Cars, bikes, carts and tuk-tuks roll along the streets, each city with its own.&lt;/p&gt;&lt;h3&gt;A plane that banks&lt;/h3&gt;&lt;p&gt;Your plane now rolls into its turns as you climb and dive.&lt;/p&gt;&lt;h3&gt;New sounds&lt;/h3&gt;&lt;p&gt;Softer, musical sound effects that play in tune with each city&amp;#x27;s music.&lt;/p&gt;&lt;h3&gt;A home for your gifts&lt;/h3&gt;&lt;p&gt;Open Gifts from the title screen: your boxes wait there with today&amp;#x27;s missions. Tap a box three times to open it.&lt;/p&gt;&lt;h3&gt;Daily stamps in Events&lt;/h3&gt;&lt;p&gt;The daily stamp card now lives in Events: a gift box a day, and a Rare box on days 4 and 7.&lt;/p&gt;&lt;h3&gt;The dragon takes wing&lt;/h3&gt;&lt;p&gt;The red Paper Dragon is bigger and flaps its wings. It is a limited gift, while it lasts.&lt;/p&gt;&lt;h3&gt;Cities download fresh&lt;/h3&gt;&lt;p&gt;After this update, each city downloads once more the first time you visit it. Wi-Fi is best.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.6.3</title>
     <id>https://paperskyline.org/devlog/1-6-3/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6-3/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6/#v1-6-3"/>
     <updated>2026-10-05T23:48:55+07:00</updated>
     <content type="html">&lt;h3&gt;A gift box every day&lt;/h3&gt;&lt;p&gt;Daily stamps now give a gift box each day, with a Rare box on days 4 and 7. The optional ad adds a second box.&lt;/p&gt;&lt;h3&gt;Your looks&lt;/h3&gt;&lt;p&gt;The Looks tab shows the looks you own.&lt;/p&gt;&lt;h3&gt;Cairo holds steady&lt;/h3&gt;&lt;p&gt;Cairo&amp;#x27;s pyramid stays in place as you dive.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.6.2</title>
     <id>https://paperskyline.org/devlog/1-6-2/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6-2/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6/#v1-6-2"/>
     <updated>2026-10-05T19:35:29+07:00</updated>
     <content type="html">&lt;h3&gt;Looks for your plane&lt;/h3&gt;&lt;p&gt;Dress your plane in papers, colours, inks, folds, trails and decals, earned from flights, boxes and city clears.&lt;/p&gt;&lt;h3&gt;Gifts and missions&lt;/h3&gt;&lt;p&gt;Open gift boxes, fill a 7-day stamp card and take on three missions a day. Missions pay boxes, never coins.&lt;/p&gt;&lt;h3&gt;A gift for our first flyers&lt;/h3&gt;&lt;p&gt;Open Events and claim a red Paper Dragon, free, until 31 December 2026.&lt;/p&gt;&lt;h3&gt;Bigger ad bonus&lt;/h3&gt;&lt;p&gt;Watching an ad after a flight now pays at least $20.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.6.1</title>
     <id>https://paperskyline.org/devlog/1-6-1/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6-1/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6/#v1-6-1"/>
     <updated>2026-10-05T14:27:57+07:00</updated>
     <content type="html">&lt;h3&gt;Smoother flying&lt;/h3&gt;&lt;p&gt;Flights run at a steadier frame rate, with fewer hitches.&lt;/p&gt;&lt;h3&gt;A cooler dawn&lt;/h3&gt;&lt;p&gt;Morning light is softer and cooler, like an early start over the rooftops.&lt;/p&gt;&lt;h3&gt;The spire in its place&lt;/h3&gt;&lt;p&gt;The spire over Paris sits where it belongs again.&lt;/p&gt;&lt;h3&gt;The nose follows the glide&lt;/h3&gt;&lt;p&gt;As your plane glides down, its nose tips to follow the descent.&lt;/p&gt;&lt;h3&gt;Walkers watch you fly&lt;/h3&gt;&lt;p&gt;People in the street turn to watch your plane, stop to chat, and three new walkers join them.&lt;/p&gt;&lt;h3&gt;Keepers fall&lt;/h3&gt;&lt;p&gt;When you break a keeper, it now gets knocked down.&lt;/p&gt;&lt;h3&gt;Solid skylines&lt;/h3&gt;&lt;p&gt;Distant landmarks and bridges stay solid, softened by haze instead of fading.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.6.0</title>
     <id>https://paperskyline.org/devlog/1-6-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-6/#v1-6-0"/>
     <updated>2026-10-05T08:04:59+07:00</updated>
     <content type="html">&lt;h3&gt;A gentler glide&lt;/h3&gt;&lt;p&gt;Let go and your plane now drifts down slowly at a calm angle, then lifts its nose just before the ground.&lt;/p&gt;&lt;h3&gt;A song for every city&lt;/h3&gt;&lt;p&gt;Every city has its own music now, from an accordion café in Paris to jazz under the Golden Gate. Each track plays all the way through.&lt;/p&gt;&lt;h3&gt;One calm level&lt;/h3&gt;&lt;p&gt;City themes and the menu music now play at the same gentle volume.&lt;/p&gt;&lt;h3&gt;Smoother skylines&lt;/h3&gt;&lt;p&gt;The far skylines behind Rio de Janeiro and London scroll smoothly again.&lt;/p&gt;&lt;h3&gt;Morning to evening everywhere&lt;/h3&gt;&lt;p&gt;Like Paris, nine more cities now pass from morning light to evening as you fly.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.5.2</title>
     <id>https://paperskyline.org/devlog/1-5-2/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-5-2/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-5/#v1-5-2"/>
     <updated>2026-10-03T20:41:14+07:00</updated>
     <content type="html">&lt;h3&gt;Language at a glance&lt;/h3&gt;&lt;p&gt;The title and Settings now show your language as a flag. Tap it to pick another.&lt;/p&gt;&lt;h3&gt;An Exit button&lt;/h3&gt;&lt;p&gt;On Android, Exit now sits on the title and in Settings.&lt;/p&gt;&lt;h3&gt;Walkers in front of the stand&lt;/h3&gt;&lt;p&gt;At the start of a flight, passers-by now walk in front of the launch stand, not behind it.&lt;/p&gt;&lt;h3&gt;Cleaner walkers&lt;/h3&gt;&lt;p&gt;The people walking by no longer have a white outline.&lt;/p&gt;&lt;h3&gt;The Eiffel Tower at night&lt;/h3&gt;&lt;p&gt;The Eiffel Tower glows properly after dark, in two tones of gold.&lt;/p&gt;&lt;h3&gt;Your language from the start&lt;/h3&gt;&lt;p&gt;On a Vietnamese phone, Paper Skyline now opens in Vietnamese. You can still change it in Settings.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.5.1</title>
     <id>https://paperskyline.org/devlog/1-5-1/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-5-1/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-5/#v1-5-1"/>
     <updated>2026-10-02T22:57:11+07:00</updated>
     <content type="html">&lt;h3&gt;Tiếng Việt&lt;/h3&gt;&lt;p&gt;Paper Skyline now speaks Vietnamese, story and all. Pick Tiếng Việt in Settings.&lt;/p&gt;&lt;h3&gt;Paris through the day&lt;/h3&gt;&lt;p&gt;Fly Paris again and again and the light changes with the time of day.&lt;/p&gt;&lt;h3&gt;A new Paris street&lt;/h3&gt;&lt;p&gt;Paris has a new street to fly over, with fresh pavement and a new road.&lt;/p&gt;&lt;h3&gt;People out walking&lt;/h3&gt;&lt;p&gt;Paris&amp;#x27;s passers-by now walk with swinging arms, and a father and daughter have joined them.&lt;/p&gt;&lt;h3&gt;The carousel horse gallops&lt;/h3&gt;&lt;p&gt;The carousel horse now gallops when it wakes.&lt;/p&gt;&lt;h3&gt;Smoother keepers&lt;/h3&gt;&lt;p&gt;The keepers&amp;#x27; idle animations are smoother.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.5.0</title>
     <id>https://paperskyline.org/devlog/1-5-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-5-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-5/#v1-5-0"/>
     <updated>2026-10-02T11:10:47+07:00</updated>
     <content type="html">&lt;h3&gt;A new home screen&lt;/h3&gt;&lt;p&gt;The game now opens at the window: the city outside, the wordmark in the sky and your plane ready to throw.&lt;/p&gt;&lt;h3&gt;The streets notice you&lt;/h3&gt;&lt;p&gt;People on the pavement look up when your plane flies low, and react where it lands. Paris also has a horse-drawn calèche.&lt;/p&gt;&lt;h3&gt;Trees in the wind&lt;/h3&gt;&lt;p&gt;Street trees now sway in passing gusts, and Paris has eleven new kinds of trees.&lt;/p&gt;&lt;h3&gt;Keepers that move&lt;/h3&gt;&lt;p&gt;Every keeper now moves while it waits for your plane, from the carousel horse to the kabuki actor.&lt;/p&gt;&lt;h3&gt;No more skimming&lt;/h3&gt;&lt;p&gt;Planes no longer skim along the rooftops. If you bought the Skim part, its coins came back to you.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.4.3</title>
     <id>https://paperskyline.org/devlog/1-4-3/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4-3/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4/#v1-4-3"/>
     <updated>2026-10-02T09:01:16+07:00</updated>
     <content type="html">&lt;h3&gt;Replays keep your journey&lt;/h3&gt;&lt;p&gt;Replaying an earlier city no longer moves your journey back to it. Continue always takes you to the newest city.&lt;/p&gt;&lt;h3&gt;Continue from the Atlas&lt;/h3&gt;&lt;p&gt;The city you are working on now has a Continue button on its Atlas page, and the globe stays on it.&lt;/p&gt;&lt;h3&gt;Progress moves with your phone&lt;/h3&gt;&lt;p&gt;On Android, your progress now goes into your phone&amp;#x27;s own backup, so a new phone can pick up where you left off.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.4.2</title>
     <id>https://paperskyline.org/devlog/1-4-2/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4-2/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4/#v1-4-2"/>
     <updated>2026-10-01T20:27:40+07:00</updated>
     <content type="html">&lt;h3&gt;Every landing finishes&lt;/h3&gt;&lt;p&gt;On some phones a flight could keep sliding forward and never end. Every landing now finishes.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.4.1</title>
     <id>https://paperskyline.org/devlog/1-4-1/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4-1/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4/#v1-4-1"/>
     <updated>2026-10-01T19:33:12+07:00</updated>
     <content type="html">&lt;h3&gt;A friendlier first flight&lt;/h3&gt;&lt;p&gt;Your first throw shows a ghost hand to follow. The results card says how much more your next upgrade needs, and Throw again is one tap away.&lt;/p&gt;&lt;h3&gt;Change your mind before the throw&lt;/h3&gt;&lt;p&gt;Before you throw, you can go back to the garage or the menu. It doesn&amp;#x27;t use up a flight.&lt;/p&gt;&lt;h3&gt;Easier to read&lt;/h3&gt;&lt;p&gt;The tips and buttons on the results card are bigger.&lt;/p&gt;&lt;h3&gt;Streets that sit right&lt;/h3&gt;&lt;p&gt;Cairo, Sydney and Rio&amp;#x27;s front rows stand on their quays, London&amp;#x27;s and Rome&amp;#x27;s landmarks are back, the clouds have soft bases and the Golden Gate is fixed.&lt;/p&gt;&lt;h3&gt;A sidewalk for the taxi chase&lt;/h3&gt;&lt;p&gt;The taxi fight&amp;#x27;s road now has a sidewalk on each side.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.4.0</title>
     <id>https://paperskyline.org/devlog/1-4-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-4/#v1-4-0"/>
     <updated>2026-10-01T15:30:47+07:00</updated>
     <content type="html">&lt;h3&gt;Painted streets&lt;/h3&gt;&lt;p&gt;London, Sydney, Beijing and Rome get streets painted like Paris: quays, rails, trees and pavements. And after Rio, all ten cities are yours to fly, San Francisco included.&lt;/p&gt;&lt;h3&gt;Swipe and tap the taxi&lt;/h3&gt;&lt;p&gt;In the taxi fight, swipe left or right to change lanes and tap anywhere to strike. No more buttons to aim for.&lt;/p&gt;&lt;h3&gt;Every city keeps its run&lt;/h3&gt;&lt;p&gt;Each city you&amp;#x27;ve cleared keeps its own replay run: its wallet, upgrades and keepers stay where you left them.&lt;/p&gt;&lt;h3&gt;A new skyline every flight&lt;/h3&gt;&lt;p&gt;The buildings behind you rearrange on every flight, so no two tries look the same. The landmark, the keepers and the coins stay put.&lt;/p&gt;&lt;h3&gt;Friendly tips&lt;/h3&gt;&lt;p&gt;After your first flights, a short tip on the results card shows one thing to try next.&lt;/p&gt;&lt;h3&gt;A flight cut short still pays&lt;/h3&gt;&lt;p&gt;If your phone closes the game mid-flight, that flight now pays for how far it got when you come back.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.3.0</title>
     <id>https://paperskyline.org/devlog/1-3-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-3-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-0/#v1-3-0"/>
     <updated>2026-10-01T10:46:00+07:00</updated>
     <content type="html">&lt;h3&gt;Tokyo, painted&lt;/h3&gt;&lt;p&gt;Little houses along a stone-wall promenade, utility poles and their wires, and Fuji and the Skytree far off in the haze.&lt;/p&gt;&lt;h3&gt;Cairo, painted&lt;/h3&gt;&lt;p&gt;Sandstone houses by the Nile, with the Cairo Tower and the pyramids far off in the glow.&lt;/p&gt;&lt;h3&gt;Rio, painted&lt;/h3&gt;&lt;p&gt;Bright colonial houses on the wave pavement by the sea, with Sugarloaf rising over the bay.&lt;/p&gt;&lt;h3&gt;A painted East River&lt;/h3&gt;&lt;p&gt;New York&amp;#x27;s river is now painted water under the sunset.&lt;/p&gt;&lt;h3&gt;Falling leaves in Paris&lt;/h3&gt;&lt;p&gt;Painted plane-tree leaves tumble down as you fly over Paris.&lt;/p&gt;&lt;h3&gt;A clock on Hard&lt;/h3&gt;&lt;p&gt;On Hard, Elite and Boss fights run against a clock. On Easy and Medium a fight lasts until you break the keeper or run out of strikes.&lt;/p&gt;&lt;h3&gt;The Stryge breathes&lt;/h3&gt;&lt;p&gt;Paris&amp;#x27;s Boss now breathes slowly while it waits for you.&lt;/p&gt;&lt;h3&gt;Garage tabs&lt;/h3&gt;&lt;p&gt;The garage has tabs: Plane for upgrades, Relics to wear what your keepers left behind, and Records for your best flights and career.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.2.0</title>
     <id>https://paperskyline.org/devlog/1-2-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-2-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-0/#v1-2-0"/>
     <updated>2026-09-30T22:57:44+07:00</updated>
     <content type="html">&lt;h3&gt;Paris, painted anew&lt;/h3&gt;&lt;p&gt;Soft haze over the rooftops, the Seine and its bridges, and a quiet quay to glide along.&lt;/p&gt;&lt;h3&gt;New York at sunset&lt;/h3&gt;&lt;p&gt;Brownstones by the East River, autumn leaves, and the Empire State and Chrysler far off in the glow.&lt;/p&gt;&lt;h3&gt;Clouds that billow&lt;/h3&gt;&lt;p&gt;The clouds now billow as they drift by.&lt;/p&gt;&lt;h3&gt;Hand-painted coins&lt;/h3&gt;&lt;p&gt;Every coin along your way is now painted by hand.&lt;/p&gt;&lt;h3&gt;The taxi&amp;#x27;s avenue&lt;/h3&gt;&lt;p&gt;On a New York avenue, a yellow taxi keeper waits for a steady pilot. Turn your phone upright to meet it.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.1.0</title>
     <id>https://paperskyline.org/devlog/1-1-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-1-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-0/#v1-1-0"/>
     <updated>2026-09-28T21:46:13+07:00</updated>
     <content type="html">&lt;h3&gt;Fly it again&lt;/h3&gt;&lt;p&gt;Replay a city you&amp;#x27;ve cleared with the plane you have now, and look for the treasures you missed.&lt;/p&gt;&lt;h3&gt;Hard mode&lt;/h3&gt;&lt;p&gt;A tougher way to fly each city: tighter arenas, and every keeper opens with an attack. A Hard clear earns a starred trophy.&lt;/p&gt;&lt;h3&gt;A painted plane&lt;/h3&gt;&lt;p&gt;Your plane is now painted by hand, and it changes as you upgrade: longer wings, taped and balsa-braced paper, a cardboard engine and its tank.&lt;/p&gt;&lt;h3&gt;Treasures in the streets&lt;/h3&gt;&lt;p&gt;Treasures now sit where they belong: on a painter&amp;#x27;s easel, an opera balcony, a subway step, a kite and a cable-car pylon.&lt;/p&gt;&lt;h3&gt;The winged Sphinx&lt;/h3&gt;&lt;p&gt;Cairo&amp;#x27;s Boss wakes up as a winged lion in black and gold. Watch its wings before you strike.&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Paper Skyline 1.0.0</title>
     <id>https://paperskyline.org/devlog/1-0-0/</id>
-    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-0-0/"/>
+    <link rel="alternate" type="text/html" href="https://paperskyline.org/devlog/1-0/#v1-0-0"/>
     <updated>2026-09-28T16:33:54+07:00</updated>
     <content type="html">&lt;h3&gt;Five cities to fly&lt;/h3&gt;&lt;p&gt;Fly your paper plane over Paris, New York, Tokyo, Cairo and Rio de Janeiro. Each new city downloads once, then plays offline.&lt;/p&gt;&lt;h3&gt;The keepers&lt;/h3&gt;&lt;p&gt;Two keepers stand between you and each city&amp;#x27;s wish. Fly into their arena, switch lanes and strike when a weak point glints.&lt;/p&gt;&lt;h3&gt;Draw a better plane&lt;/h3&gt;&lt;p&gt;Spend what each flight earns in the garage: a stronger launcher, wider wings, tougher paper, an engine and a tank.&lt;/p&gt;&lt;h3&gt;Hidden treasures&lt;/h3&gt;&lt;p&gt;Rare finds hide in every city&amp;#x27;s streets. The Atlas gives you a riddle for each one you haven&amp;#x27;t found yet.&lt;/p&gt;&lt;h3&gt;Easy or Medium&lt;/h3&gt;&lt;p&gt;Pick how you want to fly on each city&amp;#x27;s card, before you throw.&lt;/p&gt;</content>
   </entry>

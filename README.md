@@ -78,7 +78,8 @@ The invite lives in one constant, `DISCORD` in `tools/i18n.py`; after a swap, re
 
 ## Devlog
 
-`tools/news.py` turns the game's `docs/store/changelog.json` into `devlog.html`, `devlog/<version>/`, `feed.xml` and `sitemap-devlog.xml`.
+`tools/news.py` turns the game's `docs/store/changelog.json` into `devlog.html`, `devlog/<x-y>/`, `feed.xml` and `sitemap-devlog.xml`.
+Each minor version gets one page with its patches as sections (1.0 to 1.3 share `devlog/1-0/`, `FOLD`); `devlog.html` lists titles only, so each entry's text lives on one page. The old `devlog/<x-y-z>/` URLs refresh to their section, and feed ids keep them.
 Nothing newer than `LIVE` in news.py is published, so raise it only once that version is on Play production.
 Run it on game main's changelog via `git show`, with the `google-play/whats-new-*.txt` files beside it, never on a checkout's working copy.
 
