@@ -131,7 +131,8 @@ T = {
                    ('有些城市藏着故事', '飞得够远，就会有人和你分享一个故事。结局如何，等你自己去发现。'),
                    ('飞行之间', '有礼物可以拆，有新外观可以试，还有几件值得飞很远去寻找的珍藏。'),
                    ('{n} 座城市等你去', '从巴黎、东京到里约和多伦多，每座城市都有自己的光线和自己的旋律。')],
-            by_cont='按大洲浏览', all_cities='所有城市'),
+            by_cont='按大洲浏览', all_cities='所有城市',
+            frame_alt='歌舞伎演员举起扇子，高高立在樱花盛开的东京街头，纸飞机正迎面飞来'),
     ),
     'id': dict(
         name='Bahasa Indonesia', og_locale='id_ID', sp=' ', skip='Langsung ke konten', langs='Bahasa', crumbs='Navigasi',
@@ -189,6 +190,7 @@ T = {
                    ('Beberapa kota menyimpan cerita', 'Terbanglah cukup jauh, dan seseorang akan punya cerita untuk dibagikan. Bagaimana akhirnya, kamu sendiri yang menemukannya.'),
                    ('Di antara penerbangan', 'Ada hadiah untuk dibuka, tampilan untuk dicoba, dan beberapa kenang-kenangan yang layak dikejar jauh-jauh.'),
                    ('{n} kota menunggumu', 'Dari Paris dan Tokyo sampai Rio dan Toronto, setiap kota punya cahaya dan lagunya sendiri.')],
-            by_cont='Jelajahi menurut benua', all_cities='Semua kota'),
+            by_cont='Jelajahi menurut benua', all_cities='Semua kota',
+            frame_alt='Aktor Kabuki mengangkat kipasnya, menjulang di atas jalan Tokyo yang penuh bunga sakura saat pesawat kertas terbang mendekat'),
     ),
 }

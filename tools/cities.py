@@ -598,7 +598,7 @@ def hub(cities, lang):
 
 
 def home(cities, lang):
-    """/<lang>/: the home page in the listing's own words, then every city; English keeps the hand-written index.html."""
+    """/<lang>/: the home teaser in the listing's own words, as index.html: one keeper frame, no city grid."""
     t, h, p, c = T[lang], T[lang]['homepage'], prefix(lang), '../'
     srcset = lambda e: ', '.join(f'{c}img/hero-paris-{w}.{e} {w}w' for w in (640, 1024, 1600))
     cards = ''.join(f'''
@@ -606,7 +606,8 @@ def home(cities, lang):
           <h3>{esc(n)}</h3>
           <p>{esc(d)}</p>
         </div>''' for n, d in h['cards']).replace('{n}', str(len(cities)))
-    tiles = ''.join(city_card(x, c, t, f'cities/{x["id"]}/') for x in cities)
+    frame = lambda e: ', '.join(f'{c}img/frame-kabuki-{w}.{e} {w}w' for w in (640, 1088, 1600))
+    fsizes = '(min-width: 47rem) 44rem, 100vw'
     url = f'{ORIGIN}/{p}'
     ld = {'@context': 'https://schema.org', '@graph': [
         {'@type': 'WebPage', '@id': url, 'url': url, 'name': h['title'], 'description': h['desc'], 'inLanguage': lang,
@@ -651,14 +652,10 @@ def home(cities, lang):
     <div class="wrap">
       <span class="eyebrow">{t["n_cities"](len(cities))}</span>
       <h2 id="cities-title">{t["hub_h1"]}</h2>
+      <div class="shot-frame wide lead-frame"><picture><source type="image/avif" srcset="{frame('avif')}" sizes="{fsizes}"><source type="image/webp" srcset="{frame('webp')}" sizes="{fsizes}"><img srcset="{frame('jpg')}" sizes="{fsizes}" src="{c}img/frame-kabuki-1600.jpg" width="1600" height="720" alt="{esc(h['frame_alt'])}" loading="lazy" decoding="async"></picture></div>
       <ul class="city-links">
-        <li><a href="world/">{h["by_cont"]}</a></li>
         <li><a href="cities/">{h["all_cities"]}</a></li>
-      </ul>
-      <ul class="keeper-grid">{tiles}
-      </ul>
-      <ul class="badges more">
-        {stores(c, lang, "home", "cities")}
+        <li><a href="world/">{h["by_cont"]}</a></li>
       </ul>
     </div>
   </section>

@@ -292,6 +292,7 @@ strong { font-weight: 700; color: var(--hot); }
 }
 .shot-frame picture { display: block; height: 100%; }
 .shot-frame img { width: 100%; height: 100%; object-fit: cover; }
+.shot-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .shot figcaption { margin-top: 1.1rem; font: 800 1.3rem/1.1 var(--display); }
 /* gameplay frames from the phone captures run a little wider than the store shots */
 .shot-frame.wide { aspect-ratio: 20 / 9; }
