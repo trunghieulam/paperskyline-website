@@ -10,6 +10,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
+import lastmod  # noqa: E402
 from art import CITIES, IDS, NAMES  # noqa: E402
 
 SITE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -406,6 +407,7 @@ def main():
     with open(os.path.join(SITE, 'sitemap-devlog.xml'), 'w', encoding='utf-8') as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                 + ''.join(f'  <url><loc>{ORIGIN}/devlog/{slug(m)}/</loc></url>\n' for m, _ in minors) + '</urlset>\n')
+    lastmod.run()
     print(f'news.json: {len(entries)} entries; devlog.html, {len(minors)} version pages, {len(versions)} redirects, feed.xml and sitemap-devlog.xml written')
 
 

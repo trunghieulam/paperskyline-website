@@ -24,7 +24,7 @@ video/                # the home page reel and its poster, copied from the game 
 styles.css            # tokens + every component, light/dark via prefers-color-scheme
 img/                  # the game's paintings and keepers, exported by tools/art.py
 brand/                # the app icon and the social card
-tools/                # art.py, check.sh, cities.py + i18n.py, demand.py, news.py (devlog.html from the game's changelog), shots.sh
+tools/                # art.py, check.sh, cities.py + i18n.py, demand.py, lastmod.py, news.py (devlog.html from the game's changelog), shots.sh
 docs/superpowers/specs/               # the design spec this was built from
 sitemap.xml           # an index: sitemap-pages.xml (by hand); sitemap-cities.xml, sitemap-world.xml, sitemap-zh-hans.xml, sitemap-id.xml (cities.py); sitemap-devlog.xml (news.py)
 robots.txt  site.webmanifest  CNAME
@@ -55,8 +55,10 @@ The step glyphs and the blueprint elevation are still inline `<svg>`.
 `tools/cities.py` writes `cities/<id>/` and `world/<continent>/<country>/` from the city graph and the Atlas text (#96); never edit them by hand.
 A page is indexed and listed in its sitemap only with 300+ words of its own verified text (450+ Han characters in zh-Hans); below that it gets `noindex,follow`.
 The zh-Hans and id pages take every city, keeper and country line from the game's locale packs; the page strings live in `tools/i18n.py`.
-Extra verified text from `design/web-text/{cities,countries}/<key>.<lang>.md` (and `hub/cities.<lang>.md` for the cities index) in the game repo renders as one H2 per `##` section and counts toward the rule.
-Each shipped keeper has an en page at `cities/<city>/<keeper>/` (#96): portrait, intro, legend, the game's lines and the relic it guards, linked from its city page's card.
+Extra verified text from `design/web-text/{cities,countries}/<key>.<lang>.md` (and `hub/{cities,world,<continent>}.<lang>.md` for the hubs) in the game repo renders as one H2 per `##` section and counts toward the rule.
+The world and continent hubs follow the rule too; until their text arrives they are `noindex,follow`, except zh-Hans `world/`.
+Each shipped keeper has an en page at `cities/<city>/<keeper>/` (#96): portrait, intro, legend, the game's lines and the relic it guards, linked from its city page's card, the cities index and the home page's keeper names.
+The en city card keeps the legend and the "mine" quote and links "Meet …"; the game's lines appear only on the keeper page, so the two don't duplicate.
 Its verified extra text comes from `design/web-text/keepers/<keeper-id>.en.md`, and it follows the same 300-word rule.
 Every page lists all its languages as `hreflang` alternates, and `check.sh` fails any set that is not reciprocal.
 Their share cards are `img/og-<slug>-<lang>.jpg` wherever the pack names the city differently; `tools/art.py` draws the Chinese ones in Noto Sans SC Black (OFL), fetched once into `tools/.tmp/`.
@@ -96,6 +98,12 @@ Every footer and the press Contact section link Discord, TikTok and YouTube (`to
 A city is published only once its version is on Play production.
 Add its keepers to `CITIES` in `tools/art.py` (plus `NAMES`/`IDS` if its slug differs), then run `tools/art.py`, `tools/cities.py`, and `tools/news.py` with `LIVE` raised.
 Then run `tools/check.sh`; country pages that fall under the word rule stay `noindex` until the City Writer adds verified text.
+
+## Sitemaps
+
+`tools/lastmod.py` dates each sitemap row from the last commit that changed its page's `<main>` text; nav, footer and CSP restamps don't count.
+`cities.py` and `news.py` run it; after editing `sitemap-pages.xml` or a hand-written page, run it yourself. `check.sh` fails a stale or missing lastmod, and any row that redirects, is noindex, or whose canonical is not its URL.
+`robots.txt` disallows `/docs/` and `/tools/`: Pages renders their Markdown as pages. Audits: `docs/seo/`.
 
 ## City demand report
 

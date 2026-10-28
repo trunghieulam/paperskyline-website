@@ -16,6 +16,7 @@ import subprocess
 import sys
 import unicodedata
 
+import lastmod
 from art import CITIES, IDS, NAMES
 from i18n import DISCORD, T, TIKTOK, YOUTUBE
 
@@ -315,6 +316,12 @@ def keeper_card(c, t, x, role, href=None):
     relic = x['relics'].get(x['keepers'][role])
     relic_html = (f'\n          <p class="relic"><b>{esc(t["relic"].format(relic=relic[0]))}</b>{t["sp"]}{esc(relic[1])}</p>'
                   if relic else '')
+    # Linked, the card drops the game's lines: they live on the keeper's own page
+    lines = (f'<a href="{href}">{t["meet"].format(name=esc(t["the"](name)))}</a>' if href else
+             t["sp"].join(esc(b[f"{role}.{k}"]) for k in ("wake", "crack", "break")))
+    story = f'''<p>{esc(b[f"{role}.legend"])}</p>
+          <p>{lines}</p>
+          <blockquote class="mine"><p>&ldquo;{esc(b[f"{role}.mine"])}&rdquo;</p></blockquote>'''
     return f'''        <li class="keeper-card">
           <div class="keepers">
             {pic(c, f'sky-{x["slug"]}', 'jpg', '', 720, 240, ' loading="lazy" decoding="async"').replace('<picture>', '<picture class="sky">', 1)}
@@ -323,9 +330,7 @@ def keeper_card(c, t, x, role, href=None):
           <span class="eyebrow">{t[role]}</span>
           <h3>{f'<a href="{href}">{esc(name)}</a>' if href else esc(name)}</h3>
           <p class="sub">{esc(sub)}</p>
-          <p>{esc(b[f"{role}.legend"])}</p>
-          <p>{t["sp"].join(esc(b[f"{role}.{k}"]) for k in ("wake", "crack", "break"))}</p>
-          <blockquote class="mine"><p>&ldquo;{esc(b[f"{role}.mine"])}&rdquo;</p></blockquote>{relic_html}
+          {story}{relic_html}
         </li>'''
 
 
@@ -451,7 +456,8 @@ def city_page(x, by_id, total, lang):
     body = [wish, b['preflight.goal'], a['historyTitle'], a['history'], a['historyIdLine'], a['landmarkTitle'],
             a['landmark'], b['clear'], *(b[k] for k in ('journal[0]', 'journal[1]') if k in b)]
     for role in ('elite', 'boss'):
-        body += [b[f'{role}.{k}'] for k in ('name', 'subtitle', 'legend', 'wake', 'crack', 'break', 'mine')]
+        keys = ('name', 'subtitle', 'legend', 'mine') + (('wake', 'crack', 'break') if lang != 'en' else ())
+        body += [b[f'{role}.{k}'] for k in keys]
     body += [f'{r[0]} {r[1]}' for r in x['relics'].values()]
     secs = extra('cities', x['id'], lang)
     body += [h for h, _ in secs] + [p for _, ps in secs for p in ps]
@@ -543,6 +549,15 @@ def city_page(x, by_id, total, lang):
     return page, n_words, index
 
 
+def keeper_names(t, x, lang, c):
+    """The city's two keepers, each linked to its own page where one exists (en)."""
+    b = x['beats']
+    names = [esc(b['elite.name']), esc(t['the'](b['boss.name']))]
+    if lang == 'en':
+        names = [f'<a href="{c}{keeper_rel(x, r).removeprefix("cities/")}">{n}</a>' for r, n in zip(('elite', 'boss'), names)]
+    return t['join'](names)
+
+
 def hub(cities, lang):
     t = T[lang]
     c = '../' + '../' * (lang != 'en')
@@ -553,7 +568,7 @@ def hub(cities, lang):
           </div>
           <h3><a href="{x["id"]}/">{esc(x["name"])}</a></h3>
           <p class="sub"><a href="{c}{prefix(lang)}{x["country_path"]}">{esc(x["country"])}</a> &middot; {esc(x["atlas"]["landmarkTitle"])}</p>
-          <p>{esc(t["join"]([x["beats"]["elite.name"], t["the"](x["beats"]["boss.name"])]))}</p>
+          <p>{keeper_names(t, x, lang, '')}</p>
         </li>''' for x in cities)
     desc = t['hub_desc'].format(n=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
     p = prefix(lang)
@@ -790,7 +805,10 @@ def continent_page(cont, cs, conts, total, later, lang):
                                  cities=t['join']([x['name'] for x in cs]))
     trail = [(t['home'], p), (name, p + rel)]
     cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
-    top, switch = head(c, t, lang, title, desc, rel, og(cs[0]["slug"], lang), True,
+    secs = extra('hub', cont, lang)
+    n_words = words(lang, desc, html.unescape(cards), *(h for h, _ in secs), *(q for _, ps in secs for q in ps))
+    index = n_words >= MIN_WORDS[lang]
+    top, switch = head(c, t, lang, title, desc, rel, og(cs[0]["slug"], lang), index,
                        page_ld(lang, rel, title, desc, trail, {'@type': 'Continent', 'name': name}))
     page = top + f'''
 <main id="main">
@@ -806,7 +824,7 @@ def continent_page(cont, cs, conts, total, later, lang):
     </div>
   </section>
 
-  <section class="section alt" aria-labelledby="more-title">
+{extra_html(secs, "intro")}  <section class="section alt" aria-labelledby="more-title">
     <div class="wrap">
       <span class="eyebrow">{t["the_world"]}</span>
       <h2 id="more-title">{t["fly_on"]}</h2>{later_html(t, cont, later)}
@@ -818,7 +836,7 @@ def continent_page(cont, cs, conts, total, later, lang):
 </main>
 
 ''' + foot(c, t, lang, 'continent')
-    return p + rel, page
+    return p + rel, page, n_words, index
 
 
 def world_page(by_cont, conts, cities, later, lang):
@@ -833,7 +851,10 @@ def world_page(by_cont, conts, cities, later, lang):
       <p class="sub">{' &middot; '.join(f'<a href="{c}{p}{path}">{esc(n)}</a>' for n, path in conts[k])}</p>
       <ul class="city-links">{links(c, [(t['place'](x['name'], x['country']), f'{p}cities/{x["id"]}/') for x in by_cont[k]])}
       </ul>{later_html(t, k, later)}''' for k in conts)
-    top, switch = head(c, t, lang, title, desc, rel, 'brand/og-image-1200x630.jpg', True,
+    secs = extra('hub', 'world', lang)
+    n_words = words(lang, desc, html.unescape(blocks), *(h for h, _ in secs), *(q for _, ps in secs for q in ps))
+    index = n_words >= MIN_WORDS[lang]
+    top, switch = head(c, t, lang, title, desc, rel, 'brand/og-image-1200x630.jpg', index,
                        page_ld(lang, rel, title, desc, trail))
     page = top + f'''
 <main id="main">
@@ -844,10 +865,11 @@ def world_page(by_cont, conts, cities, later, lang):
       <p class="lede">{esc(desc)}</p>{blocks}{wish_more(c, t, lang)}
     </div>
   </section>
-</main>
+
+{extra_html(secs, "intro")}</main>
 
 ''' + foot(c, t, lang, 'world')
-    return p + rel, page
+    return p + rel, page, n_words, index
 
 
 def planned():
@@ -951,12 +973,16 @@ def build(cities, atlas, lang, planned_rows):
         if index:
             world_urls.append(path)
     for k in order:
-        path, page = continent_page(k, by_cont[k], conts, len(cities), later, lang)
+        path, page, n, index = continent_page(k, by_cont[k], conts, len(cities), later, lang)
         write(path, page)
-        world_urls.append(path)
-    path, page = world_page(by_cont, conts, cities, later, lang)
+        print(f'{lang:8} {path:44} {n:4} words  {"index" if index else "noindex"}')
+        if index:
+            world_urls.append(path)
+    path, page, n, index = world_page(by_cont, conts, cities, later, lang)
     write(path, page)
-    world_urls.insert(0, path)
+    print(f'{lang:8} {path:44} {n:4} words  {"index" if index else "noindex"}')
+    if index:
+        world_urls.insert(0, path)
     return city_urls, world_urls
 
 
@@ -981,6 +1007,10 @@ def stamp(cities):
             for x in cities:
                 sub = f'\n          <p class="sub"><a href="{x["country_path"]}">{esc(x["country"])}</a></p>'
                 new = re.sub(rf'(<h3><a href="cities/{x["id"]}/">[^<]*</a></h3>)(\n *<p class="sub">.*?</p>)?', lambda m: m.group(1) + sub, new)
+                for role in ('elite', 'boss'):
+                    name = x['beats'][f'{role}.name']
+                    new = re.sub(rf'<dt>(<a href="[^"]*">)?{re.escape(name)}(</a>)?</dt>',
+                                 f'<dt><a href="{keeper_rel(x, role)}">{esc(name)}</a></dt>', new)
         if f == 'press/index.html':
             links = ''.join(f'\n        <li><a href="../cities/{x["id"]}/">{esc(x["name"])}</a></li>' for x in cities)
             new = re.sub(r'(<ul class="city-links" id="press-cities">).*?(\n      </ul>)', rf'\g<1>{links}\2', new, flags=re.S)
@@ -1061,6 +1091,7 @@ def main():
             sitemap(f'sitemap-{lang.lower()}.xml', [prefix(lang)] + city_urls + world_urls)
     write(*wish_page(rows))
     stamp_geo()
+    lastmod.run()
 
 
 if __name__ == '__main__':

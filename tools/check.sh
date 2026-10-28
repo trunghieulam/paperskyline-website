@@ -136,8 +136,11 @@ for sm in $(grep -oE 'https://paperskyline\.org/sitemap-[a-z-]+\.xml' sitemap.xm
     f=".${u#https://paperskyline.org}"; [ "${f%/}" = "$f" ] || f="${f}index.html"
     [ "$f" = "./index.html" ] || [ -f "$f" ] || { err "$sm" "no page for $u"; continue; }
     grep -q 'name="robots" content="noindex' "$f" && err "$sm" "noindex page listed: $u"
+    grep -qi 'http-equiv="refresh"' "$f" && err "$sm" "redirecting page listed: $u"
+    grep -qF "<link rel=\"canonical\" href=\"$u\">" "$f" || err "$sm" "page's canonical is not its sitemap URL: $u"
   done < <(grep -oE '<loc>[^<]+' "$sm" | sed 's/<loc>//')
 done
+python3 tools/lastmod.py --check || fail=1
 for f in sitemap.xml sitemap-*.xml robots.txt; do
   grep -qE 'https://www\.paperskyline\.org' "$f" && err "$f" "www host — the apex is canonical"
 done

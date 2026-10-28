@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /docs/
+Disallow: /tools/
 
 Sitemap: https://paperskyline.org/sitemap.xml

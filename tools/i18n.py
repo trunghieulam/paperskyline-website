@@ -53,6 +53,7 @@ T = {
         keepers_lede=('An Elite wakes first; the Boss guards the wish itself. Hit their weak points for a BONK!, '
                       'land the last blow for a KO!, and each one grins and takes a bow.'),
         elite='The Elite', boss='The Boss',
+        meet='Meet {name}.',
         keeper_alt=lambda name, sub: f'{name}, {sub.split(" · ")[0].lower()}',
         relic='Guards a relic: the {relic}.', the_journal='The journal',
         route_from='The plane reaches {name} from {cities}.', route_start='Every journey starts in {name}.',
