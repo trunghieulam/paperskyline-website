@@ -317,12 +317,19 @@ strong { font-weight: 700; color: var(--hot); }
 .shot figcaption { margin-top: 1.1rem; font: 800 1.3rem/1.1 var(--display); }
 /* gameplay frames from the phone captures run a little wider than the store shots */
 .shot-frame.wide { aspect-ratio: 20 / 9; }
-.games p { margin: .5rem 0 0; color: var(--ink-soft); }
-.games .game-meta { font-weight: 600; color: var(--ink-faint); }
 .lead-frame { margin-top: 1.5rem; max-width: 44rem; }
-.shot.thanks { margin-top: 2.5rem; }
 @media (min-width: 64rem) { .steps.four { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .step .shot-frame { margin-bottom: .4rem; }
+
+/* the ARCs: a story vignette beside its teaser; the 512 px art caps the size */
+.arcs { display: grid; gap: 1.75rem; grid-template-columns: minmax(0, 1fr); margin: 2.25rem 0 0; padding: 0; list-style: none; }
+@media (min-width: 64rem) { .arcs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.arcs li { max-width: none; display: grid; gap: 1.1rem 1.4rem; align-items: center; }
+@media (min-width: 32rem) { .arcs li { grid-template-columns: 12rem minmax(0, 1fr); } }
+.vignette { display: block; width: 9rem; aspect-ratio: 1; border: 3px solid var(--edge); border-radius: 20px; overflow: hidden; background: var(--navy); }
+@media (min-width: 32rem) { .vignette { width: 12rem; } }
+.vignette picture, .vignette img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.arcs .where { margin: 0 0 .3rem; font-weight: 700; font-size: .9rem; color: var(--ink-faint); }
 
 /* the parents' feedback form: plain HTML controls in Paper Pop */
 .form { margin-bottom: 1.75rem; }
@@ -402,6 +409,7 @@ strong { font-weight: 700; color: var(--hot); }
 /* business page: two languages on one page; Baloo 2 and Be Vietnam Pro both carry Vietnamese */
 .page-head .shot { margin-top: 1.5rem; }
 .page-head .shot-frame { aspect-ratio: 2 / 1; }
+.page-head .shot-frame.wide { aspect-ratio: 20 / 9; }
 .perks { display: grid; gap: 2rem 1.75rem; grid-template-columns: minmax(0, 1fr); margin: 2.25rem 0 2.5rem; padding: 0; list-style: none; }
 @media (min-width: 48rem) { .perks { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .perks li { max-width: none; }

@@ -42,7 +42,7 @@ keepers of the twenty-one shipped cities, each on a strip of its city's painting
 `img/` and `brand/`, so re-run it after the game's art changes rather than editing images by hand. Each image is exported at the size its slot needs, as AVIF and WebP, with a JPEG
 (paintings) or PNG (cut-out keepers) fallback for browsers that take neither.
 The gameplay frames (`img/frame-*`, `FRAMES` in `tools/art.py`) are cropped from captures in the game's `docs/validation/` on origin/main; pick captures without debug overlays.
-Pending: once the Gridlock redesign (Toy Diorama, no drivers) lands in the game, swap `frame-gridlock` for the new look on `/minigames/` and the home page.
+The minigame frames (`MEDIA_FRAMES`) come from the 2.0.6 iPhone 6.9" store captures in `paper-skyline-local-media`, at 640, 1088 and 1600 px, and the story section shows the ARCs' Stage 2 vignettes (`VIGNETTES`, 512 px, so keep them at 12rem or less).
 
 "In the game" shows the five 1.9.0 Play captures from `docs/store/google-play/1.9.0/en-US/`, caption
 band cropped, at 800 and 1600 px. `img/shot-paris-*` (business.html) is a frozen 1.3 export.

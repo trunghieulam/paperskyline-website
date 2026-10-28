@@ -154,21 +154,12 @@ FRAMES = [
     ('flight', '25-1041-phone/paris-stage2-preflight.jpg', None),
     ('tally', '25-1041-phone/paris-stage2-tally.jpg', None),
     ('resident', '23-paris-ny-journey/12-paris-card-before-ny-emile-talk.png', None),
-    ('trail', '25-stage-trail/card-s2-en@1169.jpg', (0, 546, 1169, 1086)),
-    ('gridlock', '25-1040-minigames/gridlock-hard-honk.jpg', None),
-    ('neonflow', '25-1041-phone/neonflow-l4-play.jpg', None),
-    ('paradeline', '25-1040-minigames/paradeline-easy.jpg', None),
-    ('rink', '25-1041-phone/rink-l4.jpg', None),
-    ('scooterflow', '25-minigame-ui-polish/panel-scooterflow.jpg', (0, 0, 584, 268)),
-    ('minigames', '25-minigame-ui-polish/page-list.jpg', (0, 0, 702, 324)),
-    ('thanks', '25-minigame-thanks/scooterflow-farewell-1169-720.jpg', (0, 0, 1386, 640)),
 ]
 
 
 def frames():
     for name, path, box in FRAMES:
-        blob = subprocess.run(['git', '-C', GAME, 'show', f'origin/main:{VALIDATION}{path}'], capture_output=True, check=True).stdout
-        src = Image.open(io.BytesIO(blob)).convert('RGB')
+        src = Image.open(io.BytesIO(main_blob(VALIDATION + path))).convert('RGB')
         src = src.crop(box) if box else src
         if name == 'resident':
             # The dev build's faint DBG button sits in the sky right of Émile's cap; paint it over from the sky beside it
@@ -178,6 +169,33 @@ def frames():
                     src.putpixel((x, y), c)
         for w in sorted({min(480, src.width), min(960, src.width)}):
             save(fit(src, w), f'frame-{name}-{w}', 'jpg')
+
+
+def main_blob(path):
+    return subprocess.run(['git', '-C', GAME, 'show', f'origin/main:{path}'], capture_output=True, check=True).stdout
+
+
+# 2.0.6 iPhone 6.9" captures (2868x1320) in paper-skyline-local-media: (name, file, crop box), cropped to the site's 20:9 frame
+MEDIA = os.path.join(GAME, '..', 'paper-skyline-local-media', 'docs/store/2.0.6/app-store/iphone-6.9')
+MEDIA_FRAMES = [
+    ('gridlock', '07-gridlock.png', (0, 15, 2868, 1306)),
+    ('neonflow', '08-neon-flow.png', (0, 15, 2868, 1306)),
+]
+# The ARCs' Stage 2 vignettes, 512 px squares, shown at 10 to 12rem
+VIGNETTES = [('arc-paris', 'paris-stage2'), ('arc-tokyo', 'tokyo-stage2')]
+
+
+def media():
+    if not os.path.exists(os.path.join(MEDIA, MEDIA_FRAMES[0][1])):
+        return print(f'{MEDIA} absent: the 2.0.6 frames kept as committed')
+    for name, f, box in MEDIA_FRAMES:
+        src = Image.open(os.path.join(MEDIA, f)).convert('RGB').crop(box)
+        for w in sorted({min(w, src.width) for w in (640, 1088, 1600)}):
+            save(fit(src, w), f'frame-{name}-{w}', 'jpg')
+    for name, f in VIGNETTES:
+        src = Image.open(io.BytesIO(main_blob(f'Assets/Resources/Story/Vignettes/{f}.png'))).convert('RGB')
+        for w in (256, 512):
+            save(fit(src, w), f'{name}-{w}', 'jpg')
 
 
 # The press kit (#214, light since 2026-10-24): the six 1.9.6 App Store iPhone frames and the 2.0 logos, 1600 px at most
@@ -293,6 +311,7 @@ def main():
     skies()
     shots()
     frames()
+    media()
     press()
     og()
     cities()
