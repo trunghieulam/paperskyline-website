@@ -55,11 +55,8 @@ IDS = {'rio': 'rio-de-janeiro'}
 # The share cards' Chinese face: Noto Sans SC Black (OFL), fetched once into tools/.tmp and checked
 CJK = ('https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/SubsetOTF/SC/NotoSansSC-Black.otf',
        'ccb496022356b7dd14d117538a472ae40feff8f6e8f3fe8bffc5616785d2f3f9')
-STORE = 'docs/store/google-play/1.9.0/en-US'
 # The V-D216 2.0 launch set: icons, the header mark and the plane-less wordmark
 BRAND = 'design/art-source/branding-2-0/export'
-# The 1.9.0 store frames carry a caption band above the game; content starts at y 192
-STORE_CROP = (0, 192, 1920, 1080)
 
 
 def game(*p):
@@ -134,18 +131,6 @@ def skies():
 
 
 # img/shot-paris-* (business.html) is a frozen 1.3 export; its source capture is gone
-# The 1.9.0 Paper Pop set, caption band cropped, 1920:888
-SHOTS = ['wish', 'workshop', 'keepers', 'daily', 'looks']
-
-
-def shots():
-    # The game moved its store captures to paper-skyline-local-media; without them keep the committed exports
-    if not os.path.exists(game(STORE, f'01-{SHOTS[0]}-en-US.jpg')):
-        return print(f'{STORE} absent: shot-* kept as committed')
-    for slug in SHOTS:
-        src = Image.open(game(STORE, f'0{SHOTS.index(slug) + 1}-{slug}-en-US.jpg')).convert('RGB').crop(STORE_CROP)
-        for w in (800, 1600):
-            save(fit(src, w), f'shot-{slug}-{w}', 'jpg')
 
 
 # 2.0.5 gameplay frames from game main's docs/validation/: (name, capture, crop box or None)
@@ -180,6 +165,9 @@ MEDIA = os.path.join(GAME, '..', 'paper-skyline-local-media', 'docs/store/2.0.6/
 MEDIA_FRAMES = [
     ('gridlock', '07-gridlock.png', (0, 15, 2868, 1306)),
     ('neonflow', '08-neon-flow.png', (0, 15, 2868, 1306)),
+    ('kabuki', '02-tokyo-kabuki-boss.png', (0, 15, 2868, 1306)),
+    ('sakura', 'extra/tokyo-sakura.png', (0, 15, 2868, 1306)),
+    ('new-york', '03-new-york-taxi.png', (0, 15, 2868, 1306)),
 ]
 # The ARCs' Stage 2 vignettes, 512 px squares, shown at 10 to 12rem
 VIGNETTES = [('arc-paris', 'paris-stage2'), ('arc-tokyo', 'tokyo-stage2')]
@@ -309,7 +297,6 @@ def main():
     hero()
     keepers()
     skies()
-    shots()
     frames()
     media()
     press()

@@ -240,13 +240,6 @@ strong { font-weight: 700; color: var(--hot); }
 .blueprint-fig figcaption {
   font: 700 .85rem/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: #d6dcff; margin-top: .8rem;
 }
-.tracks { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
-.tracks li {
-  max-width: none; display: inline-flex; gap: .5rem; align-items: center;
-  background: var(--yellow); color: var(--navy); border: 2px solid var(--navy); border-radius: 999px;
-  padding: .4rem .9rem; font-weight: 700; box-shadow: 2px 3px 0 rgba(29, 31, 79, .7);
-}
-.tracks .lv { font: 800 1rem/1 var(--display); }
 
 /* card rows */
 .plainly { display: grid; gap: 2rem 1.75rem; grid-template-columns: minmax(0, 1fr); margin-top: 2.25rem; }
@@ -283,21 +276,6 @@ strong { font-weight: 700; color: var(--hot); }
 .changes { margin: 0; padding-left: 1.2rem; }
 .changes li::marker { color: var(--pink); }
 .changes li + li { margin-top: .4rem; }
-
-/* the reel: autoplays muted, except for reduced motion, which gets a twin that waits for a tap (no JS) */
-.reel { margin: 2.25rem 0 0; }
-.reel-frame {
-  aspect-ratio: 1280 / 630; border: 3px solid var(--edge); border-radius: 26px;
-  background: var(--navy); box-shadow: var(--sticker); overflow: hidden;
-}
-.reel video { display: block; width: 100%; height: 100%; background: var(--navy); }
-.reel .reel-still { display: none; }
-@media (prefers-reduced-motion: reduce) {
-  .reel .reel-auto { display: none; }
-  .reel .reel-still { display: block; }
-}
-.reel figcaption { margin-top: 1.1rem; font: 800 1.3rem/1.1 var(--display); }
-.reel-credit { margin: .4rem 0 0; max-width: 56rem; font-size: .82rem; color: var(--ink-faint); }
 
 /* screenshot slots: sticker frames at the store captures' 1920:888 */
 .shots {
