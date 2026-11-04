@@ -48,6 +48,7 @@ T = {
         city_desc=('Fly a paper plane over {place}, painted in ink and watercolour. '
                    'Meet its keepers, {elite} and {boss}, and the history behind them.'),
         hero_alt='The {name} skyline in ink and watercolour, as the game paints it',
+        no_page='{name} is in the game too. Its page is on the way.',
         city_eb='City {n} of {total}', the_city='The city', the_landmark='The landmark',
         two_keepers='Two keepers', keepers_h2='Who keeps the wish in {name}.',
         keepers_lede=('An Elite wakes first; the Boss guards the wish itself. Hit their weak points for a BONK!, '
@@ -96,6 +97,7 @@ T = {
         city_title='{name}纸飞机游戏 | Paper Skyline', h1_small='纸飞机游戏',
         city_desc='让一架纸飞机飞过{place}，整座城市都用水墨和水彩画成。认识这里的守护者{elite}和{boss}，还有它们背后的历史。',
         hero_alt='游戏用水墨和水彩画出的{name}天际线',
+        no_page='{name}也已经在游戏里了，它的页面很快就来。',
         city_eb='第 {n} 座城市，共 {total} 座', the_city='这座城市', the_landmark='地标',
         two_keepers='两位守护者', keepers_h2='谁在守护{name}的心愿。',
         keepers_lede='精英守护者先醒来，首领守护者守着心愿本身。打中它们的弱点，会「砰！」一声；补上最后一击，就是「KO！」。然后它们都会笑着鞠躬。',
@@ -150,6 +152,7 @@ T = {
         city_desc=('Terbangkan pesawat kertas di atas {place}, dilukis dengan tinta dan cat air. '
                    'Temui para penjaganya, {elite} dan {boss}, serta sejarah di balik mereka.'),
         hero_alt='Kaki langit {name} dalam tinta dan cat air, seperti yang dilukis game ini',
+        no_page='{name} juga sudah ada di game ini. Halamannya segera menyusul.',
         city_eb='Kota {n} dari {total}', the_city='Kotanya', the_landmark='Landmark-nya',
         two_keepers='Dua penjaga', keepers_h2='Siapa yang menjaga keinginan di {name}.',
         keepers_lede=('Penjaga Elite bangun lebih dulu; Penjaga Boss menjaga keinginan itu sendiri. Kenai titik lemah '

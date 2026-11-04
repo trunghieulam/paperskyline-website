@@ -33,6 +33,16 @@ LANGS = ['en', 'zh-Hans', 'id']
 # The #96 rule: index a page only with this much verified text of its own, plus its own image.
 # Chinese counts Han characters; 450 is the usual 1.5 characters per English word.
 MIN_WORDS = {'en': 300, 'zh-Hans': 450, 'id': 300}
+# Shipped in the game, but a new URL waits for the freeze to end (2026-11-18); then move it to art.CITIES.
+NO_PAGE = ['kyoto']
+# hub/cities.<lang>.md in the game repo still counts 21; these do nothing once it says 22.
+HUB_COUNTS = {
+    'en': [('Twenty-one cities', 'Twenty-two cities'), ('The 21 cities', 'The 22 cities'),
+           ('eight in Asia', 'nine in Asia'), ('42 keepers', '44 keepers')],
+    'zh-Hans': [('二十一座城市', '二十二座城市'), ('亚洲八座', '亚洲九座'), ('一共 42 位', '一共 44 位')],
+    'id': [('Dua puluh satu kota', 'Dua puluh dua kota'), ('Ke-21 kota', 'Ke-22 kota'),
+           ('delapan di Asia', 'sembilan di Asia'), ('42 penjaga', '44 penjaga')],
+}
 # #97 votes; the Turnstile widget and the Worker accept paperskyline.org only.
 VOTE_API = 'https://paperskyline-stats.paperskyline-stats.workers.dev/v1'
 TURNSTILE_KEY = '0x4AAAAAAFbTIz8qnpCl2WLo'
@@ -124,7 +134,11 @@ def extra(kind, key, lang):
     if not os.path.exists(f):
         return []
     out = []
-    for block in re.split(r'\n\s*\n', open(f, encoding='utf-8').read().strip()):
+    body = open(f, encoding='utf-8').read().strip()
+    if (kind, key) == ('hub', 'cities'):
+        for old, new in HUB_COUNTS[lang]:
+            body = body.replace(old, new)
+    for block in re.split(r'\n\s*\n', body):
         block = ' '.join(block.split())
         if re.search(r'\]\(|^[-*>#]|\*\*', re.sub(r'^## ', '', block)):
             sys.exit(f'{f}: only "## heading" and plain paragraphs are rendered: {block[:60]}')
@@ -558,7 +572,11 @@ def keeper_names(t, x, lang, c):
     return t['join'](names)
 
 
-def hub(cities, lang):
+def no_page_note(t, here):
+    return ''.join(f'\n      <p>{esc(t["no_page"].format(name=y["name"]))}</p>' for y in here)
+
+
+def hub(cities, no_page, lang):
     t = T[lang]
     c = '../' + '../' * (lang != 'en')
     cards = ''.join(f'''
@@ -570,7 +588,8 @@ def hub(cities, lang):
           <p class="sub"><a href="{c}{prefix(lang)}{x["country_path"]}">{esc(x["country"])}</a> &middot; {esc(x["atlas"]["landmarkTitle"])}</p>
           <p>{keeper_names(t, x, lang, '')}</p>
         </li>''' for x in cities)
-    desc = t['hub_desc'].format(n=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
+    total = len(cities) + len(no_page)
+    desc = t['hub_desc'].format(n=total, first=cities[0]['name'], last=cities[-1]['name'])
     p = prefix(lang)
     trail = [(t['home'], p), (t['hub_title'].split(' | ')[0], p + 'cities/')]
     secs = extra('hub', 'cities', lang)
@@ -583,11 +602,11 @@ def hub(cities, lang):
 <main id="main">
 {crumbs_html(c, t, trail, switch)}  <section class="section" aria-labelledby="cities-title">
     <div class="wrap">
-      <span class="eyebrow">{t["n_cities"](len(cities))}</span>
+      <span class="eyebrow">{t["n_cities"](total)}</span>
       <h1 id="cities-title">{t["hub_h1"]}</h1>
       <p class="lede">{esc(desc)}</p>
       <ul class="keeper-grid">{cards}
-      </ul>
+      </ul>{no_page_note(t, no_page)}
       <p><a href="{c}{p}world/">{t["every_cont"]}</a></p>
     </div>
   </section>
@@ -597,7 +616,7 @@ def hub(cities, lang):
 ''' + foot(c, t, lang, 'cities')
 
 
-def home(cities, lang):
+def home(cities, total, lang):
     """/<lang>/: the home teaser in the listing's own words, as index.html: one keeper frame, no city grid."""
     t, h, p, c = T[lang], T[lang]['homepage'], prefix(lang), '../'
     srcset = lambda e: ', '.join(f'{c}img/hero-paris-{w}.{e} {w}w' for w in (640, 1024, 1600))
@@ -605,7 +624,7 @@ def home(cities, lang):
         <div class="card">
           <h3>{esc(n)}</h3>
           <p>{esc(d)}</p>
-        </div>''' for n, d in h['cards']).replace('{n}', str(len(cities)))
+        </div>''' for n, d in h['cards']).replace('{n}', str(total))
     frame = lambda e: ', '.join(f'{c}img/frame-kabuki-{w}.{e} {w}w' for w in (640, 1088, 1600))
     fsizes = '(min-width: 47rem) 44rem, 100vw'
     url = f'{ORIGIN}/{p}'
@@ -650,7 +669,7 @@ def home(cities, lang):
 
   <section class="section alt" aria-labelledby="cities-title">
     <div class="wrap">
-      <span class="eyebrow">{t["n_cities"](len(cities))}</span>
+      <span class="eyebrow">{t["n_cities"](total)}</span>
       <h2 id="cities-title">{t["hub_h1"]}</h2>
       <div class="shot-frame wide lead-frame"><picture><source type="image/avif" srcset="{frame('avif')}" sizes="{fsizes}"><source type="image/webp" srcset="{frame('webp')}" sizes="{fsizes}"><img srcset="{frame('jpg')}" sizes="{fsizes}" src="{c}img/frame-kabuki-1600.jpg" width="1600" height="720" alt="{esc(h['frame_alt'])}" loading="lazy" decoding="async"></picture></div>
       <ul class="city-links">
@@ -716,7 +735,7 @@ def links(c, items):
     return ''.join(f'\n        <li><a href="{c}{h}">{esc(n)}</a></li>' for n, h in items)
 
 
-def country_page(code, cs, atlas, conts, by_id, lang):
+def country_page(code, cs, atlas, conts, by_id, no_page, lang):
     t, p = T[lang], prefix(lang)
     k, x0 = atlas['countries'][code], cs[0]
     c, rel, cont = '../../../' + '../' * (lang != 'en'), x0['country_path'], x0['cont']
@@ -728,10 +747,11 @@ def country_page(code, cs, atlas, conts, by_id, lang):
     # Hong Kong and Singapore are a city and a country; the continent keeps the two titles apart
     name = f"{k['name']} · {t['continents'][cont]}" if k['name'] in (x['name'] for x in cs) else k['name']
     title = t['country_title'].format(name=name)
-    desc = t['country_desc'].format(cities=t['join']([x['name'] for x in cs]), country=t['country_in'](code, k['name']))
+    here = [y for y in no_page if y['code'] == code]
+    desc = t['country_desc'].format(cities=t['join']([x['name'] for x in cs + here]), country=t['country_in'](code, k['name']))
     trail = [(t['home'], p), (t['continents'][cont], f'{p}world/{cont}/'), (k['name'], p + rel)]
     facts = ''.join(f'\n        <li>{esc(f)}</li>' for f in k['facts'])
-    rows = ''.join(city_row(x, c, t, f'{c}{p}cities/{x["id"]}/', by_id, len(by_id)) for x in cs)
+    rows = ''.join(city_row(x, c, t, f'{c}{p}cities/{x["id"]}/', by_id, len(by_id) + len(no_page)) for x in cs)
     near = [(n, p + h) for n, h in conts[cont] if h != rel]
     more = (f'''
       <h3>{t["more_of"].format(cont=t["continents"][cont])}</h3>
@@ -758,10 +778,10 @@ def country_page(code, cs, atlas, conts, by_id, lang):
 
 {extra_html(secs, "about")}  <section class="section alt" aria-labelledby="cities-title">
     <div class="wrap">
-      <span class="eyebrow">{t["in_game"](len(cs))}</span>
+      <span class="eyebrow">{t["in_game"](len(cs + here))}</span>
       <h2 id="cities-title">{esc(t["fly_over"].format(country=t["country_in"](code, k["name"])))}</h2>
       <ul class="city-rows">{rows}
-      </ul>
+      </ul>{no_page_note(t, here)}
       <ul class="badges more">
         {stores(c, lang, "country", code.lower())}
       </ul>
@@ -792,14 +812,15 @@ def later_html(t, cont, later):
       </ul>''' if xs else '')
 
 
-def continent_page(cont, cs, conts, total, later, lang):
+def continent_page(cont, cs, conts, total, later, no_page, lang):
     t, p = T[lang], prefix(lang)
     c, rel = '../../' + '../' * (lang != 'en'), f'world/{cont}/'
     name = t['continents'][cont]
     title = t['cont_title'].format(cont=name)
-    countries = sorted({x['country'] for x in cs})
-    desc = t['cont_desc'].format(n=len(cs), total=total, cont=name, countries=t['n_countries'](len(countries)),
-                                 cities=t['join']([x['name'] for x in cs]))
+    here = [y for y in no_page if y['cont'] == cont]
+    countries = sorted({x['country'] for x in cs + here})
+    desc = t['cont_desc'].format(n=len(cs + here), total=total, cont=name, countries=t['n_countries'](len(countries)),
+                                 cities=t['join']([x['name'] for x in cs + here]))
     trail = [(t['home'], p), (name, p + rel)]
     cards = ''.join(city_card(x, c, t, f'{c}{p}cities/{x["id"]}/') for x in cs)
     secs = extra('hub', cont, lang)
@@ -811,13 +832,13 @@ def continent_page(cont, cs, conts, total, later, lang):
 <main id="main">
 {crumbs_html(c, t, trail, switch)}  <section class="section" aria-labelledby="cont-title">
     <div class="wrap">
-      <span class="eyebrow">{t["n_cities"](len(cs))} &middot; {t["n_countries"](len(countries))}</span>
+      <span class="eyebrow">{t["n_cities"](len(cs + here))} &middot; {t["n_countries"](len(countries))}</span>
       <h1 id="cont-title">{name}</h1>
       <p class="lede">{esc(desc)}</p>
       <ul class="city-links">{links(c, [(n, p + h) for n, h in conts[cont]])}
       </ul>
       <ul class="keeper-grid">{cards}
-      </ul>
+      </ul>{no_page_note(t, here)}
     </div>
   </section>
 
@@ -836,17 +857,18 @@ def continent_page(cont, cs, conts, total, later, lang):
     return p + rel, page, n_words, index
 
 
-def world_page(by_cont, conts, cities, later, lang):
+def world_page(by_cont, conts, cities, later, no_page, lang):
     """conts maps each continent, in order, to its (country, path) pairs."""
     t, p = T[lang], prefix(lang)
     c, rel = '../' + '../' * (lang != 'en'), 'world/'
     title = t['world_title']
-    desc = t['world_desc'].format(total=len(cities), first=cities[0]['name'], last=cities[-1]['name'])
+    total = len(cities) + len(no_page)
+    desc = t['world_desc'].format(total=total, first=cities[0]['name'], last=cities[-1]['name'])
     trail = [(t['home'], p), (t['world'], p + rel)]
     blocks = ''.join(f'''
       <h2><a href="{c}{p}world/{k}/">{t["continents"][k]}</a></h2>
       <p class="sub">{' &middot; '.join(f'<a href="{c}{p}{path}">{esc(n)}</a>' for n, path in conts[k])}</p>
-      <ul class="city-links">{links(c, [(t['place'](x['name'], x['country']), f'{p}cities/{x["id"]}/') for x in by_cont[k]])}
+      <ul class="city-links">{links(c, [(t['place'](x['name'], x['country']), f'{p}cities/{x["id"]}/') for x in by_cont[k]])}{''.join(f'<li><span>{esc(t["place"](y["name"], y["country"]))}</span></li>' for y in no_page if y['cont'] == k)}
       </ul>{later_html(t, k, later)}''' for k in conts)
     secs = extra('hub', 'world', lang)
     n_words = words(lang, desc, html.unescape(blocks), *(h for h, _ in secs), *(q for _, ps in secs for q in ps))
@@ -857,7 +879,7 @@ def world_page(by_cont, conts, cities, later, lang):
 <main id="main">
 {crumbs_html(c, t, trail, switch)}  <section class="section world" aria-labelledby="world-title">
     <div class="wrap">
-      <span class="eyebrow">{t["n_cities"](len(cities))}</span>
+      <span class="eyebrow">{t["n_cities"](total)}</span>
       <h1 id="world-title">{t["hub_h1"]}</h1>
       <p class="lede">{esc(desc)}</p>{blocks}{wish_more(c, t, lang)}
     </div>
@@ -930,15 +952,29 @@ def sitemap(name, urls):
         f'{rows}</urlset>\n')
 
 
+def no_page_cities(atlas, lang):
+    """NO_PAGE with the fields the count and lists need, named from the game's <lang> pack."""
+    ui = json.load(open(os.path.join(PACKS, lang, f'{lang}.json'), encoding='utf-8')) if lang != 'en' else {}
+    out = []
+    for cid in NO_PAGE:
+        code = atlas['cities'][cid]['country']
+        level = json.loads(kg(f"SELECT props FROM nodes WHERE key='level:{cid}'")[0]['props'])
+        out.append(dict(name=ui[f'city.{cid}.name'] if lang != 'en' else level['name'], cont=level['continent'],
+                        code=code, country=atlas['countries'][code]['name']))
+    return out
+
+
 def build(cities, atlas, lang, planned_rows):
     """Writes one language's pages; returns the indexable city and country paths."""
     p = prefix(lang)
     ui = json.load(open(os.path.join(PACKS, lang, f'{lang}.json'), encoding='utf-8')) if lang != 'en' else {}
     later = [(r['cont'], ui.get(f'city.{r["id"]}.name', r['name'])) for r in planned_rows]
     by_id = {x['id']: x for x in cities}
+    no_page = no_page_cities(atlas, lang)
+    total = len(cities) + len(no_page)
     city_urls, world_urls = [], []
     for x in cities:
-        page, n, index = city_page(x, by_id, len(cities), lang)
+        page, n, index = city_page(x, by_id, total, lang)
         write(f'{p}cities/{x["id"]}/', page)
         print(f'{lang:8} {x["id"]:16} {n:4} words  {"index" if index else "noindex"}')
         if index:
@@ -949,13 +985,13 @@ def build(cities, atlas, lang, planned_rows):
             print(f'{lang:8} {rel:44} {n:4} words  {"index" if index else "noindex"}')
             if index:
                 city_urls.append(rel)
-    index, n, page = hub(cities, lang)
+    index, n, page = hub(cities, no_page, lang)
     write(f'{p}cities/', page)
     print(f'{lang:8} {"cities/":16} {n:4} words  {"index" if index else "noindex"}')
     if index:
         city_urls.insert(0, f'{p}cities/')
     if lang != 'en':
-        write(p, home(cities, lang))
+        write(p, home(cities, total, lang))
 
     by_cont, by_code = {}, {}
     for x in cities:
@@ -964,18 +1000,18 @@ def build(cities, atlas, lang, planned_rows):
     order = [k for k in T['en']['continents'] if k in by_cont]
     conts = {k: sorted({(x['country'], x['country_path']) for x in by_cont[k]}) for k in order}
     for code, cs in by_code.items():
-        path, page, n, index = country_page(code, cs, atlas, conts, by_id, lang)
+        path, page, n, index = country_page(code, cs, atlas, conts, by_id, no_page, lang)
         write(path, page)
         print(f'{lang:8} {path:44} {n:4} words  {"index" if index else "noindex"}')
         if index:
             world_urls.append(path)
     for k in order:
-        path, page, n, index = continent_page(k, by_cont[k], conts, len(cities), later, lang)
+        path, page, n, index = continent_page(k, by_cont[k], conts, total, later, no_page, lang)
         write(path, page)
         print(f'{lang:8} {path:44} {n:4} words  {"index" if index else "noindex"}')
         if index:
             world_urls.append(path)
-    path, page, n, index = world_page(by_cont, conts, cities, later, lang)
+    path, page, n, index = world_page(by_cont, conts, cities, later, no_page, lang)
     write(path, page)
     print(f'{lang:8} {path:44} {n:4} words  {"index" if index else "noindex"}')
     if index:
@@ -988,15 +1024,15 @@ NUMS = ('zero one two three four five six seven eight nine ten eleven twelve thi
                                                    for u in [''] + 'one two three four five six seven eight nine'.split()]
 
 
-def stamp(cities):
+def stamp(cities, no_page):
     """Keeps the hand-written pages current: the Discord invite everywhere, the city count on index, support and press."""
     num = '|'.join(sorted(NUMS, key=len, reverse=True))
-    n = len(cities)
+    n = len(cities) + len(no_page)
     for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html']:
         path = os.path.join(SITE, f)
         s = open(path, encoding='utf-8').read()
         new = re.sub(r'https://discord\.gg/[A-Za-z0-9]+', DISCORD, s)
-        if f in ('index.html', 'press/index.html'):
+        if f in ('index.html', 'press/index.html', 'business.html'):
             # Not \b: it would match "one" inside an already stamped "Twenty-one"
             new = re.sub(rf'(?<![\w-])({num})(?= (painted )?cities)', NUMS[n], new)
             new = re.sub(rf'(?<![\w-])({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
@@ -1010,10 +1046,11 @@ def stamp(cities):
                                  f'<dt><a href="{keeper_rel(x, role)}">{esc(name)}</a></dt>', new)
         if f == 'press/index.html':
             links = ''.join(f'\n        <li><a href="../cities/{x["id"]}/">{esc(x["name"])}</a></li>' for x in cities)
+            links += ''.join(f'\n        <li><span>{esc(y["name"])}</span></li>' for y in no_page)
             new = re.sub(r'(<ul class="city-links" id="press-cities">).*?(\n      </ul>)', rf'\g<1>{links}\2', new, flags=re.S)
             new = re.sub(r'<span class="eyebrow">\d+ cities</span>', f'<span class="eyebrow">{n} cities</span>', new)
         if f == 'support.html':
-            listed = T['en']['join']([x['name'] for x in cities])
+            listed = T['en']['join']([x['name'] for x in cities + no_page])
             new = re.sub(r'(<summary>Which cities can I fly\?</summary>\s*<p>)[^<]*(</p>)', rf'\g<1>{NUMS[n].capitalize()}: {listed}.\2', new)
         if new != s:
             open(path, 'w', encoding='utf-8').write(new)
@@ -1076,7 +1113,7 @@ def stamp_geo():
 
 def main():
     cities, atlas = load()
-    stamp(cities)
+    stamp(cities, no_page_cities(atlas, 'en'))
     stamp_chrome()
     rows = planned()
     for lang in LANGS:

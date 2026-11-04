@@ -62,7 +62,7 @@ The en city card keeps the legend and the "mine" quote and links "Meet …"; the
 Its verified extra text comes from `design/web-text/keepers/<keeper-id>.en.md`, and it follows the same 300-word rule.
 Every page lists all its languages as `hreflang` alternates, and `check.sh` fails any set that is not reciprocal.
 Their share cards are `img/og-<slug>-<lang>.jpg` wherever the pack names the city differently; `tools/art.py` draws the Chinese ones in Noto Sans SC Black (OFL), fetched once into `tools/.tmp/`.
-It also stamps the hand-written pages: the city count on `index.html` and `support.html`, and on every page the header links (Play, Cities, Minigames, News, Press, Support; `site_nav`) and the footer with both store badges (`foot`).
+It also stamps the hand-written pages: the city count on `index.html`, `support.html`, `business.html` and `press/`, and on every page the header links (Play, Cities, Minigames, News, Press, Support; `site_nav`) and the footer with both store badges (`foot`).
 
 ## Scripts
 
@@ -96,6 +96,7 @@ Every footer and the press Contact section link Discord, TikTok and YouTube (`to
 ## Shipping a city
 
 A city is published only once its version is on Play production.
+`NO_PAGE` in `tools/cities.py` lists a shipped city that has no page yet: it counts and is named, unlinked. To give it a page, drop it from there.
 Add its keepers to `CITIES` in `tools/art.py` (plus `NAMES`/`IDS` if its slug differs), then run `tools/art.py`, `tools/cities.py`, and `tools/news.py` with `LIVE` raised.
 Then run `tools/check.sh`; country pages that fall under the word rule stay `noindex` until the City Writer adds verified text.
 

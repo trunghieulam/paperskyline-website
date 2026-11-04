@@ -487,8 +487,8 @@ strong { font-weight: 700; color: var(--hot); }
   .city-row { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
   .city-row .keepers { height: auto; min-height: 14rem; border-bottom: 0; border-right: 3px solid var(--edge); }
 }
-/* planned cities: named on the map, no page yet */
-.city-links.later span {
+/* planned cities and shipped ones awaiting a page: named, no link */
+.city-links li > span {
   display: block; padding: .45rem .9rem; border: 3px dashed var(--line); border-radius: 999px; color: var(--ink-faint);
 }
 /* /wish/: one row per planned city; vote.js reveals the button and the count */
