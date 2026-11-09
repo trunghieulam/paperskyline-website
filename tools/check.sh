@@ -145,6 +145,9 @@ for f in sitemap.xml sitemap-*.xml robots.txt; do
   grep -qE 'https://www\.paperskyline\.org' "$f" && err "$f" "www host — the apex is canonical"
 done
 grep -q 'paperskyline.org' CNAME || err CNAME "wrong domain"
+# IndexNow (tools/indexnow.py): exactly one root key file, named for the key it holds.
+keys=( $(ls | grep -E '^[0-9a-f]{32}\.txt$') )
+[ ${#keys[@]} -eq 1 ] && [ "$(cat "${keys[0]}")" = "${keys[0]%.txt}" ] || err indexnow "need one <key>.txt at the root holding its own key"
 
 # feed.xml: Atom with the required elements, every entry a built devlog page.
 python3 - <<'PY' || fail=1

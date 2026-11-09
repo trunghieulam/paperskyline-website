@@ -24,10 +24,11 @@ video/                # the 2.0.6 reel (MP4, WebM, poster) on press/, cut by too
 styles.css            # tokens + every component, light/dark via prefers-color-scheme
 img/                  # the game's paintings and keepers, exported by tools/art.py
 brand/                # the app icon and the social card
-tools/                # art.py, check.sh, cities.py + i18n.py, demand.py, lastmod.py, news.py (devlog.html from the game's changelog), reel.sh, shots.sh
+tools/                # art.py, check.sh, cities.py + i18n.py, demand.py, indexnow.py, lastmod.py, news.py (devlog.html from the game's changelog), reel.sh, shots.sh
 docs/superpowers/specs/               # the design spec this was built from
 sitemap.xml           # an index: sitemap-pages.xml (by hand); sitemap-cities.xml, sitemap-world.xml, sitemap-zh-hans.xml, sitemap-id.xml (cities.py); sitemap-devlog.xml (news.py)
 robots.txt  site.webmanifest  CNAME
+<key>.txt             # the IndexNow key; tools/indexnow.py --since <old main> --send pings changed pages once they are live
 ```
 
 Every colour and both typefaces come from the game's Paper Pop standard (`docs/UI_STANDARD.md`, V-D173):
