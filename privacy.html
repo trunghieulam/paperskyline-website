@@ -50,7 +50,7 @@
 <main id="main">
   <div class="wrap page-head">
     <h1>Privacy policy</h1>
-    <p class="updated">Version 5.18 &middot; 4 November 2026 &middot; Paper Skyline for Android, iPhone and iPad</p>
+    <p class="updated">Version 5.19 &middot; 9 November 2026 &middot; Paper Skyline for Android, iPhone and iPad</p>
   </div>
   <div class="wrap legal">
       <nav class="toc" aria-label="On this page">
@@ -183,6 +183,11 @@
           difficulty, which flight of this city visit it was, how many flights you have flown in total, and your
           purchase history so far: each
           upgrade with its level and the flight you bought it on, plus the cities you moved on to.</li>
+        <li><b>Country.</b> Our server adds to each record the two-letter country, such as IN or US, that Cloudflare works out
+          from the connection. The server never sees or keeps the IP address, and nothing finer than the country is kept.</li>
+        <li><b>Launch.</b> From Paper Skyline 2.0.10, each launch record also gives your device's model name, your phone's language,
+          how long the game took to start and, on Android, where Google Play says the install came from (an ad, the store itself or
+          another link), with the campaign name the link carried, if any. The full referrer and any ad click ID never leave your device.</li>
         <li><b>After each flight.</b> Your upgrade levels, what the flight paid (for distance, height, time, speed,
           things knocked over and coins, and in total), the coins you then held, whether it landed or finished, how
           far and how high it went and how long it was in the air, seconds of engine, your strikes on each keeper, glancing hits, and the relics you wore.</li>
@@ -190,9 +195,15 @@
           lasted, which flight of this launch it was, how smoothly it ran (frame times and slow frames), how much memory the game
           used, whether the system warned it was low on memory or running hot, and whether it was a replay. Each launch record also
           gives your device's memory class (for example 4 GB), graphics API (Vulkan, OpenGL ES or Metal) and screen class (for
-          example full HD), never its model, chip or operating-system version.</li>
+          example full HD), never its chip or operating-system version.</li>
         <li><b>Leaving the garage.</b> Your coins before and after, the upgrades you could afford, the garage's
-          suggestion, what you bought, in order, and the relics you wore.</li>
+          suggestion, what you bought, in order, and the relics you wore; from Paper Skyline 2.0.12, also whether you opened it from
+          the title screen.</li>
+        <li><b>Daily gifts.</b> From Paper Skyline 2.0.12: when the daily gift board opens, is claimed or is closed, whether it opened
+          by itself (on the title screen or after a landing) or you opened it, which day of the board it was, whether you claimed, and
+          how many seconds it stayed open.</li>
+        <li><b>First throws.</b> From Paper Skyline 2.0.12, for throws early in a save: which way you pulled (down, level, up, forward
+          or too short), the launch angle in degrees, and whether the throw help was showing.</li>
         <li><b>Milestones.</b> An Elite or a Boss broken, a relic or a relic slot won, a city cleared, or bonus cash earned from an ad, with
           which keeper it was.</li>
         <li><b>Relics.</b> From Paper Skyline 1.9.5, after each Elite or Boss strike-out on Medium or Hard: which
@@ -229,9 +240,9 @@
           many hints you have taken on that level, your moves and time so far, and whether the hint came with an ad or free.</li>
         <li><b>Never sent.</b> No account, device, advertising or app set ID; no time of day and no free
           text.</li>
-        <li><b>Not added.</b> The game adds no device model, chip, operating-system version, language or region to the
-          statistics; the only device details are the memory, graphics-API and screen classes above, and each batch carries only the game version and the records. Like every web request, a batch
-          arrives with the IP address and the standard device details, such as the device model and
+        <li><b>Not added.</b> The game adds no chip or operating-system version to the statistics, and no location; the only device
+          details are the model, language, memory, graphics-API and screen classes above, and each batch carries only the game version and
+          the records. Like every web request, a batch arrives with the IP address and the standard device details, such as the
           operating-system version, and our server does not keep them.</li>
       </ul>
       <p>Records from the same install share its install code, which links them to that install of the game,
@@ -285,7 +296,7 @@
         statistics, the minigame ranking and the limited-gift claim above, Paper Skyline does not collect, transmit, sell or share:</p>
       <ul>
         <li>your name, email address, phone number or any other contact detail;</li>
-        <li>your location, precise or approximate;</li>
+        <li>your precise location, or any location finer than the country our server adds to the statistics;</li>
         <li>photographs, the camera, the microphone, or your contacts;</li>
         <li>your device's advertising identifier, or any other identifier used to track you across apps;</li>
         <li>crash logs or stack traces, or any statistics beyond the ones described above;</li>
@@ -330,10 +341,15 @@
         privacy go to the address under <a href="#contact">Contact</a>.</p>
 
       <h2 id="changes">Changes to this policy</h2>
-      <p>This is version 5.18. If a future version adds anything that touches your
+      <p>This is version 5.19. If a future version adds anything that touches your
         data, such as an account, a leaderboard or personalised ads, this page is updated and dated first, and the
         version number goes up.</p>
       <dl class="history">
+        <dt>Version 5.19 &middot; 9 November 2026</dt>
+        <dd>Gameplay statistics: from 2.0.12, records for the daily gift board and early throws, and whether the garage was opened
+          from the title screen. Now listed, though sent since 2.0.10: the launch record's device model, phone language, start time
+          and, on Android, install source and campaign, and the country our server adds to each record. Not added and What it does
+          not collect are corrected to match.</dd>
         <dt>Version 5.18 &middot; 4 November 2026</dt>
         <dd>Corrections, with no change to the data the game handles: At a glance now names the minigame hint ad, and City downloads
           says every city after Paris is downloaded, not only some of them.</dd>
