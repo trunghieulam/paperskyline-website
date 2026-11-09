@@ -310,7 +310,7 @@
       <h2 id="permissions">Permissions</h2>
       <p>The game never shows a permission prompt. On Android it declares network access and network state, which
         it uses for the city downloads and the optional ad, and to tell Wi-Fi from mobile data. Google's ad
-        software adds two more, to keep the device awake and to run a foreground service while it works. It does
+        software adds two more, to keep the device awake and to run a foreground service while it works. From Paper Skyline 2.0.10, Google's install-referrer library adds one that lets the game ask the Play Store app where the install came from (see Gameplay statistics). It does
         not declare the advertising ID permission or any of Android's ad-services permissions. It does not use the camera, the microphone, your
         location, your files or your contacts. If something claiming to be Paper Skyline asks for one of these, it
         is not this game. On iPhone and iPad the game asks for no permission either, and shows no App Tracking
@@ -348,7 +348,7 @@
         <dt>Version 5.19 &middot; 9 November 2026</dt>
         <dd>Gameplay statistics: from 2.0.12, records for the daily gift board and early throws, and whether the garage was opened
           from the title screen. Now listed, though sent since 2.0.10: the launch record's device model, phone language, start time
-          and, on Android, install source and campaign, and the country our server adds to each record. Not added and What it does
+          and, on Android, install source and campaign, and the country our server adds to each record, with the install-referrer permission on Android. Not added and What it does
           not collect are corrected to match.</dd>
         <dt>Version 5.18 &middot; 4 November 2026</dt>
         <dd>Corrections, with no change to the data the game handles: At a glance now names the minigame hint ad, and City downloads
