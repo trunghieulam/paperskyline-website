@@ -240,7 +240,10 @@ def site_nav(c, t, lang, rel):
 
 def foot(c, t, lang, medium):
     hrefs = [prefix(lang), prefix(lang) + 'cities/', 'minigames/', 'devlog.html', 'business.html', 'press/', 'support.html', 'privacy.html', 'terms.html']
-    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in zip(t['foot_nav'], hrefs))
+    links = list(zip(t['foot_nav'], hrefs))
+    if lang == 'en':
+        links.insert(3, ('Paper plane game', 'paper-plane-game/'))
+    nav = ''.join(f'\n      <a href="{c}{h}">{n}</a>' for n, h in links)
     return f'''<footer class="site-footer">
   <div class="wrap">
     <div>
@@ -542,7 +545,7 @@ def city_page(x, by_id, total, lang):
       <h2 id="journal-title">{esc(b["clear"])}</h2>
       <ul class="journal">{journal}
       </ul>
-      <p>{t["sp"].join(ties)}</p>
+      <p>{t["sp"].join(ties)}</p>{about_game(c, lang)}
       <ul class="badges">
         {stores(c, lang, "city", x["id"] + "_end")}
       </ul>
@@ -561,6 +564,12 @@ def city_page(x, by_id, total, lang):
 
 ''' + foot(c, t, lang, 'city')
     return page, n_words, index
+
+
+def about_game(c, lang):
+    if lang != 'en':
+        return ''
+    return f'\n      <p>About the game: Paper Skyline is a <a href="{c}paper-plane-game/">paper plane game</a> for Android and iPhone.</p>'
 
 
 def keeper_names(t, x, lang, c):
@@ -1028,11 +1037,11 @@ def stamp(cities, no_page):
     """Keeps the hand-written pages current: the Discord invite everywhere, the city count on index, support and press."""
     num = '|'.join(sorted(NUMS, key=len, reverse=True))
     n = len(cities) + len(no_page)
-    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html']:
+    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'paper-plane-game/index.html']:
         path = os.path.join(SITE, f)
         s = open(path, encoding='utf-8').read()
         new = re.sub(r'https://discord\.gg/[A-Za-z0-9]+', DISCORD, s)
-        if f in ('index.html', 'press/index.html', 'business.html'):
+        if f in ('index.html', 'press/index.html', 'business.html', 'paper-plane-game/index.html'):
             # Not \b: it would match "one" inside an already stamped "Twenty-one"
             new = re.sub(rf'(?<![\w-])({num})(?= (painted )?cities)', NUMS[n], new)
             new = re.sub(rf'(?<![\w-])({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
@@ -1058,13 +1067,14 @@ def stamp(cities, no_page):
 
 
 # Hand-written pages and their footer badge medium (ct=site-<medium>, so letters only)
-HAND = {'index.html': 'home', '404.html': 'notfound', 'press/index.html': 'press', 'minigames/index.html': 'minigames'}
+HAND = {'index.html': 'home', '404.html': 'notfound', 'press/index.html': 'press', 'minigames/index.html': 'minigames',
+        'paper-plane-game/index.html': 'paperplane'}
 
 
 def stamp_chrome():
     """The hand-written pages take the generated header links and footer, so every page shares one nav."""
     t = T['en']
-    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'minigames/index.html']:
+    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'minigames/index.html', 'paper-plane-game/index.html']:
         path = os.path.join(SITE, f)
         s = open(path, encoding='utf-8').read()
         # 404.html is served at any depth, so its links are root-relative
@@ -1078,7 +1088,7 @@ def stamp_chrome():
 
 
 STATS = 'https://paperskyline-stats.paperskyline-stats.workers.dev'
-PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'press', 'minigames', 'zh-Hans', 'id']
+PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'press', 'minigames', 'paper-plane-game', 'zh-Hans', 'id']
 
 
 def csp_for(page):
