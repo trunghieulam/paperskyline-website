@@ -1037,11 +1037,11 @@ def stamp(cities, no_page):
     """Keeps the hand-written pages current: the Discord invite everywhere, the city count on index, support and press."""
     num = '|'.join(sorted(NUMS, key=len, reverse=True))
     n = len(cities) + len(no_page)
-    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'paper-plane-game/index.html']:
+    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'paper-plane-game/index.html', 'games-like-learn-to-fly/index.html']:
         path = os.path.join(SITE, f)
         s = open(path, encoding='utf-8').read()
         new = re.sub(r'https://discord\.gg/[A-Za-z0-9]+', DISCORD, s)
-        if f in ('index.html', 'press/index.html', 'business.html', 'paper-plane-game/index.html'):
+        if f in ('index.html', 'press/index.html', 'business.html', 'paper-plane-game/index.html', 'games-like-learn-to-fly/index.html'):
             # Not \b: it would match "one" inside an already stamped "Twenty-one"
             new = re.sub(rf'(?<![\w-])({num})(?= (painted )?cities)', NUMS[n], new)
             new = re.sub(rf'(?<![\w-])({num}) cities, ({num}) keepers', f'{NUMS[n].capitalize()} cities, {NUMS[2 * n]} keepers', new, flags=re.I)
@@ -1068,13 +1068,14 @@ def stamp(cities, no_page):
 
 # Hand-written pages and their footer badge medium (ct=site-<medium>, so letters only)
 HAND = {'index.html': 'home', '404.html': 'notfound', 'press/index.html': 'press', 'minigames/index.html': 'minigames',
-        'paper-plane-game/index.html': 'paperplane'}
+        'paper-plane-game/index.html': 'paperplane', 'games-like-learn-to-fly/index.html': 'learntofly'}
 
 
 def stamp_chrome():
     """The hand-written pages take the generated header links and footer, so every page shares one nav."""
     t = T['en']
-    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'minigames/index.html', 'paper-plane-game/index.html']:
+    for f in sorted(x for x in os.listdir(SITE) if x.endswith('.html')) + ['press/index.html', 'minigames/index.html', 'paper-plane-game/index.html',
+                                                                             'games-like-learn-to-fly/index.html']:
         path = os.path.join(SITE, f)
         s = open(path, encoding='utf-8').read()
         # 404.html is served at any depth, so its links are root-relative
@@ -1088,7 +1089,7 @@ def stamp_chrome():
 
 
 STATS = 'https://paperskyline-stats.paperskyline-stats.workers.dev'
-PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'press', 'minigames', 'paper-plane-game', 'zh-Hans', 'id']
+PAGE_DIRS = ['cities', 'world', 'devlog', 'wish', 'press', 'minigames', 'paper-plane-game', 'games-like-learn-to-fly', 'zh-Hans', 'id']
 
 
 def csp_for(page):

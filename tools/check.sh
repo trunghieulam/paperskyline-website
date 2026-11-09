@@ -3,7 +3,7 @@
 set -o nounset
 cd "$(dirname "$0")/.."
 pages=("$@"); [ ${#pages[@]} -eq 0 ] && pages=( *.html cities/index.html cities/*/index.html cities/*/*/index.html world/index.html world/*/index.html world/*/*/index.html
-  devlog/*/index.html wish/index.html press/index.html minigames/index.html paper-plane-game/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
+  devlog/*/index.html wish/index.html press/index.html minigames/index.html paper-plane-game/index.html games-like-learn-to-fly/index.html {zh-Hans,id}/index.html {zh-Hans,id}/cities/index.html {zh-Hans,id}/cities/*/index.html {zh-Hans,id}/world/index.html {zh-Hans,id}/world/*/index.html {zh-Hans,id}/world/*/*/index.html )
 fail=0
 discord=$(python3 -c "import sys; sys.path.insert(0, 'tools'); from i18n import DISCORD; print(DISCORD)")
 err() { echo "FAIL $1: $2"; fail=1; }
@@ -60,8 +60,8 @@ for p in "${pages[@]}"; do
     || err "$p" "a Play badge without a linked App Store badge beside it"
   grep -oE '<a[^>]*class="store-link"[^>]*>' "$p" | grep -vqF 'href="https://play.google.com/store/apps/details?id=paperskyline.org&amp;referrer=' \
     && err "$p" "store link that is not the Play listing"
-  # Play Console counts the site's installs per page and slot only through this referrer.
-  grep -oE '<a[^>]*href="https://play\.google\.com[^"]*"' "$p" | grep -vqE 'href="https://play\.google\.com/store/apps/details\?id=paperskyline\.org&amp;referrer=utm_source%3Dsite%26utm_medium%3D[a-z_]+%26utm_campaign%3D[a-z0-9_]+"$' \
+  # Play Console counts the site's installs per page and slot only through this referrer (other games' listings exempt).
+  grep -oE '<a[^>]*href="https://play\.google\.com/store/apps/details\?id=paperskyline\.org[^"]*"' "$p" | grep -vqE 'href="https://play\.google\.com/store/apps/details\?id=paperskyline\.org&amp;referrer=utm_source%3Dsite%26utm_medium%3D[a-z_]+%26utm_campaign%3D[a-z0-9_]+"$' \
     && err "$p" "Play link without the UTM referrer (utm_source=site, utm_medium=<page>, utm_campaign=<slot>)"
 
   # Claims the copy may not make until they are real (design spec §5).
